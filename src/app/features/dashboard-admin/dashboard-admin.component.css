@@ -1,0 +1,29 @@
+:host {
+  display: block;
+  /* background: #000; */
+}
+
+.admin-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.admin-sidebar {
+  width: 260px;
+}
+
+.admin-content {
+  flex: 1;
+  overflow: auto;
+}
+
+.admin-content-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-title {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 600;
+}

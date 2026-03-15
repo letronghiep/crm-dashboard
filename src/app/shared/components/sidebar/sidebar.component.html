@@ -1,0 +1,26 @@
+<nav class="sidebar">
+  <ul class="sidebar-menu">
+    <li *ngFor="let item of menuItems" class="flex gap-2 items-center">
+      <i class="{{ item.icon }}"></i>
+      <a [routerLink]="['/']" class="sidebar-link">{{ item.name }}</a>
+      <!-- <p-button class="flex gap-2 items-center w-full" icon="{{ item.icon }}">{{
+        item.name
+      }}</p-button> -->
+    </li>
+    <!-- <li class="sidebar-item active">
+      
+    </li>
+    <li class="sidebar-item">
+      <a [routerLink]="['/projects']" class="sidebar-link">Projects</a>
+    </li>
+    <li class="sidebar-item">
+      <a [routerLink]="['/customers']" class="sidebar-link">Customers</a>
+    </li>
+    <li class="sidebar-item">
+      <a href="#" class="sidebar-link">Reports</a>
+    </li>
+    <li class="sidebar-item">
+      <a href="#" class="sidebar-link">Settings</a>
+    </li> -->
+  </ul>
+</nav>

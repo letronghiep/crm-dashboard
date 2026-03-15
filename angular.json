@@ -16,16 +16,22 @@
             "outputPath": "dist/crm-dashboard",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/primeicons/primeicons.css",
+              {
+                "input": "src/theme-dark.css",
+                "bundleName": "theme-dark",
+                "inject": false
+              },
+              {
+                "input": "src/theme-light.css",
+                "bundleName": "theme-light",
+                "inject": false
+              }
             ],
             "scripts": []
           },
@@ -51,7 +57,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -77,17 +89,22 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/primeicons/primeicons.css",
+              {
+                "input": "src/theme-dark.css",
+                "bundleName": "theme-dark",
+                "inject": false
+              },
+              {
+                "input": "src/theme-light.css",
+                "bundleName": "theme-light",
+                "inject": false
+              }
             ],
             "scripts": []
           }

@@ -1,0 +1,27 @@
+<div
+  class="border-1 border-round py-3 px-8 surface-100 shadow-2 flex items-center shadow-sm shadow-neutral-500/80"
+>
+  <div class="flex items-center gap-2">
+    <button class="layout-menu-button layout-topbar-action">
+      <i class="pi pi-bars" style="font-size: 24px"></i>
+    </button>
+    <div class="sidebar-header cursor-pointer" [routerLink]="['/']">
+      <span class="sidebar-logo">CRM</span>
+      <span class="sidebar-title">Admin</span>
+    </div>
+  </div>
+
+  <div class="ml-auto">
+    <button
+      type="button"
+      class="p-button p-button-rounded p-button-text"
+      (click)="toggleDarkMode()"
+    >
+      <i
+        class="pi"
+        [ngClass]="isDarkMode ? 'pi-moon' : 'pi-sun'"
+        style="font-size: 24px"
+      ></i>
+    </button>
+  </div>
+</div>
