@@ -5,7 +5,66 @@
   display: flex;
   flex-direction: column;
   width: 240px;
-  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.06), 2px 0 6px rgba(0, 0, 0, 0.04);
+  border-radius: 20px;
+  box-shadow:
+    4px 0 12px rgba(0, 0, 0, 0.06),
+    2px 0 6px rgba(0, 0, 0, 0.04);
+  position: relative;
+  overflow: auto;
+  height: 100vh;
+}
+/* NOTE: active state handled on `.sidebar-link.active` */
+
+.sidebar.sidebar-dark::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.035) 0%,
+    rgba(255, 255, 255, 0.012) 40%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.sidebar.sidebar-dark {
+  box-shadow: 5px 0 18px rgba(0, 0, 0, 0.28);
+}
+
+.sidebar.sidebar-dark .sidebar-menu,
+.sidebar.sidebar-dark .sidebar-link,
+.sidebar.sidebar-dark i {
+  position: relative;
+  z-index: 1;
+}
+
+.sidebar.sidebar-dark {
+  background-color: #0f172a;
+}
+
+.sidebar.sidebar-dark .sidebar-link {
+  color: rgba(226, 232, 240, 0.78);
+}
+
+.sidebar.sidebar-dark .sidebar-link:hover {
+  background-color: rgba(59, 130, 246, 0.16);
+  color: #93c5fd;
+}
+
+.sidebar.sidebar-dark .sidebar-link.active {
+  background-color: rgba(59, 130, 246, 0.22);
+  color: #bfdbfe;
+}
+
+.sidebar.sidebar-collapsed {
+  width: 72px;
+  align-items: center;
+}
+
+.sidebar.sidebar-collapsed .sidebar-menu {
+  align-items: center;
 }
 
 .sidebar-header {
@@ -46,14 +105,40 @@
 }
 
 .sidebar-link {
-  display: block;
-  padding: 10px 10px;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 16px;
   text-decoration: none;
   font-size: 14px;
+  color: #64748b;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
-.sidebar-item.active .sidebar-link,
 .sidebar-link:hover {
   text-decoration: none;
+  background-color: rgba(59, 130, 246, 0.08);
+  color: #2563eb;
+}
+
+.sidebar-link.active {
+  background-color: rgba(59, 130, 246, 0.12);
+  color: #2563eb;
+  font-weight: 600;
+}
+
+.sidebar-icon {
+  font-size: 18px;
+}
+
+.sidebar-collapsed .sidebar-link {
+  justify-content: center;
+  padding: 14px 0;
+}
+
+.sidebar-collapsed .sidebar-icon {
+  font-size: 22px;
 }

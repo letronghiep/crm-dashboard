@@ -1,0 +1,47 @@
+<section
+  id="workload"
+  class="rounded-2xl shadow-sm p-5 flex flex-col gap-4"
+  [class.bg-slate-800]="isDarkMode"
+  [class.bg-white]="!isDarkMode"
+>
+  <div class="flex items-center justify-between">
+    <h3 class="font-semibold text-xl">Workload</h3>
+    <button
+      [routerLink]="['/employees']"
+      class="text-base text-blue-500 font-medium"
+    >
+      View all
+    </button>
+  </div>
+
+  <div class="grid grid-cols-4 gap-x-6 gap-y-10">
+    <ng-container *ngFor="let employee of workload; index as i">
+      <p-card *ngIf="i < 8" class="flex flex-col items-center justify-center">
+        <ng-template pTemplate="header">
+          <div class="exp-ring" [ngStyle]="getExpRingStyle(employee.exp)">
+            <div class="exp-ring-inner">
+              <img
+                class="rounded-full w-[50px] h-[50px]"
+                alt="Card"
+                src="https://primefaces.org/cdn/primeng/images/card-ng.jpg"
+              />
+            </div>
+          </div>
+        </ng-template>
+        <div class="flex items-center flex-col justify-center">
+          <h4 class="text-base font-bold">{{ employee.name }}</h4>
+          <span class="text-sm">{{ employee.position }}</span>
+          <p
+            class="text-center p-1 mt-2 text-xs border-gray-400 border-[1px] text-gray-500 font-medium rounded-md"
+          >
+            {{ employee.role }}
+          </p>
+        </div>
+        <ng-template pTemplate="footer">
+          <div class="flex gap-3 mt-1"></div>
+        </ng-template>
+      </p-card>
+      
+    </ng-container>
+  </div>
+</section>

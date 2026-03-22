@@ -1,26 +1,40 @@
-<nav class="sidebar">
+<nav
+  class="sidebar"
+  [class.sidebar-collapsed]="collapsed"
+  [class.sidebar-dark]="isDarkMode"
+  [class.bg-white]="!isDarkMode"
+>
   <ul class="sidebar-menu">
-    <li *ngFor="let item of menuItems" class="flex gap-2 items-center">
-      <i class="{{ item.icon }}"></i>
-      <a [routerLink]="['/']" class="sidebar-link">{{ item.name }}</a>
-      <!-- <p-button class="flex gap-2 items-center w-full" icon="{{ item.icon }}">{{
-        item.name
-      }}</p-button> -->
+    <li *ngFor="let item of menuItems" class="sidebar-item">
+      <a
+        [routerLink]="item.routerLink"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item?.routerLink?.[0] === '/' }"
+        class="sidebar-link"
+      >
+        <i class="{{ item.icon }} sidebar-icon"></i>
+        <span class="sidebar-label" *ngIf="!collapsed">{{ item.name }}</span>
+      </a>
     </li>
-    <!-- <li class="sidebar-item active">
-      
-    </li>
-    <li class="sidebar-item">
-      <a [routerLink]="['/projects']" class="sidebar-link">Projects</a>
-    </li>
-    <li class="sidebar-item">
-      <a [routerLink]="['/customers']" class="sidebar-link">Customers</a>
-    </li>
-    <li class="sidebar-item">
-      <a href="#" class="sidebar-link">Reports</a>
-    </li>
-    <li class="sidebar-item">
-      <a href="#" class="sidebar-link">Settings</a>
-    </li> -->
   </ul>
+  <div class="mt-auto">
+    <div class="flex items-center gap-2 cursor-pointer">
+      <i class="pi pi-sign-out"></i>
+      <a class="sidebar-link" *ngIf="!collapsed"> Logout </a>
+    </div>
+    <section
+      *ngIf="!collapsed"
+      class="mt-2 mx-1 rounded-2xl bg-blue-500 text-white p-4 flex items-center gap-3 shadow-sm"
+    >
+      <div class="flex-1">
+        <p class="text-sm font-semibold">Need help?</p>
+        <p class="text-xs opacity-80">Contact our support team anytime.</p>
+      </div>
+      <button
+        class="text-xs font-semibold bg-white text-blue-500 px-3 py-1 rounded-full"
+      >
+        Support
+      </button>
+    </section>
+  </div>
 </nav>

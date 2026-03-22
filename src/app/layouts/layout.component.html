@@ -1,8 +1,19 @@
 <div class="app-layout">
   <app-app-topbar></app-app-topbar>
 
-  <div class="app-main flex gap-2 my-6 mx-6">
-    <app-sidebar></app-sidebar>
+  <div
+    class="app-main flex gap-2 p-6"
+    [class.bg-slate-100]="!(isDarkMode$ | async)!"
+  >
+    <div class="flex flex-col gap-4">
+      <app-sidebar
+        [collapsed]="(isSidebarCollapsed$ | async)!"
+        [isDarkMode]="(isDarkMode$ | async)!"
+      ></app-sidebar>
+
+      
+    </div>
+
     <div class="app-content w-full">
       <router-outlet></router-outlet>
     </div>

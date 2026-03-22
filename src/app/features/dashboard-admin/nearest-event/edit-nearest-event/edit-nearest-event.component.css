@@ -1,0 +1,8 @@
+/* Make p-dropdown fill its flex container */
+:host ::ng-deep .p-dropdown {
+  width: 100%;
+}
+:host ::ng-deep .p-dropdown-filter {
+  padding: 5px;
+  font-size: 12px;
+}

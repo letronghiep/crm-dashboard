@@ -1,11 +1,6 @@
-:host {
-  display: block;
-  /* background: #000; */
-}
-
 .admin-layout {
   display: flex;
-  height: 100vh;
+  /* height: 100vh; */
 }
 
 .admin-sidebar {
@@ -14,7 +9,8 @@
 
 .admin-content {
   flex: 1;
-  overflow: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .admin-content-inner {

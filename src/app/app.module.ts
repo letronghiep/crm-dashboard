@@ -9,8 +9,9 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { SharedModule } from './shared/share.module';
 import { CustomersComponent } from './features/customers/customers.component';
 import { ProjectsComponent } from './features/projects/projects.component';
+import { EmployeesComponent } from './features/employees/employees.component';
 @NgModule({
-  declarations: [AppComponent, CustomersComponent, ProjectsComponent],
+  declarations: [AppComponent, CustomersComponent, ProjectsComponent, EmployeesComponent],
   imports: [
     BrowserModule,
     SharedModule,

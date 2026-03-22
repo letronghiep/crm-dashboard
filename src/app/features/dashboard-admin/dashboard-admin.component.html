@@ -1,8 +1,124 @@
-<div class="admin-layout w-full rounded-lg p-6">
-  <main class="admin-content">
-    <h2>Welcome back {{ name }}</h2>
-    <h1 class="text-2xl font-bold">Dashboard</h1>
-    <app-workload-employee></app-workload-employee>
-    <router-outlet></router-outlet>
+<div class="admin-layout">
+  <main
+    class="admin-content py-8 px-10"
+    [class.text-slate-100]="(isDarkMode$ | async)!"
+    [class.text-slate-900]="!(isDarkMode$ | async)!"
+  >
+    <div class="w-full grid grid-cols-3 gap-8">
+      <section class="col-span-2 space-y-6">
+        <div>
+          <h2
+            class="text-sm"
+            [class.text-slate-300]="(isDarkMode$ | async)!"
+            [class.text-slate-500]="!(isDarkMode$ | async)!"
+          >
+            Welcome back, {{ name }}!
+          </h2>
+          <h1 class="text-2xl font-bold mt-1">Dashboard</h1>
+        </div>
+
+        <section *ngIf="adminData$ | async as adminData">
+          <app-workload-employee
+            *ngIf="adminData?.data?.workload?.length"
+            [isDarkMode]="(isDarkMode$ | async)!"
+            [workload]="adminData?.data?.workload!"
+          ></app-workload-employee>
+          <app-workload-project
+            *ngIf="adminData.data?.projects?.length"
+            [isDarkMode]="(isDarkMode$ | async)!"
+            [projects$]="projects$"
+          ></app-workload-project>
+          <ng-container *ngIf="adminData.loading; else loaded">
+            <skeleton-loading></skeleton-loading>
+          </ng-container>
+          <ng-template #loaded>
+            <div>No data available</div>
+          </ng-template>
+        </section>
+        <router-outlet></router-outlet>
+      </section>
+
+      <aside class="space-y-6">
+        <div
+          class="rounded-2xl px-4 py-3 flex items-center justify-between shadow-sm"
+          [class.bg-slate-800]="(isDarkMode$ | async)!"
+          [class.bg-white]="!(isDarkMode$ | async)!"
+        >
+          <form
+            [formGroup]="dateForm"
+            class="flex items-center gap-2 text-xs rounded-full px-3 py-1 w-full"
+            [ngClass]="{
+              'text-slate-500 border border-slate-200':
+                '!(isDarkMode$ | async)!',
+              'text-white border-white bg-inherit': (isDarkMode$ | async)!,
+            }"
+          >
+            <p-calendar [formControlName]="'startDate'" [showIcon]="true" />
+            <p-calendar [formControlName]="'endDate'" [showIcon]="true" />
+          </form>
+        </div>
+
+        <section
+          class="rounded-2xl shadow-sm p-5"
+          [class.bg-slate-800]="(isDarkMode$ | async)!"
+          [class.bg-white]="!(isDarkMode$ | async)!"
+        >
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="font-semibold">Nearest Events</h3>
+            <button
+              [routerLink]="['/dashboard/nearest-event']"
+              class="text-xs text-blue-500 font-medium"
+            >
+              View all
+            </button>
+          </div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex justify-between items-center">
+              <div>
+                <p class="font-medium">Presentation of the new department</p>
+                <p class="text-slate-400 text-xs">Today | 5:00 PM</p>
+              </div>
+              <span class="text-xs text-slate-500">4h</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <div>
+                <p class="font-medium">Anna's Birthday</p>
+                <p class="text-slate-400 text-xs">Today | 6:00 PM</p>
+              </div>
+              <span class="text-xs text-slate-500">4h</span>
+            </li>
+            <li class="flex justify-between items-center">
+              <div>
+                <p class="font-medium">Ray's Birthday</p>
+                <p class="text-slate-400 text-xs">Tomorrow | 2:00 PM</p>
+              </div>
+              <span class="text-xs text-slate-500">4h</span>
+            </li>
+          </ul>
+        </section>
+
+        <section
+          class="rounded-2xl shadow-sm p-5"
+          [class.bg-slate-800]="(isDarkMode$ | async)!"
+          [class.bg-white]="!(isDarkMode$ | async)!"
+        >
+          <h3 class="font-semibold mb-4">Activity Stream</h3>
+          <ul class="space-y-3 text-sm">
+            <li>
+              <p class="font-medium">Oscar Holloway</p>
+              <p class="text-slate-400 text-xs">
+                Updated the status of Mind Map task to In Progress
+              </p>
+            </li>
+            <li>
+              <p class="font-medium">Emily Tyler</p>
+              <p class="text-slate-400 text-xs">
+                Attached files to the Medical App project
+              </p>
+            </li>
+          </ul>
+        </section>
+      </aside>
+    </div>
   </main>
 </div>

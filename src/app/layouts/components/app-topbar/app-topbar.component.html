@@ -2,7 +2,10 @@
   class="border-1 border-round py-3 px-8 surface-100 shadow-2 flex items-center shadow-sm shadow-neutral-500/80"
 >
   <div class="flex items-center gap-2">
-    <button class="layout-menu-button layout-topbar-action">
+    <button
+      class="layout-menu-button layout-topbar-action"
+      (click)="onMenuClick()"
+    >
       <i class="pi pi-bars" style="font-size: 24px"></i>
     </button>
     <div class="sidebar-header cursor-pointer" [routerLink]="['/']">
@@ -11,7 +14,31 @@
     </div>
   </div>
 
-  <div class="ml-auto">
+  <div class="flex-1 flex justify-center px-12">
+    <div class="relative w-full max-w-xl">
+      <i
+        class="pi pi-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+      ></i>
+      <input
+        type="text"
+        placeholder="Search"
+        class="w-full pl-10 pr-4 py-2 rounded-full border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+    </div>
+  </div>
+
+  <div class="ml-auto flex items-center gap-4 flex-row-reverse p-2 rounded-md cursor-pointer">
+    <div class="flex items-center gap-3 flex-row-reverse">
+      <div class="text-right flex items-center gap-2">
+        <p class="text-base font-semibold">Evan Yates</p>
+        <i class="pi pi-chevron-down"></i>
+      </div>
+      <img
+        class="w-8 h-8 rounded-full"
+        src="https://primefaces.org/cdn/primeng/images/card-ng.jpg"
+        alt=""
+      />
+    </div>
     <button
       type="button"
       class="p-button p-button-rounded p-button-text"

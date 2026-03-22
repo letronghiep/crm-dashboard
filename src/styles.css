@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+* {
+  font-family: "Nunito Sans", sans-serif;
+}
+.p-inputtext, .p-dropdown-item {
+  padding: 5px;
+  font-size: 12px;
+}
+

@@ -1,0 +1,90 @@
+<div class="admin-layout">
+  <main class="admin-content py-8 px-10">
+    <a
+      [routerLink]="['/']"
+      class="text-sm flex items-center gap-2 text-blue-600 cursor-pointer"
+      ><i class="pi pi-arrow-left text-sm">
+        <span class="ml-2">Back to dashboard</span></i
+      ></a
+    >
+    <div class="w-full grid grid-cols-2 gap-8">
+      <section class="col-span-2 space-y-6 flex items-center justify-between">
+        <h1 class="text-3xl font-bold mt-3">Nearest Events</h1>
+        <p-button
+          styleClass="flex items-center gap-2 bg-blue-500 text-white py-2 px-3 hover:bg-blue-600 "
+          [routerLink]="['/dashboard/nearest-event/add']"
+        >
+          <ng-template pTemplate="content">
+            <i class="pi pi-plus"></i>
+            <span>Add Event</span>
+          </ng-template>
+        </p-button>
+      </section>
+      <ng-container *ngIf="eventsState$ | async as state">
+        <div *ngIf="state.loading">Loading...</div>
+        <ng-container
+          *ngIf="!state.loading && state.data?.length; else noEvent"
+        >
+          <ng-container *ngFor="let event of state.data">
+            <div
+              *ngIf="event"
+              class="p-6 rounded-3xl items-center relative cursor-pointer"
+              [ngClass]="{
+                'bg-white hover:bg-slate-50': !themeService.isDarkMode(),
+                'bg-slate-800 hover:bg-slate-700': themeService.isDarkMode(),
+              }"
+              [routerLink]="['/dashboard/nearest-event/', event.id]"
+            >
+              <div
+                class="border-l-4 px-4"
+                [ngClass]="'border-' + getClasses(event.priority)"
+              >
+                <ng-container>
+                  <div class="flex justify-between">
+                    <div class="title flex items-center gap-3">
+                      <i class="pi pi-address-book"></i>
+                      <h3 class="text-base font-bold">
+                        {{ event.title }}
+                      </h3>
+                    </div>
+                    <i
+                      class="pi text-{{ getClasses(event.priority) }}"
+                      [ngClass]="{
+                        'pi-arrow-down': event.priority === 'LOW',
+                        'pi-arrow-up':
+                          event.priority === 'HIGH' ||
+                          event.priority === 'MEDIUM',
+                      }"
+                    ></i>
+                  </div>
+                </ng-container>
+                <ng-container>
+                  <div
+                    class="flex justify-between items-center text-sm text-gray-500 mt-4"
+                  >
+                    <p class="title flex items-center gap-3">
+                      {{ getRelativeLabel(event.startTime) }}
+                    </p>
+                    <div class="flex items-center gap-2">
+                      <i class="pi pi-clock"></i>
+                      <span>{{
+                        getDuration(event.startTime, event.endTime)
+                      }}</span>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- <nearest-event-item *ngFor="let event of state.data" [event]="event">
+          </nearest-event-item> -->
+        </ng-container>
+      </ng-container>
+      <ng-template #noEvent>
+        <h2>No event</h2>
+      </ng-template>
+    </div>
+  </main>
+</div>
+<router-outlet></router-outlet>

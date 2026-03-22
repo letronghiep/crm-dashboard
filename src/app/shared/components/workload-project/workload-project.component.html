@@ -1,0 +1,124 @@
+<section
+  id="projects"
+  class="rounded-2xl shadow-sm p-5 flex flex-col gap-4 mt-5"
+  [class.bg-slate-800]="isDarkMode"
+  [class.bg-white]="!isDarkMode"
+>
+  <div class="flex items-center justify-between">
+    <h3 class="font-semibold text-xl">Projects</h3>
+    <button
+      [routerLink]="['/projects']"
+      class="text-base text-blue-500 font-medium"
+    >
+      View all
+    </button>
+  </div>
+
+  <div class="grid grid-cols-1 gap-4">
+    <ng-container *ngIf="projects$ as p$">
+      <ng-container *ngFor="let project of (p$ | async) ?? []">
+        <div class="flex rounded-2xl border border-gray-200 overflow-hidden">
+          <div
+            class="project flex-1 border-r border-gray-200"
+            [class.bg-slate-800]="isDarkMode"
+            [class.bg-white]="!isDarkMode"
+          >
+            <div class="proj-header flex items-center gap-4 p-6">
+              <img
+                class="rounded-lg w-[48px] h-[48px]"
+                src="https://primefaces.org/cdn/primeng/images/card-ng.jpg"
+                alt=""
+              />
+              <div>
+                <p
+                  class="text-sm font-semibold"
+                  [class.text-gray-500]="!isDarkMode"
+                  [class.text-white]="isDarkMode"
+                >
+                  {{ project.project_number }}
+                </p>
+                <p class="text-lg font-bold">{{ project.name }}</p>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-6">
+              <div class="flex items-center gap-2 text-sm">
+                <i class="pi pi-calendar"></i>
+                <p>Created {{ project.createdAt | date: "yyyy-MM-dd" }}</p>
+              </div>
+              <div
+                class="flex prioty gap-2 items-center text-sm"
+                [ngClass]="getClasses(project.priority)"
+              >
+                <i
+                  class="pi"
+                  [ngClass]="{
+                    'pi-arrow-down': project.priority === 'low',
+                    'pi-arrow-up':
+                      project.priority === 'high' ||
+                      project.priority === 'medium',
+                  }"
+                ></i>
+                <span>{{ project.priority | toCapitalize }}</span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="project-data flex-1"
+            [class.bg-slate-800]="isDarkMode"
+            [class.bg-white]="!isDarkMode"
+          >
+            <div class="proj-header p-6 h-full">
+              <div class="flex flex-col gap-6 h-full">
+                <p
+                  class="text-base font-semibold project-data-title"
+                  [class.text-gray-500]="!isDarkMode"
+                  [class.text-white]="isDarkMode"
+                >
+                  Project Data
+                </p>
+
+                <div class="project-data-grid">
+                  <div class="project-data-item">
+                    <p class="project-data-label">All tasks</p>
+                    <p class="project-data-value">
+                      {{
+                        project.activeTasks.length + project.backlogTasks.length
+                      }}
+                    </p>
+                  </div>
+                  <div class="project-data-item">
+                    <p class="project-data-label">Active tasks</p>
+                    <p class="project-data-value">
+                      {{ project.activeTasks.length }}
+                    </p>
+                  </div>
+                  <div class="project-data-item project-data-assignees">
+                    <p class="project-data-label">Assignees</p>
+                    <ul class="assignees-list">
+                      <li
+                        *ngFor="
+                          let avatar of project.users | slice: 0 : 3;
+                          let i = index
+                        "
+                        class="assignee-avatar"
+                        [ngStyle]="{ 'z-index': 10 - i }"
+                      >
+                        <img [src]="avatar" alt="" />
+                      </li>
+                      <li
+                        *ngIf="(project.users?.length || 0) > 3"
+                        class="assignee-more"
+                      >
+                        +{{ (project.users?.length || 0) - 3 }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</section>

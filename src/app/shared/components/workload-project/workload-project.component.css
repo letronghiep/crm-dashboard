@@ -1,0 +1,70 @@
+.project-data-title {
+  letter-spacing: 0.02em;
+}
+
+.project-data-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.project-data-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.project-data-label {
+  font-size: 1rem;
+  color: #9ca3af;
+}
+
+.project-data-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.project-data-assignees .project-data-label {
+  text-align: right;
+}
+
+.assignees-list {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.assignee-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 2px solid #ffffff;
+  margin-left: -8px;
+}
+
+.assignee-avatar:first-child {
+  margin-left: 0;
+}
+
+.assignee-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.assignee-more {
+  width: 28px;
+  height: 28px;
+  border-radius: 9999px;
+  margin-left: -8px;
+  background-color: #3b82f6;
+  color: #ffffff;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}

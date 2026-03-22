@@ -7,14 +7,16 @@ import { ThemeService } from '../../theme.service';
   styleUrls: ['./app-topbar.component.css'],
 })
 export class AppTopbarComponent {
-
   constructor(private themeService: ThemeService) {}
 
   isDarkMode = false;
 
+  onMenuClick() {
+    this.themeService.toggleSidebar();
+  }
+
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
-    const themeName = this.isDarkMode ? 'theme-dark' : 'theme-light';
-    this.themeService.switchTheme(themeName);
+    this.themeService.setDarkMode(this.isDarkMode);
   }
 }

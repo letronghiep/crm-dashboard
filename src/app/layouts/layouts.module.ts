@@ -7,14 +7,13 @@ import { FormsModule } from '@angular/forms';
 import { LayoutComponent } from './layout.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/share.module';
-import { WorkloadEmployeeComponent } from './components/workload-employee/workload-employee.component';
+import { WorkloadEmployeeComponent } from '../shared/components/workload-employee/workload-employee.component';
 import { ButtonModule } from 'primeng/button';
 // import { AppConfigurator } from './components/app-topbar/app.configurator';
 @NgModule({
   declarations: [
     AppTopbarComponent,
     LayoutComponent,
-    WorkloadEmployeeComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +24,6 @@ import { ButtonModule } from 'primeng/button';
     SharedModule,
     ButtonModule
   ],
-  exports: [AppTopbarComponent, LayoutComponent, WorkloadEmployeeComponent],
+  exports: [AppTopbarComponent, LayoutComponent],
 })
 export class LayoutsModule {}

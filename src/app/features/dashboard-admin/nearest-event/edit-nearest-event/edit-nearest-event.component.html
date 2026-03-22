@@ -1,0 +1,427 @@
+<div
+  class="p-6 min-h-screen"
+  [ngClass]="themeService.isDarkMode() ? '' : 'bg-gray-100'"
+>
+  <!-- Page Header -->
+  <div class="flex items-center gap-2 mb-6">
+    <i
+      class="pi pi-file-edit text-xl"
+      [ngClass]="themeService.isDarkMode() ? 'text-white' : 'text-blue-600'"
+    ></i>
+    <h1 class="text-2xl font-semibold">{{ title }}</h1>
+  </div>
+
+  <form [formGroup]="eventFormItem">
+    <div class="flex gap-4 items-start">
+      <!-- ===== LEFT PANEL ===== -->
+      <div
+        class="rounded-xl shadow p-5 flex-1 space-y-4"
+        [ngClass]="themeService.isDarkMode() ? 'bg-slate-800' : 'bg-white'"
+      >
+        <!-- Card Header: title + badges -->
+        <div class="flex items-center gap-3 flex-wrap">
+          <i class="pi pi-list-check text-blue-600 text-lg"></i>
+          <span class="text-lg font-semibold">{{
+            eventFormItem.get("title")?.value || "Event Title"
+          }}</span>
+          <span
+            class="px-2 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700 uppercase"
+          >
+            {{ eventFormItem.get("status")?.value }}
+          </span>
+          <span
+            class="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-200 text-gray-700 uppercase"
+          >
+            {{ eventFormItem.get("type")?.value }}
+          </span>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="flex items-center gap-2">
+          <span class="text-gray-400 mr-2"><i class="pi pi-bars"></i></span>
+          <button
+            type="button"
+            class="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            (click)="onSave()"
+            class="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50"
+          >
+            Mark as Done
+          </button>
+          <button
+            type="button"
+            class="px-3 py-1.5 text-sm border border-gray-300 rounded hover:bg-gray-50"
+          >
+            Cancel Event
+          </button>
+        </div>
+
+        <hr />
+
+        <!-- Event Title input -->
+        <div class="flex items-center gap-3">
+          <label
+            class="text-sm w-24 shrink-0"
+            [ngClass]="
+              themeService.isDarkMode() ? 'text-gray-300' : 'text-gray-500'
+            "
+            >Event Title:</label
+          >
+          <input
+            pInputText
+            formControlName="title"
+            placeholder="Event title"
+            class="flex-1 border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400"
+          />
+        </div>
+
+        <!-- Description textarea -->
+        <textarea
+          pInputTextarea
+          formControlName="description"
+          rows="3"
+          placeholder="Description..."
+          class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400 resize-none"
+        ></textarea>
+
+        <hr />
+
+        <!-- Date/Time -->
+        <div
+          class="flex items-center gap-2 text-sm"
+          [ngClass]="themeService.isDarkMode() ? '' : 'text-gray-700'"
+        >
+          <i class="pi pi-calendar text-gray-400"></i>
+          <p-calendar class="border"></p-calendar>
+          <!-- <input
+            type="datetime-local"
+            [formControlName]="'startTime'"
+            class="text-sm bg-transparent"
+          /> -->
+          <span>–</span>
+          <input
+            type="datetime-local"
+            [formControlName]="'endTime'"
+            class="text-sm bg-transparent"
+          />
+        </div>
+
+        <!-- Location -->
+        <div
+          class="flex items-center gap-2 text-sm"
+          [ngClass]="themeService.isDarkMode() ? '' : 'text-gray-700'"
+        >
+          <i class="pi pi-map-marker text-gray-400"></i>
+          <input
+            pInputText
+            formControlName="location"
+            placeholder="Location"
+            class="border-none outline-none text-sm bg-transparent flex-1"
+          />
+        </div>
+
+        <!-- Meeting URL -->
+        <div
+          class="flex items-center gap-2 text-sm"
+          [ngClass]="themeService.isDarkMode() ? '' : 'text-gray-700'"
+        >
+          <i class="pi pi-video text-green-500"></i>
+          <span class="font-medium">Google Meet:</span>
+          <input
+            pInputText
+            formControlName="meetingUrl"
+            placeholder="https://..."
+            class="border-none outline-none text-sm text-blue-500 bg-transparent flex-1"
+          />
+        </div>
+
+        <!-- Description display -->
+        <p class="text-sm text-gray-600">
+          {{ eventFormItem.get("description")?.value }}
+        </p>
+
+        <hr />
+
+        <!-- Activity -->
+        <div>
+          <p class="font-semibold text-sm mb-2">Activity</p>
+          <upload-file
+            [attachments]="eventFormItem.get('attachments')?.value ?? []"
+          ></upload-file>
+          <div class="flex items-center gap-2 flex-wrap">
+          </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="flex items-center gap-2">
+          <span class="font-semibold text-sm">Tags</span>
+          <span class="w-5 h-5 rounded bg-blue-500 inline-block"></span>
+          <span class="w-5 h-5 rounded bg-red-500 inline-block"></span>
+        </div>
+      </div>
+
+      <!-- ===== RIGHT PANEL ===== -->
+      <div class="flex gap-4 items-start flex-1">
+        <!-- Details + Reminders + Recurrence -->
+        <div
+          class="rounded-xl shadow p-5 space-y-5 flex-1"
+          [ngClass]="themeService.isDarkMode() ? 'bg-slate-800' : 'bg-white'"
+        >
+          <!-- Details -->
+          <div>
+            <p class="font-semibold text-base mb-3">Details</p>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3">
+                <label class="text-sm text-gray-500 w-28 shrink-0"
+                  >Assigned To</label
+                >
+                <p-dropdown
+                  [formControlName]="'assignedTo'"
+                  [options]="(assigneesTo$ | async) ?? []"
+                  placeholder="Assigned to employee"
+                  class="w-full border border-gray-300 rounded"
+                  optionValue="value"
+                  optionLabel="label"
+                  [filter]="true"
+                  filterBy="label"
+                  [virtualScroll]="true"
+                  [virtualScrollItemSize]="38"
+                  [showClear]="true"
+                ></p-dropdown>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="text-sm text-gray-500 w-28 shrink-0"
+                  >Company</label
+                >
+                <p-dropdown
+                  formControlName="companyId"
+                  [options]="[]"
+                  placeholder="Select company..."
+                  class="w-full border border-gray-300 rounded"
+                ></p-dropdown>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="text-sm text-gray-500 w-28 shrink-0"
+                  >Contacts</label
+                >
+                <p-dropdown
+                  formControlName="contactIds"
+                  [options]="[]"
+                  placeholder="Select contact"
+                  class="w-full border border-gray-300 rounded"
+                ></p-dropdown>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="text-sm text-gray-500 w-28 shrink-0">Deal</label>
+                <p-dropdown
+                  formControlName="dealId"
+                  [options]="[]"
+                  placeholder="deal_001"
+                  class="w-full border border-gray-300 rounded"
+                ></p-dropdown>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label class="text-sm text-gray-500 w-28 shrink-0"
+                  >Project</label
+                >
+                <p-dropdown
+                  formControlName="projectId"
+                  [options]="[]"
+                  placeholder="CRM Upgrade"
+                  class="w-full border border-gray-300 rounded"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+
+          <!-- Reminders -->
+          <div formArrayName="reminders">
+            <p class="font-semibold text-base mb-3">Reminders</p>
+            <div class="space-y-2">
+              <div
+                *ngFor="let reminder of reminders.controls; let i = index"
+                [formGroupName]="i"
+                class="flex items-center gap-2 rounded-md"
+              >
+                <div class="border flex items-center gap-2 rounded">
+                  <p-dropdown
+                    [formControlName]="'type'"
+                    [options]="reminderTypeOptions"
+                    placeholder="Type"
+                    class=""
+                    optionValue="value"
+                    optionLabel="label"
+                  ></p-dropdown>
+                </div>
+                <div class="border flex items-center gap-2 rounded">
+                  <input
+                    pInputText
+                    type="number"
+                    formControlName="time"
+                    min="1"
+                    class="w-20 rounded px-2 py-1.5 text-sm"
+                  />
+                </div>
+                <div class="border flex items-center gap-2 rounded">
+                  <p-dropdown
+                    [formControlName]="'unit'"
+                    [options]="reminderUnits"
+                    placeholder="Unit"
+                    class=""
+                    optionValue="value"
+                    optionLabel="label"
+                  ></p-dropdown>
+                </div>
+                <button (click)="removeReminder(i)">
+                  <i class="pi pi-times text-red-500"></i>
+                </button>
+              </div>
+            </div>
+            <button
+              type="button"
+              (click)="addReminder()"
+              class="mt-2 flex items-center gap-1 text-sm text-blue-600 hover:text-blue-800"
+            >
+              <i class="pi pi-plus text-xs"></i> Add Reminder
+            </button>
+          </div>
+
+          <hr />
+
+          <!-- Recurrence -->
+          <div>
+            <p class="font-semibold text-base mb-3">Recurrence</p>
+
+            <div class="flex items-center gap-2 mb-3">
+              <input
+                type="checkbox"
+                id="isRecurring"
+                formControlName="isRecurring"
+                class="w-4 h-4 accent-blue-600 cursor-pointer"
+              />
+              <label for="isRecurring" class="text-sm cursor-pointer"
+                >Repeat</label
+              >
+            </div>
+
+            <div
+              *ngIf="eventFormItem.get('isRecurring')?.value"
+              formGroupName="recurrenceRule"
+              class="space-y-3"
+            >
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-500 w-20 shrink-0"
+                  >Frequency</label
+                >
+                <p-dropdown
+                  formControlName="frequency"
+                  [options]="frequencyOptions"
+                  class="flex-1"
+                ></p-dropdown>
+                <input
+                  pInputText
+                  type="number"
+                  formControlName="interval"
+                  min="1"
+                  class="w-20 border border-gray-300 rounded px-2 py-1.5 text-sm"
+                />
+                <span class="text-sm text-gray-500">week</span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-500 w-20 shrink-0"
+                  >End Date</label
+                >
+                <input
+                  type="date"
+                  formControlName="endDate"
+                  class="border border-gray-300 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-blue-400"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reminders sidebar summary -->
+        <!-- <div
+          class="rounded-xl shadow p-4 space-y-3 shrink-0 w-48"
+          [ngClass]="themeService.isDarkMode() ? 'bg-slate-800' : 'bg-white'"
+        >
+          <p class="font-semibold text-sm">Reminders</p>
+
+          <div
+            *ngFor="let reminder of reminders.controls"
+            class="flex items-start gap-2 text-xs text-gray-600"
+          >
+            <i
+              class="mt-0.5"
+              [ngClass]="
+                reminder.get('type')?.value === 'EMAIL'
+                  ? 'pi pi-envelope text-blue-500'
+                  : 'pi pi-bell text-yellow-500'
+              "
+            ></i>
+            <span>
+              <span class="font-semibold">
+                {{
+                  reminder.get("type")?.value === "EMAIL"
+                    ? "Email"
+                    : "Notification"
+                }}
+              </span>
+              {{ reminder.get("timeBefore")?.value }} mins before
+            </span>
+          </div>
+
+          <p *ngIf="reminders.length === 0" class="text-xs text-gray-400">
+            No reminders.
+          </p>
+
+          <button
+            type="button"
+            (click)="addReminder()"
+            class="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800"
+          >
+            <i class="pi pi-plus text-xs"></i> Add Reminder
+          </button>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Footer actions -->
+    <div class="flex justify-end gap-3 mt-6">
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="px-5 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        (click)="onSave(true)"
+        class="px-5 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50"
+      >
+        Save Draft
+      </button>
+      <button
+        type="button"
+        (click)="onSave()"
+        [disabled]="eventFormItem.invalid"
+        class="px-5 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+      >
+        Save Event
+      </button>
+    </div>
+  </form>
+</div>
