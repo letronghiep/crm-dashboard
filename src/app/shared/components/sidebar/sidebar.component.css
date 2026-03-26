@@ -142,3 +142,38 @@
 .sidebar-collapsed .sidebar-icon {
   font-size: 22px;
 }
+
+/* Submenu */
+.sidebar-link-toggle {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sidebar-chevron {
+  margin-left: auto;
+  font-size: 12px;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-submenu {
+  list-style: none;
+  margin: 2px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-link-child {
+  padding-left: 36px;
+  font-size: 13px;
+}
+
+.sidebar.sidebar-dark .sidebar-link-toggle:hover {
+  background-color: rgba(59, 130, 246, 0.16);
+  color: #93c5fd;
+}
+
+.sidebar.sidebar-dark .sidebar-link-toggle.open {
+  color: #bfdbfe;
+}

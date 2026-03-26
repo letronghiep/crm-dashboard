@@ -1,0 +1,228 @@
+<div class="page-wrapper">
+  <!-- Header -->
+  <div class="page-header">
+    <h2 class="page-title"><i class="pi pi-building"></i> Companies</h2>
+    <p-button
+      styleClass="flex items-center gap-2 bg-blue-500 text-white py-2 px-3 hover:bg-blue-600 rounded-lg"
+      (click)="addCompany()"
+    >
+      <ng-template pTemplate="content">
+        <i class="pi pi-plus"></i>
+        <span>Add Company</span>
+      </ng-template>
+    </p-button>
+  </div>
+
+  <!-- Filters -->
+  <div class="flex items-center gap-3 mb-4">
+    <!-- Search -->
+    <div
+      class="flex items-center border border-gray-200 rounded-xl px-3 w-[320px] shadow-sm hover:shadow transition"
+      [ngClass]="themeService.isDarkMode() ? '' : 'bg-white'"
+    >
+      <i class="pi pi-search text-gray-400 mr-2"></i>
+      <input
+        pInputText
+        [(ngModel)]="searchText"
+        placeholder="Search..."
+        class="w-full outline-none border-none bg-transparent text-sm focus:outline-none"
+      />
+    </div>
+
+    <!-- Sort button -->
+    <div class="ml-auto w-[140px]">
+      <p-dropdown
+        [options]="sortOptions"
+        [(ngModel)]="sortOrder"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Sort"
+        class="w-full custom-dropdown"
+      >
+      </p-dropdown>
+    </div>
+  </div>
+
+  <div class="content-area" [ngClass]="selectedCompany ? 'flex gap-2' : ''">
+    <!-- Table -->
+    <ng-container *ngIf="companies$ | async as companies">
+      <p-table
+        [value]="companies"
+        [rowHover]="true"
+        class="p-datatable-sm companies-table"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-checkbox
+                [binary]="true"
+                [ngModel]="allSelected"
+                (onChange)="toggleSelectAll($event.checked)"
+              ></p-checkbox>
+            </th>
+            <th pSortableColumn="name">Company</th>
+            <th pSortableColumn="phoneNo">Phone</th>
+            <th pSortableColumn="size">Size</th>
+            <th>Owner</th>
+            <th pSortableColumn="address">Address</th>
+            <th pSortableColumn="totalDealsValue">Total Deal</th>
+            <th>Tags</th>
+            <th style="width: 3rem">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-company>
+          <tr [class.row-selected]="isSelected(company)">
+            <td>
+              <p-checkbox
+                [binary]="true"
+                [ngModel]="isChecked(company)"
+                (onChange)="toggleSelect(company)"
+                (click)="$event.stopPropagation()"
+              ></p-checkbox>
+            </td>
+            <td>
+              <div class="company-cell">
+                <p-avatar
+                  [image]="'http://localhost:3000' + company.avatar"
+                  styleClass="company-avatar"
+                  shape="square"
+                ></p-avatar>
+                <div>
+                  <div class="company-name">{{ company.name }}</div>
+                  <div class="company-email">{{ company.industry }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ company.phoneNo }}</td>
+            <td>
+              <span class="deal-amount">{{ company.size }}</span>
+            </td>
+            <td>
+              <div class="owner-cell">
+                <p-avatar
+                  *ngIf="company.ownerAvatar; else initials"
+                  [image]="company.ownerAvatar"
+                  shape="circle"
+                ></p-avatar>
+                <ng-template #initials>
+                  <p-avatar
+                    [label]="company.ownerInitials"
+                    shape="circle"
+                  ></p-avatar>
+                </ng-template>
+              </div>
+            </td>
+            <td>
+              <span class="deal-amount">{{ company.address }}</span>
+            </td>
+
+            <td>
+              <span class="deal-amount">{{ company.totalDealsValue }}</span>
+            </td>
+            <td>
+              <span class="deal-amount">{{ company.tags }}</span>
+            </td>
+            <td (click)="$event.stopPropagation()">
+              <div class="flex items-center gap-2 cursor-pointer">
+                <i
+                  pTooltip="Edit company"
+                  class="pi pi-pencil"
+                  (click)="editCompany(company)"
+                ></i>
+                <i
+                  pTooltip="Remove company"
+                  class="pi pi-trash"
+                  (click)="removeCompany(company.id)"
+                ></i>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-container>
+    <!-- Detail Panel -->
+    <div class="detail-panel" *ngIf="selectedCompany">
+      <div class="detail-header">
+        <p-avatar
+          [label]="selectedCompany.name[0]"
+          size="large"
+          shape="square"
+          styleClass="detail-avatar"
+        ></p-avatar>
+        <div class="detail-header-info">
+          <h3>{{ selectedCompany.name }}</h3>
+          <span class="detail-sub"
+            ><i class="pi pi-building"></i> {{ selectedCompany.name }}</span
+          >
+        </div>
+        <button
+          pButton
+          icon="pi pi-times"
+          class="p-button-text p-button-sm p-button-secondary ml-auto"
+          (click)="closeDetail()"
+        ></button>
+      </div>
+
+      <p-tabView styleClass="detail-tabs">
+        <p-tabPanel header="Overview">
+          <div class="detail-body">
+            <div class="detail-row">
+              <i class="pi pi-tag"></i> {{ selectedCompany.industry }}
+            </div>
+            <div class="detail-row">
+              <i class="pi pi-globe"></i> {{ selectedCompany.website }}
+            </div>
+            <div class="detail-row">
+              <i class="pi pi-map-marker"></i> {{ selectedCompany.address }}
+            </div>
+            <div class="detail-row">
+              <i class="pi pi-user"></i> {{ selectedCompany.ownerId }}
+            </div>
+
+            <div class="detail-tags" *ngIf="selectedCompany.tags?.length">
+              <p-chip
+                *ngFor="let tag of selectedCompany.tags"
+                [label]="tag"
+                styleClass="tag-chip"
+              ></p-chip>
+            </div>
+
+            <p-divider></p-divider>
+
+            <div class="detail-section-title">
+              <span>Contacts</span>
+              <span class="p-badge p-badge-info">{{
+                selectedCompany.phoneNo
+              }}</span>
+            </div>
+
+            <div class="contact-item" *ngFor="let i of [1, 2, 3]">
+              <p-avatar label="JD" shape="circle" size="normal"></p-avatar>
+              <div>
+                <div class="contact-name">
+                  John Doe
+                  <p-tag
+                    value="CEO"
+                    severity="success"
+                    styleClass="role-tag"
+                  ></p-tag>
+                </div>
+                <div class="contact-email">
+                  john.doe&#64;{{ selectedCompany.name | lowercase }}.com
+                </div>
+              </div>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Contacts"></p-tabPanel>
+        <p-tabPanel header="Activities"></p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>
+<p-toast />
+<p-confirmDialog />

@@ -1,0 +1,122 @@
+<div class="page-wrapper">
+  <!-- Header -->
+  <div class="page-header">
+    <h2 class="page-title"><i class="pi pi-briefcase"></i> Deals</h2>
+    <div class="header-actions">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText [(ngModel)]="searchText" placeholder="Search deals..." class="p-inputtext-sm" />
+      </span>
+      <button pButton label="Add Deal" icon="pi pi-plus" class="p-button-sm"></button>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <!-- Deals List -->
+    <div class="deals-list" [class.shrink]="selectedDeal">
+      <div
+        *ngFor="let deal of filtered"
+        class="deal-card-wrapper"
+        [class.deal-active]="selectedDeal?.id === deal.id"
+        (click)="selectDeal(deal)"
+      >
+        <p-card styleClass="deal-card">
+          <ng-template pTemplate="header">
+            <div class="deal-card-header">
+              <p-avatar icon="pi pi-briefcase" shape="square" styleClass="deal-avatar"></p-avatar>
+              <div class="deal-info">
+                <div class="deal-title">{{ deal.title }}</div>
+                <div class="deal-amount">{{ deal.amount }}</div>
+              </div>
+              <button pButton label="Edit" class="p-button-outlined p-button-sm p-button-secondary" (click)="$event.stopPropagation()"></button>
+            </div>
+          </ng-template>
+
+          <div class="deal-body">
+            <div class="deal-company">
+              <i class="pi pi-building"></i>
+              <a class="company-link">{{ deal.company }}</a>
+              <span class="dot"></span>
+              <span class="deal-email">contact&#64;{{ deal.company | lowercase }}.com</span>
+            </div>
+
+            <div class="deal-stage-row">
+              <span class="stage-label">Stage</span>
+              <p-progressBar [value]="deal.progress" [showValue]="false" styleClass="deal-progress"></p-progressBar>
+              <p-tag [value]="deal.stage" [severity]="stageSeverity(deal.stage)" styleClass="stage-tag"></p-tag>
+              <span class="stage-pct">{{ deal.progress }}%</span>
+            </div>
+
+            <div class="deal-footer">
+              <span class="close-date"><i class="pi pi-calendar"></i> Expected Close: {{ deal.expectedClose }}</span>
+              <span class="activities-badge"><i class="pi pi-history"></i> {{ deal.activities }} Activities</span>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+
+    <!-- Detail Panel -->
+    <div class="detail-panel" *ngIf="selectedDeal">
+      <div class="detail-header">
+        <p-avatar [label]="selectedDeal.ownerInitials" shape="circle" size="large" styleClass="detail-owner-avatar"></p-avatar>
+        <div class="detail-header-info">
+          <h3>{{ selectedDeal.owner }}</h3>
+          <span class="detail-sub"><i class="pi pi-building"></i> {{ selectedDeal.company }}</span>
+        </div>
+        <button pButton label="Edit" class="p-button-outlined p-button-sm p-button-secondary" (click)="$event.stopPropagation()"></button>
+        <button pButton icon="pi pi-times" class="p-button-text p-button-sm p-button-secondary" (click)="selectedDeal = null"></button>
+      </div>
+
+      <p-tabView styleClass="detail-tabs">
+        <p-tabPanel header="Overview">
+          <div class="detail-body">
+            <!-- Company card -->
+            <div class="deal-detail-card">
+              <div class="deal-detail-row">
+                <p-avatar icon="pi pi-briefcase" shape="square" styleClass="deal-avatar sm"></p-avatar>
+                <div>
+                  <div class="deal-detail-title">{{ selectedDeal.company }}</div>
+                  <div class="deal-detail-sub">contact&#64;{{ selectedDeal.company | lowercase }}.com</div>
+                  <div class="deal-detail-sub">+1 456-6780</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Stage progress -->
+            <div class="stage-section">
+              <div class="stage-section-label">Stage</div>
+              <div class="stage-steps">
+                <ng-container *ngFor="let s of stages; let i = index; let last = last">
+                  <div class="stage-step-dot" [class.active]="i <= stageIndex(selectedDeal.stage)"></div>
+                  <div *ngIf="!last" class="stage-step-line" [class.active]="i < stageIndex(selectedDeal.stage)"></div>
+                </ng-container>
+              </div>
+              <div class="stage-labels-row">
+                <span *ngFor="let s of stages" class="stage-step-label">{{ s }}</span>
+              </div>
+              <div class="stage-pct-row">
+                <p-tag [value]="selectedDeal.stage" [severity]="stageSeverity(selectedDeal.stage)" styleClass="detail-stage-tag"></p-tag>
+                <span class="stage-pct-val">{{ selectedDeal.progress }}%</span>
+              </div>
+            </div>
+
+            <p-divider></p-divider>
+
+            <div class="detail-row">
+              <i class="pi pi-calendar"></i>
+              <span>Expected Close: <strong>{{ selectedDeal.expectedClose }}</strong></span>
+            </div>
+
+            <div class="detail-actions">
+              <button pButton label="Cancel" class="p-button-outlined p-button-secondary flex-1" (click)="selectedDeal = null"></button>
+              <button pButton label="Save Event" class="flex-1"></button>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel header="Activity"></p-tabPanel>
+        <p-tabPanel header="Notes"></p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>

@@ -5,6 +5,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DashboardAdminModule } from './features/dashboard-admin/dashboard-admin.module';
+import { CompaniesModule } from './features/companies/companies.module';
+import { ContactsModule } from './features/contacts/contacts.module';
+import { DealsModule } from './features/deals/deals.module';
 import { LayoutsModule } from './layouts/layouts.module';
 import { SharedModule } from './shared/share.module';
 import { CustomersComponent } from './features/customers/customers.component';
@@ -17,6 +20,9 @@ import { EmployeesComponent } from './features/employees/employees.component';
     SharedModule,
     LayoutsModule,
     DashboardAdminModule,
+    CompaniesModule,
+    ContactsModule,
+    DealsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
   ],

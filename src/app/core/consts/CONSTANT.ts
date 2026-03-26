@@ -3,5 +3,6 @@ import { environment } from 'src/environments/environment';
 export const API_CONSTANT = {
   dashboardOverview: 'dashboard/overview',
   nearestEvent: 'nearest-event',
-  employees: 'employees'
+  employees: 'employees',
+  companies: 'companies'
 };

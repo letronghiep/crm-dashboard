@@ -1,0 +1,338 @@
+/* ===== Layout ===== */
+.page-wrapper {
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-sizing: border-box;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: #1e293b;
+}
+
+/* ===== Filter bar ===== */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+/* ===== Table container ===== */
+.table-container {
+  flex: 1;
+  /* background: white; */
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  overflow: auto;
+  transition: flex 0.3s ease;
+  min-width: 0;
+}
+
+.table-container.shrink {
+  flex: 0 0 58%;
+}
+:host ::ng-deep .p-inputtext:enabled:focus {
+  /* outline: 0 none; */
+  outline-offset: unset;
+  box-shadow: unset;
+  border-color: unset;
+}
+:host ::ng-deep .p-datatable-thead,
+:host ::ng-deep .p-datatable-tbody {
+  font-size: 14px;
+}
+:host ::ng-deep .p-table .p-checkbox {
+  margin: 0 !important;
+}
+
+:host ::ng-deep .p-table td .p-checkbox {
+  display: flex;
+  justify-content: center;
+}
+/* ::ng-deep .companies-table .p-datatable-tbody > tr.p-highlight > td,
+::ng-deep .companies-table .p-datatable-tbody > tr.row-selected > td {
+  background: #eff6ff;
+} */
+/* ::ng-deep .companies-table .p-sortable-column:focus {
+  box-shadow: none;
+} */
+/* ::ng-deep .companies-table .p-sortable-column:not(.p-highlight):hover {
+  background: white;
+  color: #374151;
+} */
+
+/* ===== Company cell ===== */
+.company-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+::ng-deep .company-avatar.p-avatar {
+  background: #dbeafe !important;
+  color: #2563eb !important;
+  font-weight: 600;
+  border-radius: 8px !important;
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 14px !important;
+  flex-shrink: 0;
+}
+
+.company-name {
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.3;
+}
+.company-email {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.deal-amount {
+  font-weight: 500;
+}
+.deal-icon {
+  margin-left: 6px;
+  color: #f59e0b;
+  font-size: 12px;
+}
+
+.owner-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+::ng-deep .owner-avatar.p-avatar {
+  background: #e0e7ff !important;
+  color: #4f46e5 !important;
+  font-size: 11px !important;
+  font-weight: 600;
+  width: 30px !important;
+  height: 30px !important;
+}
+
+/* ===== Detail Panel ===== */
+.detail-panel {
+  width: 310px;
+  flex-shrink: 0;
+  /* background: white; */
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+::ng-deep .detail-avatar.p-avatar {
+  background: #dbeafe !important;
+  color: #2563eb !important;
+  font-weight: 700;
+  border-radius: 10px !important;
+  flex-shrink: 0;
+}
+
+.detail-header-info {
+  flex: 1;
+  min-width: 0;
+}
+.detail-header-info h3 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+}
+.detail-sub {
+  font-size: 12px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+/* TabView reset */
+::ng-deep .detail-tabs.p-tabview {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+::ng-deep .detail-tabs .p-tabview-nav-container {
+  flex-shrink: 0;
+}
+::ng-deep .detail-tabs .p-tabview-nav {
+  padding: 0 16px;
+  border-bottom: 1px solid #f1f5f9;
+  /* background: white; */
+}
+::ng-deep .detail-tabs .p-tabview-nav li .p-tabview-nav-link {
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #94a3b8;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  margin-bottom: -1px;
+}
+::ng-deep .detail-tabs .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+  font-weight: 500;
+  background: transparent;
+}
+::ng-deep .detail-tabs .p-tabview-nav li .p-tabview-nav-link:focus {
+  box-shadow: none;
+}
+::ng-deep .detail-tabs .p-tabview-panels {
+  padding: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+::ng-deep .detail-tabs .p-tabview-panel {
+  padding: 0;
+}
+
+.detail-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+}
+.detail-row i {
+  color: #94a3b8;
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.detail-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+::ng-deep .tag-chip.p-chip {
+  background: #f1f5f9 !important;
+  color: #475569 !important;
+  font-size: 12px;
+  padding: 2px 10px;
+  height: auto;
+}
+::ng-deep .tag-chip .p-chip-text {
+  font-size: 12px;
+  line-height: 1.5;
+}
+/* ::ng-deep .p-checkbox-box {
+  display: inline;
+} */
+
+/* Divider */
+::ng-deep .p-divider {
+  margin: 4px 0 !important;
+}
+
+.detail-section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+/* Badge */
+::ng-deep .p-badge {
+  font-size: 11px !important;
+  min-width: 20px;
+  height: 20px;
+  line-height: 20px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f8fafc;
+}
+
+.contact-name {
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.contact-email {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+::ng-deep .role-tag.p-tag {
+  font-size: 11px !important;
+  padding: 1px 6px !important;
+}
+::ng-deep .p-dialog .p-dialog-header {
+  position: relative;
+  justify-content: center;
+}
+
+::ng-deep .p-dialog .p-dialog-title {
+  margin: 0 auto;
+}
+
+::ng-deep .p-dialog .p-dialog-header-icons {
+  position: absolute;
+  right: 1rem;
+}
+
+::ng-deep .companies-table .p-paginator .p-dropdown {
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+}
+
+::ng-deep .companies-table .p-paginator .p-dropdown .p-dropdown-label {
+  padding: 0 8px;
+  line-height: 30px;
+}
+::ng-deep .p-paginator-pages {
+  font-size: 12px;
+}

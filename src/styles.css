@@ -1,11 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "primeng/resources/primeng.css";
 * {
   font-family: "Nunito Sans", sans-serif;
 }
-.p-inputtext, .p-dropdown-item {
+.p-inputtext,
+.p-dropdown-item,
+.p-multiselect .p-multiselect-label,
+.p-multiselect-panel .p-multiselect-header,
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item,
+.p-multiselect-panel
+  .p-multiselect-items
+  .p-multiselect-item:not(.p-highlight):not(.p-disabled):hover {
   padding: 5px;
   font-size: 12px;
 }
-
+button.p-button-primary {
+  background: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #fff !important;
+}

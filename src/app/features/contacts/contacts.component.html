@@ -1,0 +1,75 @@
+<div class="page-wrapper">
+  <!-- Header -->
+  <div class="page-header">
+    <h2 class="page-title"><i class="pi pi-users"></i> Contacts</h2>
+    <button pButton label="Add Contact" icon="pi pi-plus" class="p-button-sm"></button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input pInputText [(ngModel)]="searchText" placeholder="Search..." class="p-inputtext-sm" />
+    </span>
+    <button pButton label="ESAM" icon="pi pi-chevron-down" iconPos="right" class="p-button-outlined p-button-sm p-button-secondary"></button>
+    <button pButton label="A" icon="pi pi-chevron-down" iconPos="right" class="p-button-outlined p-button-sm p-button-secondary"></button>
+    <div class="ml-auto">
+      <button pButton label="Owner" icon="pi pi-chevron-down" iconPos="right" class="p-button-outlined p-button-sm p-button-secondary"></button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <p-table
+      [value]="filtered"
+      [rowHover]="true"
+      styleClass="p-datatable-sm contacts-table"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+          <th>Name</th>
+          <th>Company</th>
+          <th>Email</th>
+          <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+          <th>Last Activity</th>
+          <th>Owner</th>
+          <th style="width: 5rem"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-contact>
+        <tr>
+          <td><p-tableCheckbox [value]="contact"></p-tableCheckbox></td>
+          <td>
+            <div class="contact-cell">
+              <p-avatar [label]="contact.initials" shape="circle" styleClass="contact-avatar"></p-avatar>
+              <div>
+                <div class="contact-name">{{ contact.name }}</div>
+                <div class="contact-role">{{ contact.company }}</div>
+              </div>
+            </div>
+          </td>
+          <td><a class="company-link">{{ contact.company }}</a></td>
+          <td class="email-cell">{{ contact.email }}</td>
+          <td>
+            <p-tag
+              [value]="contact.status"
+              [severity]="statusSeverity(contact.status)"
+              styleClass="status-tag"
+            ></p-tag>
+          </td>
+          <td class="activity-cell">{{ contact.lastActivity }}</td>
+          <td>
+            <p-avatar [label]="contact.owner" shape="circle" size="normal" styleClass="owner-avatar"></p-avatar>
+          </td>
+          <td>
+            <div class="row-actions">
+              <button pButton icon="pi pi-bell" class="p-button-text p-button-sm p-button-secondary"></button>
+              <button pButton icon="pi pi-chevron-right" class="p-button-text p-button-sm p-button-secondary"></button>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
