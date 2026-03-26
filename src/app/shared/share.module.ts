@@ -12,6 +12,7 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
 import { WorkloadEmployeeComponent } from './components/workload-employee/workload-employee.component';
 import { WorkloadProjectComponent } from './components/workload-project/workload-project.component';
 import { ToCapitalizePipe } from './pipes/to-capitalize.pipe';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 @NgModule({
   declarations: [
     SidebarComponent,
@@ -38,6 +39,7 @@ import { ToCapitalizePipe } from './pipes/to-capitalize.pipe';
     UploadFileComponent,
     FileUploadModule,
     ToastModule,
+    ConfirmDialogModule,
   ],
 })
 export class SharedModule {}
