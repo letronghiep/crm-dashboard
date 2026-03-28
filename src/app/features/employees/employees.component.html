@@ -1,1 +1,270 @@
-<p>employees works!</p>
+<div class="p-6 h-full flex flex-col gap-4 box-border">
+  <!-- Header -->
+  <div class="flex items-center gap-4">
+    <h2 class="text-2xl font-bold text-slate-800 m-0">
+      Employees
+      <span class="text-slate-400 font-normal text-xl"
+        >({{ allEmployees.length }})</span
+      >
+    </h2>
+
+    <!-- Tab toggle -->
+    <div
+      class="flex rounded-full p-1 mx-auto"
+      [ngClass]="themeService.isDarkMode() ? 'bg-slate-700' : 'bg-slate-200'"
+    >
+      <button
+        class="px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer border-none"
+        [class]="
+          activeIndex === 0
+            ? 'bg-blue-500 text-white shadow'
+            : 'bg-transparent text-slate-500'
+        "
+        (click)="activeIndex = 0"
+      >
+        List
+      </button>
+      <button
+        class="px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer border-none"
+        [class]="
+          activeIndex === 1
+            ? 'bg-blue-500 text-white shadow'
+            : 'bg-transparent text-slate-500'
+        "
+        (click)="activeIndex = 1"
+      >
+        Activity
+      </button>
+    </div>
+
+    <button
+      pButton
+      icon="pi pi-plus"
+      label="Add Employee"
+      (click)="onEdit()"
+      class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex-shrink-0"
+    ></button>
+  </div>
+
+  <!-- List Tab -->
+  <ng-container *ngIf="activeIndex === 0">
+    <div class="flex flex-col flex-1 min-h-0">
+      <div class="flex flex-col gap-2 overflow-y-auto flex-1 min-h-0">
+        <div
+          *ngFor="let emp of pagedEmployees"
+          class="flex items-center gap-4 bg-white rounded-2xl px-5 py-4 cursor-pointer transition-all hover:shadow-md border-2"
+          [class]="
+            selectedEmployee?.id === emp.id
+              ? 'border-violet-500 shadow-md'
+              : 'border-transparent shadow-sm'
+          "
+          (click)="selectEmployee(emp)"
+        >
+          <!-- Avatar -->
+          <img
+            [src]="emp.avatar"
+            [alt]="emp.name"
+            class="w-12 h-12 rounded-full object-cover flex-shrink-0"
+          />
+
+          <!-- Name + email -->
+          <div class="w-48 flex-shrink-0">
+            <div class="font-semibold text-slate-800 text-sm">
+              {{ emp.name }}
+            </div>
+            <div class="text-xs text-slate-400 truncate">{{ emp.email }}</div>
+          </div>
+
+          <!-- Gender -->
+          <div class="flex-1">
+            <div class="text-[10px] text-slate-400 mb-0.5">Gender</div>
+            <div class="text-sm text-slate-700 capitalize">
+              {{ emp.gender }}
+            </div>
+          </div>
+
+          <!-- Birthday -->
+          <div class="flex-1">
+            <div class="text-[10px] text-slate-400 mb-0.5">Birthday</div>
+            <div class="text-sm text-slate-700">
+              {{ emp.birthday | date: "MMM d, yyyy" }}
+            </div>
+          </div>
+
+          <!-- Age -->
+          <div class="flex-1">
+            <div class="text-[10px] text-slate-400 mb-0.5">Full age</div>
+            <div class="text-sm text-slate-700">{{ emp.age }}</div>
+          </div>
+
+          <!-- Position + Role -->
+          <div class="flex-1 flex items-center gap-2">
+            <div>
+              <div class="text-[10px] text-slate-400 mb-0.5">Position</div>
+              <div class="text-sm text-slate-700 flex items-center gap-2">
+                {{ emp.position }}
+                <span
+                  class="text-[10px] border border-slate-300 text-slate-500 rounded px-1.5 py-0.5"
+                >
+                  {{ emp.role }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <button
+            pButton
+            icon="pi pi-ellipsis-v"
+            (click)="openMenu($event, emp, menu)"
+          ></button>
+
+          <p-menu #menu [model]="items" [popup]="true"></p-menu>
+        </div>
+        <p-menu #menu [model]="items" [popup]="true"></p-menu>
+      </div>
+
+      <!-- Paginator List -->
+      <div
+        class="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 text-sm text-slate-500 flex-shrink-0"
+      >
+        <span
+          >{{ first + 1 }}-{{
+            minVal(first + pageSize, allEmployees.length)
+          }}
+          of {{ allEmployees.length }}</span
+        >
+        <button
+          pButton
+          icon="pi pi-arrow-left"
+          class="p-button-text p-button-sm p-button-secondary"
+          [disabled]="first === 0"
+          (click)="onPageChange({ first: first - pageSize, rows: pageSize })"
+        ></button>
+        <button
+          pButton
+          icon="pi pi-arrow-right"
+          class="p-button-text p-button-sm p-button-secondary"
+          [disabled]="first + pageSize >= allEmployees.length"
+          (click)="onPageChange({ first: first + pageSize, rows: pageSize })"
+        ></button>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Activity Tab -->
+  <ng-container *ngIf="activeIndex === 1">
+    <div class="flex flex-col flex-1 min-h-0">
+      <div
+        class="grid grid-cols-4 gap-4 overflow-y-auto h-full"
+        style="grid-auto-rows: 260px"
+      >
+        <div
+          *ngFor="let emp of pagedEmployees"
+          class="rounded-2xl p-5 flex flex-col items-center gap-3 border border-transparent transition-all"
+          [class]="emp.isActive ? 'bg-white shadow-sm' : 'bg-amber-50'"
+        >
+          <!-- Avatar with ring -->
+          <div class="relative">
+            <div
+              class="w-16 h-16 rounded-full p-0.5"
+              [class]="
+                emp.isActive
+                  ? 'bg-gradient-to-br from-blue-400 to-blue-200'
+                  : 'bg-amber-200'
+              "
+            >
+              <img
+                [src]="emp.avatar"
+                [alt]="emp.name"
+                class="w-full h-full rounded-full object-cover border-2 border-white"
+              />
+            </div>
+            <!-- Sleeping indicator for inactive -->
+            <ng-container *ngIf="!emp.isActive">
+              <span class="absolute -top-2 -right-1 text-amber-400 text-xs"
+                >z</span
+              >
+              <span class="absolute -top-4 right-2 text-amber-300 text-[10px]"
+                >z</span
+              >
+            </ng-container>
+          </div>
+
+          <!-- Name, position, role -->
+          <div class="text-center">
+            <div class="font-semibold text-slate-800 text-sm">
+              {{ emp.name }}
+            </div>
+            <div class="text-xs text-slate-400 mt-0.5">{{ emp.position }}</div>
+            <span
+              class="inline-block mt-1 text-[10px] border border-slate-300 text-slate-500 rounded px-2 py-0.5"
+            >
+              {{ emp.role }}
+            </span>
+          </div>
+
+          <!-- Stats -->
+          <div
+            class="flex justify-around w-full pt-2 border-t border-slate-100 mt-auto"
+          >
+            <div class="text-center">
+              <div class="font-bold text-slate-800 text-base">
+                {{ emp.totalDeals ?? 0 }}
+              </div>
+              <div class="text-[10px] text-slate-400 leading-tight">
+                Backlog<br />tasks
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="font-bold text-slate-800 text-base">
+                {{ emp.exp }}
+              </div>
+              <div class="text-[10px] text-slate-400 leading-tight">
+                Tasks<br />In Progress
+              </div>
+            </div>
+            <div class="text-center">
+              <div class="font-bold text-slate-800 text-base">
+                {{
+                  emp.totalRevenue
+                    ? (emp.totalRevenue / 10000 | number: "1.0-0")
+                    : 0
+                }}
+              </div>
+              <div class="text-[10px] text-slate-400 leading-tight">
+                Tasks<br />In Review
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paginator Activity -->
+      <div
+        class="flex items-center justify-end gap-2 pt-2 border-t border-gray-100 text-sm text-slate-500 flex-shrink-0"
+      >
+        <span
+          >{{ first + 1 }}-{{
+            minVal(first + pageSize, allEmployees.length)
+          }}
+          of {{ allEmployees.length }}</span
+        >
+        <button
+          pButton
+          icon="pi pi-arrow-left"
+          class="p-button-text p-button-sm p-button-secondary"
+          [disabled]="first === 0"
+          (click)="onPageChange({ first: first - pageSize, rows: pageSize })"
+        ></button>
+        <button
+          pButton
+          icon="pi pi-arrow-right"
+          class="p-button-text p-button-sm p-button-secondary"
+          [disabled]="first + pageSize >= allEmployees.length"
+          (click)="onPageChange({ first: first + pageSize, rows: pageSize })"
+        ></button>
+      </div>
+    </div>
+  </ng-container>
+</div>

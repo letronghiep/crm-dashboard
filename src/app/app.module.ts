@@ -4,17 +4,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardAdminModule } from './features/dashboard-admin/dashboard-admin.module';
 import { CompaniesModule } from './features/companies/companies.module';
 import { ContactsModule } from './features/contacts/contacts.module';
+import { DashboardAdminModule } from './features/dashboard-admin/dashboard-admin.module';
 import { DealsModule } from './features/deals/deals.module';
 import { LayoutsModule } from './layouts/layouts.module';
 import { SharedModule } from './shared/share.module';
-import { CustomersComponent } from './features/customers/customers.component';
-import { ProjectsComponent } from './features/projects/projects.component';
-import { EmployeesComponent } from './features/employees/employees.component';
+import { EmployeesModule } from './features/employees/employees.module';
 @NgModule({
-  declarations: [AppComponent, CustomersComponent, ProjectsComponent, EmployeesComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     SharedModule,
@@ -23,6 +21,7 @@ import { EmployeesComponent } from './features/employees/employees.component';
     CompaniesModule,
     ContactsModule,
     DealsModule,
+    EmployeesModule,
     AppRoutingModule,
     BrowserAnimationsModule,
   ],

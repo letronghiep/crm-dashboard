@@ -1,0 +1,3 @@
+::ng-deep .custom-tabview .p-tabview-nav {
+  display: none;
+}

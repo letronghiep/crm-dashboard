@@ -10,6 +10,7 @@ import { DividerModule } from 'primeng/divider';
 import { DropdownModule } from 'primeng/dropdown';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TabViewModule } from 'primeng/tabview';
@@ -20,7 +21,8 @@ import { UploadFileComponent } from './components/upload-file/upload-file.compon
 import { WorkloadEmployeeComponent } from './components/workload-employee/workload-employee.component';
 import { WorkloadProjectComponent } from './components/workload-project/workload-project.component';
 import { ToCapitalizePipe } from './pipes/to-capitalize.pipe';
-
+import { MenuModule } from 'primeng/menu';
+import { InputTextModule } from 'primeng/inputtext';
 @NgModule({
   declarations: [
     SidebarComponent,
@@ -44,9 +46,12 @@ import { ToCapitalizePipe } from './pipes/to-capitalize.pipe';
     MultiSelectModule,
     DynamicDialogModule,
     InputNumberModule,
+    InputSwitchModule,
+    InputTextModule,
     ConfirmDialogModule,
     TabViewModule,
     DividerModule,
+    MenuModule,
   ],
   exports: [
     SidebarComponent,
@@ -63,10 +68,13 @@ import { ToCapitalizePipe } from './pipes/to-capitalize.pipe';
     MultiSelectModule,
     DynamicDialogModule,
     InputNumberModule,
+    InputSwitchModule,
+    InputTextModule,
     ReactiveFormsModule,
     FormsModule,
     DropdownModule,
     CalendarModule,
+    MenuModule,
   ],
 })
 export class SharedModule {}
