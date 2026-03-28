@@ -5,12 +5,11 @@ import { API_CONSTANT } from '../../consts/CONSTANT';
 import { environment } from 'src/environments/environment';
 import { IAdminData } from '../../models/data.interface';
 import { Event } from '../../models/event.interface';
+import { CustomHttpService } from '../custom-http.service';
 @Injectable({
   providedIn: 'root',
 })
-export class DashboardAdminService {
-  constructor(private http: HttpClient) {}
-  baseUrl = environment.BASE_URL;
+export class DashboardAdminService extends CustomHttpService {
   dashboardOverview(): Observable<{
     message: string;
     contents: {
@@ -18,13 +17,13 @@ export class DashboardAdminService {
       projects: IAdminData['projects'];
     };
   }> {
-    return this.http.get<{
+    return this.get<{
       message: string;
       contents: {
         workload: IAdminData['workload'];
         projects: IAdminData['projects'];
       };
-    }>(`${this.baseUrl}/${API_CONSTANT.dashboardOverview}`);
+    }>(API_CONSTANT.dashboardOverview);
   }
 
   // Event
@@ -32,18 +31,18 @@ export class DashboardAdminService {
     message: string;
     contents: Event[];
   }> {
-    return this.http.get<{
+    return this.get<{
       message: string;
       contents: Event[];
-    }>(`${this.baseUrl}/${API_CONSTANT.nearestEvent}`);
+    }>(API_CONSTANT.nearestEvent);
   }
   getNearestEventItem(id: string): Observable<{
     message: string;
     data: Event;
   }> {
-    return this.http.get<{
+    return this.get<{
       message: string;
       data: Event;
-    }>(`${this.baseUrl}/${API_CONSTANT.nearestEvent}/${id}`);
+    }>(`${API_CONSTANT.nearestEvent}/${id}`);
   }
 }

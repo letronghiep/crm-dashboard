@@ -6,8 +6,9 @@ import { EmployeesComponent } from './features/employees/employees.component';
 import { ProjectsComponent } from './features/projects/projects.component';
 import { CompaniesComponent } from './features/companies/companies.component';
 import { ContactsComponent } from './features/contacts/contacts.component';
-import { DealsComponent } from './features/deals/deals.component';
+// import { DealsComponent } from './features/deals/deals.component';
 import { LayoutComponent } from './layouts/layout.component';
+import { DealsComponent } from './features/deals/deals.component';
 
 const routes: Routes = [
   {

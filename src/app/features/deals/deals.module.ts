@@ -12,9 +12,12 @@ import { TabViewModule } from 'primeng/tabview';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { TooltipModule } from 'primeng/tooltip';
 import { DealsComponent } from './deals.component';
+import { SharedModule } from 'src/app/shared/share.module';
+import { PaginatorModule } from 'primeng/paginator';
+import { EditDealComponent } from './edit-deal/edit-deal.component';
 
 @NgModule({
-  declarations: [DealsComponent],
+  declarations: [DealsComponent, EditDealComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +31,8 @@ import { DealsComponent } from './deals.component';
     TabViewModule,
     ProgressBarModule,
     TooltipModule,
+    PaginatorModule,
+    SharedModule
   ],
   exports: [DealsComponent],
 })

@@ -1,24 +1,21 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { API_CONSTANT } from '../../consts/CONSTANT';
 import { environment } from 'src/environments/environment';
-import { IAdminData } from '../../models/data.interface';
-import { Event } from '../../models/event.interface';
+import { API_CONSTANT } from '../../consts/CONSTANT';
 import { Company } from '../../models/company.interface';
+import { CustomHttpService } from '../custom-http.service';
 @Injectable({
   providedIn: 'root',
 })
-export class CompaniesService {
-  constructor(private http: HttpClient) {}
-  baseUrl = environment.BASE_URL;
+export class CompaniesService extends CustomHttpService{
   getCompanies(): Observable<{
     message: string;
     contents: Company[];
   }> {
-    return this.http.get<{
+    return this.get<{
       message: string;
       contents: Company[];
-    }>(`${this.baseUrl}/${API_CONSTANT.companies}`);
+    }>(API_CONSTANT.companies);
   }
 }

@@ -1,43 +1,68 @@
-import { Component } from '@angular/core';
-
-export interface Contact {
-  id: number;
-  name: string;
-  initials: string;
-  company: string;
-  email: string;
-  status: 'VIP' | 'Lead' | 'Contacted' | 'Long-Term';
-  lastActivity: string;
-  owner: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { BehaviorSubject, map, Observable, Subject, takeUntil } from 'rxjs';
+import { Company } from 'src/app/core/models/company.interface';
+import { ContactWithOwner } from 'src/app/core/models/contact.interface';
+import { CompaniesService } from 'src/app/core/services/companies/companies.service';
+import { ContactsService } from 'src/app/core/services/contacts/contacts.service';
+import { ThemeService } from 'src/app/layouts/theme.service';
+import { EditContactComponent } from './edit-contact/edit-contact.component';
 
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css'],
+  providers: [MessageService, ConfirmationService, DialogService],
 })
-export class ContactsComponent {
+export class ContactsComponent implements OnInit {
   searchText = '';
-
-  contacts: Contact[] = [
-    { id: 1, name: 'John Doe', initials: 'JD', company: 'ABC Corp.', email: 'john.doe@abccorp.com', status: 'VIP', lastActivity: 'Mo, 14 Apr 2025', owner: 'EY' },
-    { id: 2, name: 'Anna Smith', initials: 'AS', company: 'ABC Corp.', email: 'anna.smith@abccorp.com', status: 'Lead', lastActivity: 'Vons, 09 Apr 2025', owner: 'JD' },
-    { id: 3, name: 'Mark Brown', initials: 'MB', company: 'Next Tech', email: 'jane-miller@nexttech.com', status: 'Contacted', lastActivity: 'Vons, 09 Apr 2025', owner: 'JM' },
-    { id: 4, name: 'Tom Green', initials: 'TG', company: 'Zen Global', email: 'tom.green@zenglobal.com', status: 'Lead', lastActivity: 'Vons, 09 Apr 2025', owner: 'OM' },
+  themeService: ThemeService;
+  sortOptions = [
+    { label: 'Owner', value: 'owner' },
+    { label: 'Z - A', value: 'desc' },
   ];
+  sortOrder = 'owner';
+  private contactSubject = new BehaviorSubject<ContactWithOwner[]>([]);
+  private companiesSubject = new BehaviorSubject<Company[]>([]);
+  private destroy$ = new Subject<void>();
+  contacts$: Observable<ContactWithOwner[]>;
+  companies$: Observable<Company[]>;
+  constructor(
+    themeService: ThemeService,
+    private contactsService: ContactsService,
+    private companiesService: CompaniesService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private ref: DialogService
+  ) {
+    this.themeService = themeService;
+    this.contacts$ = this.contactSubject.asObservable();
+    this.companies$ = this.companiesSubject.asObservable();
+  }
 
-  get filtered(): Contact[] {
-    return this.contacts.filter(c =>
-      c.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      c.company.toLowerCase().includes(this.searchText.toLowerCase())
+  ngOnInit(): void {
+    this.contacts$ = this.contactsService.getContactsWithOwner().pipe(
+      takeUntil(this.destroy$),
+      map((res) => res),
+    );
+    this.companies$ = this.companiesService.getCompanies().pipe(
+      takeUntil(this.destroy$),
+      map((res) =>
+        res.contents.map((item) => ({
+          ...item,
+          label: item.id,
+          formattedLabel: item.name + ' - ' + item.id,
+        })),
+      ),
     );
   }
 
   statusClass(status: string): string {
     const map: Record<string, string> = {
-      'VIP': 'status-vip',
-      'Lead': 'status-lead',
-      'Contacted': 'status-contacted',
+      VIP: 'status-vip',
+      Lead: 'status-lead',
+      Contacted: 'status-contacted',
       'Long-Term': 'status-longterm',
     };
     return map[status] || '';
@@ -45,11 +70,47 @@ export class ContactsComponent {
 
   statusSeverity(status: string): string {
     const map: Record<string, string> = {
-      'VIP': 'warning',
-      'Lead': 'danger',
-      'Contacted': 'success',
+      VIP: 'warning',
+      Lead: 'danger',
+      Contacted: 'success',
       'Long-Term': 'info',
     };
     return map[status] || 'info';
+  }
+  onRemove(id: number) {
+    this.confirmationService.confirm({
+      message: 'Do you want to delete this record?',
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger p-button-text',
+      rejectButtonStyleClass: 'p-button-text p-button-text',
+      accept: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Confirmed',
+          detail: 'Record deleted',
+        });
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Rejected',
+          detail: 'You have rejected',
+        });
+      },
+    });
+  }
+  addContact() {
+    this.ref.open(EditContactComponent, {
+      width: '60%',
+      header: 'Add Contact'
+    })
+  }
+  editContact(contact: ContactWithOwner) {
+    this.ref.open(EditContactComponent, {
+      width: '60%',
+      header: 'Edit Contact',
+      data: contact
+    })
   }
 }

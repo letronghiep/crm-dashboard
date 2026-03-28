@@ -1,67 +1,92 @@
-import { Component } from '@angular/core';
-
-export interface Deal {
-  id: number;
-  title: string;
-  amount: string;
-  company: string;
-  owner: string;
-  ownerInitials: string;
-  stage: 'Lead' | 'Qualified' | 'Proposal' | 'Negotiation' | 'Won' | 'Lost';
-  progress: number;
-  expectedClose: string;
-  activities: number;
-}
+import { Component, OnInit } from '@angular/core';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+import { BehaviorSubject, catchError, map, Observable, of, Subject, takeUntil } from 'rxjs';
+import { DealWithOwner } from 'src/app/core/models/deal.interface';
+import { DealsService } from 'src/app/core/services/deals/deals.service';
+import { ThemeService } from 'src/app/layouts/theme.service';
+import { EditDealComponent } from './edit-deal/edit-deal.component';
 
 @Component({
   selector: 'app-deals',
   templateUrl: './deals.component.html',
   styleUrls: ['./deals.component.css'],
+  providers: [MessageService, ConfirmationService, DialogService]
 })
-export class DealsComponent {
+export class DealsComponent implements OnInit {
   searchText = '';
-  selectedDeal: Deal | null = null;
-
-  deals: Deal[] = [
-    { id: 1, title: 'CRM Upgrade', amount: '$25,000', company: 'ABC Corp.', owner: 'John Doe', ownerInitials: 'JD', stage: 'Lead', progress: 20, expectedClose: 'May 02', activities: 2 },
-    { id: 2, title: 'Cloud Migration', amount: '$48,000', company: 'NextTech', owner: 'Anna Smith', ownerInitials: 'AS', stage: 'Proposal', progress: 55, expectedClose: 'May 15', activities: 4 },
-    { id: 3, title: 'ERP Integration', amount: '$32,000', company: 'Delta Solutions', owner: 'Oscar M.', ownerInitials: 'OM', stage: 'Negotiation', progress: 75, expectedClose: 'Apr 28', activities: 6 },
-    { id: 4, title: 'Security Audit', amount: '$12,500', company: 'ZenGlobal', owner: 'Jane M.', ownerInitials: 'JM', stage: 'Qualified', progress: 40, expectedClose: 'Jun 01', activities: 1 },
-  ];
-
-  stages = ['Lead', 'Qualified', 'Proposal', 'Negotiation', 'Won'];
-
-  get filtered(): Deal[] {
-    return this.deals.filter(d =>
-      d.title.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      d.company.toLowerCase().includes(this.searchText.toLowerCase())
+  selectedDeal: DealWithOwner | null = null;
+  private destroy$ = new Subject<void>();
+  dealSubject = new BehaviorSubject<DealWithOwner[]>([]);
+  deals$: Observable<DealWithOwner[]>;
+  pagedDeals: DealWithOwner[] = [];
+  allDeals: DealWithOwner[] = [];
+  pageSize = 5;
+  first = 0;
+  themeService: ThemeService;
+  stages = ['lead', 'qualified', 'proposal', 'negotiation', 'closed_won'];
+  constructor(
+    themeService: ThemeService,
+    private dealsService: DealsService,
+    private messageService: MessageService,
+    private dialogService: DialogService,
+  ) {
+    this.themeService = themeService;
+    this.deals$ = this.dealSubject.asObservable();
+  }
+  ngOnInit(): void {
+    this.deals$ = this.dealsService.getDeals().pipe(
+      takeUntil(this.destroy$),
+      map((res) => res.contents),
+      catchError((err) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed to load deals',
+          detail: err.message,
+        });
+        return of([]);
+      }),
     );
+    this.deals$.subscribe(deals => {
+      this.allDeals = deals;
+      this.updatePage();
+    });
   }
 
-  selectDeal(deal: Deal): void {
+  updatePage(): void {
+    this.pagedDeals = this.allDeals.slice(this.first, this.first + this.pageSize);
+  }
+
+  onPageChange(event: any): void {
+    this.first = event.first;
+    this.pageSize = event.rows;
+    this.updatePage();
+    this.selectedDeal = null;
+  }
+  selectDeal(deal: DealWithOwner): void {
     this.selectedDeal = this.selectedDeal?.id === deal.id ? null : deal;
   }
 
   stageSeverity(stage: string): string {
     const map: Record<string, string> = {
-      Lead: 'danger',
-      Qualified: 'warning',
-      Proposal: 'info',
-      Negotiation: 'info',
-      Won: 'success',
-      Lost: 'secondary',
+      lead: 'danger',
+      qualified: 'warning',
+      proposal: 'info',
+      negotiation: 'info',
+      closed_won: 'success',
+      closed_lost: 'secondary',
     };
     return map[stage] || 'info';
   }
 
   stageClass(stage: string): string {
     const map: Record<string, string> = {
-      Lead: 'stage-lead',
-      Qualified: 'stage-qualified',
-      Proposal: 'stage-proposal',
-      Negotiation: 'stage-negotiation',
-      Won: 'stage-won',
-      Lost: 'stage-lost',
+      lead: 'stage-lead',
+      qualified: 'stage-qualified',
+      proposal: 'stage-proposal',
+      negotiation: 'stage-negotiation',
+      closed_won: 'stage-won',
+      closed_lost: 'stage-lost',
     };
     return map[stage] || '';
   }
@@ -69,4 +94,31 @@ export class DealsComponent {
   stageIndex(stage: string): number {
     return this.stages.indexOf(stage);
   }
+
+  stageLabel(stage: string): string {
+    const map: Record<string, string> = {
+      lead: 'Lead',
+      qualified: 'Qualified',
+      proposal: 'Proposal',
+      negotiation: 'Negotiation',
+      closed_won: 'Won',
+      closed_lost: 'Lost',
+    };
+    return map[stage] || stage;
+  }
+  addDeal() {
+    this.dialogService.open(EditDealComponent, {
+      header: 'Add Deal',
+      width: '60%',
+    });
+  }
+
+  editDeal(deal: DealWithOwner) {
+    this.dialogService.open(EditDealComponent, {
+      header: 'Edit Deal',
+      width: '60%',
+      data: deal,
+    });
+  }
 }
+

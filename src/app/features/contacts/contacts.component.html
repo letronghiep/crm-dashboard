@@ -1,75 +1,165 @@
-<div class="page-wrapper">
+<div class="p-6 h-full flex flex-col gap-4 box-border">
   <!-- Header -->
-  <div class="page-header">
-    <h2 class="page-title"><i class="pi pi-users"></i> Contacts</h2>
-    <button pButton label="Add Contact" icon="pi pi-plus" class="p-button-sm"></button>
+  <div class="flex items-center justify-between">
+    <h2
+      class="text-xl font-semibold flex items-center gap-2 m-0 text-slate-800"
+    >
+      <i class="pi pi-users"></i> Contacts
+    </h2>
+    <button
+      pButton
+      label="Add Contact"
+      icon="pi pi-plus"
+      (click)="addContact()"
+      class="flex items-center gap-2 bg-blue-500 text-white py-2 px-3 hover:bg-blue-600 rounded-lg"
+    ></button>
   </div>
 
   <!-- Filters -->
-  <div class="filter-bar">
-    <span class="p-input-icon-left">
-      <i class="pi pi-search"></i>
-      <input pInputText [(ngModel)]="searchText" placeholder="Search..." class="p-inputtext-sm" />
-    </span>
-    <button pButton label="ESAM" icon="pi pi-chevron-down" iconPos="right" class="p-button-outlined p-button-sm p-button-secondary"></button>
-    <button pButton label="A" icon="pi pi-chevron-down" iconPos="right" class="p-button-outlined p-button-sm p-button-secondary"></button>
-    <div class="ml-auto">
-      <button pButton label="Owner" icon="pi pi-chevron-down" iconPos="right" class="p-button-outlined p-button-sm p-button-secondary"></button>
+  <div class="flex items-center gap-2 flex-wrap">
+    <div
+      class="flex items-center border border-gray-200 rounded-xl px-3 w-[320px] shadow-sm hover:shadow transition"
+      [ngClass]="themeService.isDarkMode() ? '' : 'bg-white'"
+    >
+      <i class="pi pi-search text-gray-400 mr-2"></i>
+      <input
+        pInputText
+        [(ngModel)]="searchText"
+        placeholder="Search..."
+        class="w-full outline-none border-none bg-transparent text-sm focus:outline-none"
+      />
+    </div>
+    <div class="">
+      <p-dropdown
+        [options]="sortOptions"
+        [(ngModel)]="sortOrder"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Sort"
+        class="w-full custom-dropdown"
+      >
+      </p-dropdown>
+    </div>
+    <div class="">
+      <p-dropdown
+        [options]="sortOptions"
+        [(ngModel)]="sortOrder"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Sort"
+        class="w-full custom-dropdown"
+      >
+      </p-dropdown>
+    </div>
+    <div class="ml-auto flex gap-2 items-center">
+      <label class="text-sm">Owner</label>
+      <p-dropdown
+        [options]="sortOptions"
+        [(ngModel)]="sortOrder"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Sort"
+        class="w-full custom-dropdown"
+      >
+      </p-dropdown>
     </div>
   </div>
 
   <!-- Table -->
-  <div class="table-container">
-    <p-table
-      [value]="filtered"
-      [rowHover]="true"
-      styleClass="p-datatable-sm contacts-table"
-    >
-      <ng-template pTemplate="header">
-        <tr>
-          <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
-          <th>Name</th>
-          <th>Company</th>
-          <th>Email</th>
-          <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
-          <th>Last Activity</th>
-          <th>Owner</th>
-          <th style="width: 5rem"></th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-contact>
-        <tr>
-          <td><p-tableCheckbox [value]="contact"></p-tableCheckbox></td>
-          <td>
-            <div class="contact-cell">
-              <p-avatar [label]="contact.initials" shape="circle" styleClass="contact-avatar"></p-avatar>
-              <div>
-                <div class="contact-name">{{ contact.name }}</div>
-                <div class="contact-role">{{ contact.company }}</div>
+  <div
+    class="bg-white rounded-xl shadow-sm overflow-auto flex-1 min-h-0"
+  >
+    <ng-container *ngIf="contacts$ | async as contacts">
+      <p-table
+        [value]="contacts"
+        [rowHover]="true"
+        styleClass="p-datatable-sm contacts-table"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>Name</th>
+            <th>Company</th>
+            <th>Email</th>
+            <th pSortableColumn="status">
+              Status <p-sortIcon field="status"></p-sortIcon>
+            </th>
+            <th>Owner</th>
+            <th>Tags</th>
+            <th style="width: 5rem"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-contact>
+          <tr>
+            <td><p-tableCheckbox [value]="contact"></p-tableCheckbox></td>
+            <td>
+              <div class="flex items-center gap-2">
+                <p-avatar
+                  [label]="contact.initials"
+                  shape="circle"
+                  styleClass="contact-avatar"
+                ></p-avatar>
+                <div>
+                  <div class="font-medium text-slate-800 leading-tight">
+                    {{ contact.firstName }} {{ contact.lastName }}
+                  </div>
+                </div>
               </div>
-            </div>
-          </td>
-          <td><a class="company-link">{{ contact.company }}</a></td>
-          <td class="email-cell">{{ contact.email }}</td>
-          <td>
-            <p-tag
-              [value]="contact.status"
-              [severity]="statusSeverity(contact.status)"
-              styleClass="status-tag"
-            ></p-tag>
-          </td>
-          <td class="activity-cell">{{ contact.lastActivity }}</td>
-          <td>
-            <p-avatar [label]="contact.owner" shape="circle" size="normal" styleClass="owner-avatar"></p-avatar>
-          </td>
-          <td>
-            <div class="row-actions">
-              <button pButton icon="pi pi-bell" class="p-button-text p-button-sm p-button-secondary"></button>
-              <button pButton icon="pi pi-chevron-right" class="p-button-text p-button-sm p-button-secondary"></button>
-            </div>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+            </td>
+            <td>
+              <a
+                class="text-blue-600 no-underline text-sm hover:underline cursor-pointer"
+                >{{ contact.company.name }}</a
+              >
+            </td>
+            <td class="text-slate-500 text-sm">{{ contact.email }}</td>
+            <td>
+              <p-tag
+                [value]="contact.status"
+                [severity]="statusSeverity(contact.status)"
+                styleClass="status-tag"
+              ></p-tag>
+            </td>
+            <td>
+              <p-avatar
+                [image]="contact.owner?.avatar"
+                shape="circle"
+                size="normal"
+                styleClass="owner-avatar"
+              ></p-avatar>
+            </td>
+            <td>
+              {{ contact.tags }}
+            </td>
+            <td>
+              <div class="flex items-center gap-1">
+                <button
+                  pTooltip="Edit contact"
+                  pButton
+                  (click)="editContact(contact)"
+                  icon="pi pi-pencil"
+                  class="p-button-text p-button-sm p-button-secondary"
+                ></button>
+                <button
+                  pButton
+                  pTooltip="Remove contact"
+                  (click)="onRemove(contact.id)"
+                  icon="pi pi-trash"
+                  class="p-button-text p-button-sm p-button-secondary"
+                ></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </ng-container>
   </div>
 </div>
+<p-toast />
+<p-confirmDialog />

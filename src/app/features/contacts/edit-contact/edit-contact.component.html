@@ -1,0 +1,237 @@
+<form [formGroup]="contactForm" class="p-6 space-y-5">
+  <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+    <!-- First Name -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        First Name <span class="text-red-400">*</span>
+      </label>
+      <input
+        pInputText
+        formControlName="firstName"
+        placeholder="John"
+        class="w-full"
+        [class.p-invalid]="isInvalid('firstName')"
+      />
+      <small
+        class="p-error"
+        *ngIf="f('firstName')?.errors?.['required'] && f('firstName')?.touched"
+      >
+        First name is required.
+      </small>
+      <small class="p-error" *ngIf="f('firstName')?.errors?.['maxlength']">
+        Maximum 255 characters.
+      </small>
+      <small class="p-error" *ngIf="f('firstName')?.errors?.['pattern']">
+        No leading or trailing spaces.
+      </small>
+    </div>
+
+    <!-- Last Name -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Last Name <span class="text-red-400">*</span>
+      </label>
+      <input
+        pInputText
+        formControlName="lastName"
+        placeholder="Doe"
+        class="w-full"
+        [class.p-invalid]="isInvalid('lastName')"
+      />
+      <small
+        class="p-error"
+        *ngIf="f('lastName')?.errors?.['required'] && f('lastName')?.touched"
+      >
+        Last name is required.
+      </small>
+      <small class="p-error" *ngIf="f('lastName')?.errors?.['maxlength']">
+        Maximum 255 characters.
+      </small>
+      <small class="p-error" *ngIf="f('lastName')?.errors?.['pattern']">
+        No leading or trailing spaces.
+      </small>
+    </div>
+
+    <!-- Email -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Email <span class="text-red-400">*</span>
+      </label>
+      <input
+        pInputText
+        formControlName="email"
+        placeholder="john@example.com"
+        class="w-full"
+        [class.p-invalid]="isInvalid('email')"
+      />
+      <small
+        class="p-error"
+        *ngIf="f('email')?.errors?.['required'] && f('email')?.touched"
+      >
+        Email is required.
+      </small>
+      <small class="p-error" *ngIf="f('email')?.errors?.['email']">
+        Invalid email format.
+      </small>
+    </div>
+
+    <!-- Phone -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Phone <span class="text-red-400">*</span>
+      </label>
+      <input
+        pInputText
+        formControlName="phone"
+        placeholder="+1 202-555-0101"
+        class="w-full"
+        [class.p-invalid]="isInvalid('phone')"
+      />
+      <small
+        class="p-error"
+        *ngIf="f('phone')?.errors?.['required'] && f('phone')?.touched"
+      >
+        Phone is required.
+      </small>
+      <small class="p-error" *ngIf="f('phone')?.errors?.['pattern']">
+        Invalid phone number format.
+      </small>
+    </div>
+
+    <!-- Position -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Position <span class="text-red-400">*</span>
+      </label>
+      <input
+        pInputText
+        formControlName="position"
+        placeholder="CEO"
+        class="w-full"
+        [class.p-invalid]="isInvalid('position')"
+      />
+      <small
+        class="p-error"
+        *ngIf="f('position')?.errors?.['required'] && f('position')?.touched"
+      >
+        Position is required.
+      </small>
+    </div>
+
+    <!-- LinkedIn -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">LinkedIn</label>
+      <input
+        pInputText
+        formControlName="linkedin"
+        placeholder="https://linkedin.com/in/..."
+        class="w-full"
+      />
+    </div>
+
+    <!-- Company -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Company <span class="text-red-400">*</span>
+      </label>
+      <p-dropdown
+        [options]="companies"
+        formControlName="companyId"
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Select company"
+        styleClass="w-full"
+        [class.p-invalid]="isInvalid('companyId')"
+      >
+      </p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="f('companyId')?.errors?.['required'] && f('companyId')?.touched"
+      >
+        Company is required.
+      </small>
+    </div>
+
+    <!-- Owner -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Owner <span class="text-red-400">*</span>
+      </label>
+      <p-dropdown
+        [options]="employees"
+        [formControlName]="'ownerId'"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="5" 
+        optionLabel="name"
+        optionValue="id"
+        placeholder="Assign owner"
+        styleClass="w-full"
+        [class.p-invalid]="isInvalid('ownerId')"
+      >
+      </p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="f('ownerId')?.errors?.['required'] && f('ownerId')?.touched"
+      >
+        Owner is required.
+      </small>
+    </div>
+
+    <!-- Status -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Status <span class="text-red-400">*</span>
+      </label>
+      <p-dropdown
+        [options]="statusOptions"
+        formControlName="status"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Select status"
+        styleClass="w-full"
+        [class.p-invalid]="isInvalid('status')"
+      >
+      </p-dropdown>
+      <small
+        class="p-error"
+        *ngIf="f('status')?.errors?.['required'] && f('status')?.touched"
+      >
+        Status is required.
+      </small>
+    </div>
+
+    <!-- Tags -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">Tags</label>
+      <p-multiSelect
+        [options]="tagOptions"
+        formControlName="tags"
+        optionLabel="name"
+        optionValue="name"
+        placeholder="Select tags"
+        styleClass="w-full"
+      >
+      </p-multiSelect>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
+    <button
+      pButton
+      label="Cancel"
+      class="p-button-text p-button-secondary px-4 py-2 rounded-lg"
+      type="button"
+      (click)="onClose()"
+    ></button>
+    <button
+      pButton
+      label="Save"
+      icon="pi pi-check"
+      [disabled]="contactForm.invalid"
+      class="p-button-primary px-4 py-2 rounded-lg shadow"
+      type="button"
+      (click)="onSave()"
+    ></button>
+  </div>
+</form>

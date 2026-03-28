@@ -1,116 +1,166 @@
-<div class="page-wrapper">
+<div class="p-6 h-full flex flex-col gap-4 box-border">
+
   <!-- Header -->
-  <div class="page-header">
-    <h2 class="page-title"><i class="pi pi-briefcase"></i> Deals</h2>
-    <div class="header-actions">
-      <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input pInputText [(ngModel)]="searchText" placeholder="Search deals..." class="p-inputtext-sm" />
-      </span>
-      <button pButton label="Add Deal" icon="pi pi-plus" class="p-button-sm"></button>
-    </div>
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold flex items-center gap-2 m-0 text-slate-800">
+      <i class="pi pi-briefcase"></i> Deals
+    </h2>
+    <button pButton icon="pi pi-plus" label="Add Deal"
+      class="bg-blue-500 text-white px-3 py-2 rounded-lg hover:bg-blue-600"
+      (click)="addDeal()">
+    </button>
   </div>
 
-  <div class="content-area">
+  <!-- Search -->
+  <div class="flex items-center border border-gray-200 rounded-xl px-3 w-80 shadow-sm bg-white hover:shadow transition">
+    <i class="pi pi-search text-gray-400 mr-2"></i>
+    <input pInputText [(ngModel)]="searchText" placeholder="Search deals..."
+      class="w-full outline-none border-none bg-transparent text-sm py-2" />
+  </div>
+
+  <!-- Content -->
+  <div class="flex gap-4 flex-1 min-h-0">
+
     <!-- Deals List -->
-    <div class="deals-list" [class.shrink]="selectedDeal">
-      <div
-        *ngFor="let deal of filtered"
-        class="deal-card-wrapper"
-        [class.deal-active]="selectedDeal?.id === deal.id"
-        (click)="selectDeal(deal)"
-      >
-        <p-card styleClass="deal-card">
-          <ng-template pTemplate="header">
-            <div class="deal-card-header">
-              <p-avatar icon="pi pi-briefcase" shape="square" styleClass="deal-avatar"></p-avatar>
-              <div class="deal-info">
-                <div class="deal-title">{{ deal.title }}</div>
-                <div class="deal-amount">{{ deal.amount }}</div>
+    <div class="flex flex-col gap-3 overflow-y-auto transition-all duration-300"
+      [class]="selectedDeal ? 'w-[55%]' : 'w-full'">
+      <div *ngFor="let deal of pagedDeals"
+          class="bg-white rounded-xl shadow-sm border border-transparent cursor-pointer hover:shadow-md transition-all duration-200 p-4"
+          [class.border-blue-400]="selectedDeal?.id === deal.id"
+          (click)="selectDeal(deal)">
+
+          <!-- Card Header -->
+          <div class="flex items-start gap-3 mb-3">
+            <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-blue-500 flex-shrink-0">
+              <i class="pi pi-briefcase"></i>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-slate-800 text-sm truncate">{{ deal.title }}</div>
+              <div class="text-blue-600 font-bold text-base">
+                {{ deal.value | currency: deal.currency : 'symbol' : '1.0-0' }}
               </div>
-              <button pButton label="Edit" class="p-button-outlined p-button-sm p-button-secondary" (click)="$event.stopPropagation()"></button>
             </div>
-          </ng-template>
-
-          <div class="deal-body">
-            <div class="deal-company">
-              <i class="pi pi-building"></i>
-              <a class="company-link">{{ deal.company }}</a>
-              <span class="dot"></span>
-              <span class="deal-email">contact&#64;{{ deal.company | lowercase }}.com</span>
-            </div>
-
-            <div class="deal-stage-row">
-              <span class="stage-label">Stage</span>
-              <p-progressBar [value]="deal.progress" [showValue]="false" styleClass="deal-progress"></p-progressBar>
-              <p-tag [value]="deal.stage" [severity]="stageSeverity(deal.stage)" styleClass="stage-tag"></p-tag>
-              <span class="stage-pct">{{ deal.progress }}%</span>
-            </div>
-
-            <div class="deal-footer">
-              <span class="close-date"><i class="pi pi-calendar"></i> Expected Close: {{ deal.expectedClose }}</span>
-              <span class="activities-badge"><i class="pi pi-history"></i> {{ deal.activities }} Activities</span>
-            </div>
+            <button pButton label="Edit" (click)="$event.stopPropagation(); editDeal(deal)"
+              class="p-button-outlined p-button-sm p-button-secondary text-xs px-3 py-1 ml-auto flex-shrink-0">
+            </button>
           </div>
-        </p-card>
-      </div>
+
+          <!-- Company -->
+          <div class="flex items-center gap-2 text-sm text-slate-500 mb-3">
+            <i class="pi pi-building text-xs"></i>
+            <span class="text-blue-500 hover:underline cursor-pointer">{{ deal.company?.name }}</span>
+          </div>
+
+          <!-- Stage progress -->
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-xs text-slate-400 w-10 flex-shrink-0">Stage</span>
+            <p-progressBar [value]="deal.probability" [showValue]="false"
+              styleClass="deal-progress flex-1" [style]="{'height': '6px'}">
+            </p-progressBar>
+            <p-tag [value]="stageLabel(deal.stage)" [severity]="stageSeverity(deal.stage)"
+              styleClass="stage-tag text-xs">
+            </p-tag>
+            <span class="text-xs text-slate-500 w-8 text-right">{{ deal.probability }}%</span>
+          </div>
+
+          <!-- Footer -->
+          <div class="flex items-center gap-1 text-xs text-slate-400">
+            <i class="pi pi-calendar"></i>
+            <span>Expected Close: {{ deal.expectedCloseDate | date: 'MMM d' }}</span>
+          </div>
+        </div>
+      <p-paginator
+        [rows]="pageSize"
+        [totalRecords]="allDeals.length"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [first]="first"
+        (onPageChange)="onPageChange($event)"
+        styleClass="border-t border-gray-100 mt-2">
+      </p-paginator>
     </div>
 
     <!-- Detail Panel -->
-    <div class="detail-panel" *ngIf="selectedDeal">
-      <div class="detail-header">
-        <p-avatar [label]="selectedDeal.ownerInitials" shape="circle" size="large" styleClass="detail-owner-avatar"></p-avatar>
-        <div class="detail-header-info">
-          <h3>{{ selectedDeal.owner }}</h3>
-          <span class="detail-sub"><i class="pi pi-building"></i> {{ selectedDeal.company }}</span>
+    <div *ngIf="selectedDeal"
+      class="w-[45%] bg-white rounded-xl shadow-sm flex flex-col overflow-hidden flex-shrink-0">
+
+      <!-- Detail Header -->
+      <div class="flex items-center gap-3 p-4 border-b border-gray-100">
+        <p-avatar [label]="selectedDeal.ownerInitials" shape="circle" size="large"
+          styleClass="bg-indigo-100 text-indigo-600 font-bold flex-shrink-0">
+        </p-avatar>
+        <div class="flex-1 min-w-0">
+          <h3 class="m-0 text-base font-semibold text-slate-800">{{ selectedDeal.owner?.name }}</h3>
+          <span class="text-xs text-slate-400 flex items-center gap-1">
+            <i class="pi pi-building"></i> {{ selectedDeal.company?.name }}
+          </span>
         </div>
-        <button pButton label="Edit" class="p-button-outlined p-button-sm p-button-secondary" (click)="$event.stopPropagation()"></button>
-        <button pButton icon="pi pi-times" class="p-button-text p-button-sm p-button-secondary" (click)="selectedDeal = null"></button>
+        <button pButton label="Edit"
+          class="p-button-outlined p-button-sm p-button-secondary text-xs px-3 py-1">
+        </button>
+        <button pButton icon="pi pi-times"
+          class="p-button-text p-button-sm p-button-secondary"
+          (click)="selectedDeal = null">
+        </button>
       </div>
 
-      <p-tabView styleClass="detail-tabs">
+      <!-- Tabs -->
+      <p-tabView styleClass="detail-tabs flex-1 overflow-hidden flex flex-col">
         <p-tabPanel header="Overview">
-          <div class="detail-body">
+          <div class="p-4 flex flex-col gap-4 overflow-y-auto">
+
             <!-- Company card -->
-            <div class="deal-detail-card">
-              <div class="deal-detail-row">
-                <p-avatar icon="pi pi-briefcase" shape="square" styleClass="deal-avatar sm"></p-avatar>
-                <div>
-                  <div class="deal-detail-title">{{ selectedDeal.company }}</div>
-                  <div class="deal-detail-sub">contact&#64;{{ selectedDeal.company | lowercase }}.com</div>
-                  <div class="deal-detail-sub">+1 456-6780</div>
-                </div>
+            <div class="border border-gray-100 rounded-lg p-3 flex items-center gap-3">
+              <div class="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center text-blue-500 flex-shrink-0">
+                <i class="pi pi-briefcase text-sm"></i>
+              </div>
+              <div>
+                <div class="font-medium text-sm text-slate-800">{{ selectedDeal.company?.name }}</div>
+                <div class="text-xs text-slate-400">{{ selectedDeal.company?.website }}</div>
+                <div class="text-xs text-slate-400">{{ selectedDeal.company?.phoneNo }}</div>
               </div>
             </div>
 
-            <!-- Stage progress -->
-            <div class="stage-section">
-              <div class="stage-section-label">Stage</div>
-              <div class="stage-steps">
+            <!-- Stage stepper -->
+            <div>
+              <div class="text-xs font-medium text-slate-500 mb-2">Stage</div>
+              <div class="flex items-center gap-1 mb-1">
                 <ng-container *ngFor="let s of stages; let i = index; let last = last">
-                  <div class="stage-step-dot" [class.active]="i <= stageIndex(selectedDeal.stage)"></div>
-                  <div *ngIf="!last" class="stage-step-line" [class.active]="i < stageIndex(selectedDeal.stage)"></div>
+                  <div class="w-3 h-3 rounded-full flex-shrink-0 transition-colors"
+                    [class]="i <= stageIndex(selectedDeal.stage) ? 'bg-blue-500' : 'bg-gray-200'">
+                  </div>
+                  <div *ngIf="!last" class="h-0.5 flex-1 transition-colors"
+                    [class]="i < stageIndex(selectedDeal.stage) ? 'bg-blue-500' : 'bg-gray-200'">
+                  </div>
                 </ng-container>
               </div>
-              <div class="stage-labels-row">
-                <span *ngFor="let s of stages" class="stage-step-label">{{ s }}</span>
+              <div class="flex justify-between">
+                <span *ngFor="let s of stages" class="text-[10px] text-slate-400">{{ s }}</span>
               </div>
-              <div class="stage-pct-row">
-                <p-tag [value]="selectedDeal.stage" [severity]="stageSeverity(selectedDeal.stage)" styleClass="detail-stage-tag"></p-tag>
-                <span class="stage-pct-val">{{ selectedDeal.progress }}%</span>
+              <div class="flex items-center gap-2 mt-2">
+                <p-tag [value]="stageLabel(selectedDeal.stage)" [severity]="stageSeverity(selectedDeal.stage)"
+                  styleClass="stage-tag text-xs">
+                </p-tag>
+                <span class="text-sm font-semibold text-slate-700">{{ selectedDeal.probability }}%</span>
               </div>
             </div>
 
-            <p-divider></p-divider>
+            <p-divider styleClass="my-0"></p-divider>
 
-            <div class="detail-row">
-              <i class="pi pi-calendar"></i>
-              <span>Expected Close: <strong>{{ selectedDeal.expectedClose }}</strong></span>
+            <!-- Close date -->
+            <div class="flex items-center gap-2 text-sm text-slate-600">
+              <i class="pi pi-calendar text-slate-400"></i>
+              <span>Expected Close:
+                <strong>{{ selectedDeal.expectedCloseDate | date: 'MMM d' }}</strong>
+              </span>
             </div>
 
-            <div class="detail-actions">
-              <button pButton label="Cancel" class="p-button-outlined p-button-secondary flex-1" (click)="selectedDeal = null"></button>
-              <button pButton label="Save Event" class="flex-1"></button>
+            <!-- Actions -->
+            <div class="flex gap-2 mt-auto pt-2">
+              <button pButton label="Cancel"
+                class="p-button-outlined p-button-secondary flex-1"
+                (click)="selectedDeal = null">
+              </button>
+              <button pButton label="Save Event" class="flex-1 bg-blue-500 text-white"></button>
             </div>
           </div>
         </p-tabPanel>
@@ -118,5 +168,9 @@
         <p-tabPanel header="Notes"></p-tabPanel>
       </p-tabView>
     </div>
+
   </div>
 </div>
+
+<p-toast />
+<p-confirmDialog />

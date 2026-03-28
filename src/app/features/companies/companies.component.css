@@ -68,18 +68,6 @@
   display: flex;
   justify-content: center;
 }
-/* ::ng-deep .companies-table .p-datatable-tbody > tr.p-highlight > td,
-::ng-deep .companies-table .p-datatable-tbody > tr.row-selected > td {
-  background: #eff6ff;
-} */
-/* ::ng-deep .companies-table .p-sortable-column:focus {
-  box-shadow: none;
-} */
-/* ::ng-deep .companies-table .p-sortable-column:not(.p-highlight):hover {
-  background: white;
-  color: #374151;
-} */
-
 /* ===== Company cell ===== */
 .company-cell {
   display: flex;

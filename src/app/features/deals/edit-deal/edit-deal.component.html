@@ -1,0 +1,143 @@
+<form [formGroup]="dealForm" class="p-6 space-y-5">
+  <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+
+    <!-- Title -->
+    <div class="flex flex-col gap-1 col-span-2">
+      <label class="text-sm font-medium text-gray-600">
+        Title <span class="text-red-400">*</span>
+      </label>
+      <input pInputText formControlName="title" placeholder="CRM Upgrade"
+        class="w-full" [class.p-invalid]="isInvalid('title')" />
+      <small class="p-error" *ngIf="f('title')?.errors?.['required'] && f('title')?.touched">
+        Title is required.
+      </small>
+      <small class="p-error" *ngIf="f('title')?.errors?.['maxlength']">
+        Maximum 255 characters.
+      </small>
+      <small class="p-error" *ngIf="f('title')?.errors?.['pattern']">
+        No leading or trailing spaces.
+      </small>
+    </div>
+
+    <!-- Value -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Value <span class="text-red-400">*</span>
+      </label>
+      <p-inputNumber formControlName="value" placeholder="25000"
+        [min]="0" styleClass="w-full" [class.p-invalid]="isInvalid('value')">
+      </p-inputNumber>
+      <small class="p-error" *ngIf="f('value')?.errors?.['required'] && f('value')?.touched">
+        Value is required.
+      </small>
+      <small class="p-error" *ngIf="f('value')?.errors?.['min']">
+        Value must be at least 0.
+      </small>
+    </div>
+
+    <!-- Currency -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Currency <span class="text-red-400">*</span>
+      </label>
+      <p-dropdown [options]="currencyOptions" formControlName="currency"
+        optionLabel="label" optionValue="value"
+        placeholder="Select currency" styleClass="w-full"
+        [class.p-invalid]="isInvalid('currency')">
+      </p-dropdown>
+      <small class="p-error" *ngIf="f('currency')?.errors?.['required'] && f('currency')?.touched">
+        Currency is required.
+      </small>
+    </div>
+
+    <!-- Company -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Company <span class="text-red-400">*</span>
+      </label>
+      <p-dropdown [options]="companies" formControlName="companyId"
+        optionLabel="name" optionValue="id"
+        placeholder="Select company" styleClass="w-full"
+        [class.p-invalid]="isInvalid('companyId')">
+      </p-dropdown>
+      <small class="p-error" *ngIf="f('companyId')?.errors?.['required'] && f('companyId')?.touched">
+        Company is required.
+      </small>
+    </div>
+
+    <!-- Owner -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Owner <span class="text-red-400">*</span>
+      </label>
+      <p-dropdown [options]="employees" formControlName="ownerId"
+        optionLabel="name" optionValue="id"
+        placeholder="Assign owner" styleClass="w-full"
+        [class.p-invalid]="isInvalid('ownerId')">
+      </p-dropdown>
+      <small class="p-error" *ngIf="f('ownerId')?.errors?.['required'] && f('ownerId')?.touched">
+        Owner is required.
+      </small>
+    </div>
+
+    <!-- Stage -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Stage <span class="text-red-400">*</span>
+      </label>
+      <p-dropdown [options]="stageOptions" formControlName="stage"
+        optionLabel="label" optionValue="value"
+        placeholder="Select stage" styleClass="w-full"
+        [class.p-invalid]="isInvalid('stage')">
+      </p-dropdown>
+      <small class="p-error" *ngIf="f('stage')?.errors?.['required'] && f('stage')?.touched">
+        Stage is required.
+      </small>
+    </div>
+
+    <!-- Probability -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Probability (%) <span class="text-red-400">*</span>
+      </label>
+      <p-inputNumber formControlName="probability" placeholder="50"
+        [min]="0" [max]="100" [suffix]="'%'" styleClass="w-full"
+        [class.p-invalid]="isInvalid('probability')">
+      </p-inputNumber>
+      <small class="p-error" *ngIf="f('probability')?.errors?.['required'] && f('probability')?.touched">
+        Probability is required.
+      </small>
+      <small class="p-error" *ngIf="f('probability')?.errors?.['min'] || f('probability')?.errors?.['max']">
+        Must be between 0 and 100.
+      </small>
+    </div>
+
+    <!-- Expected Close Date -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">
+        Expected Close Date <span class="text-red-400">*</span>
+      </label>
+      <p-calendar formControlName="expectedCloseDate" dateFormat="dd/mm/yy"
+        placeholder="dd/mm/yyyy" styleClass="w-full"
+        [class.p-invalid]="isInvalid('expectedCloseDate')">
+      </p-calendar>
+      <small class="p-error" *ngIf="f('expectedCloseDate')?.errors?.['required'] && f('expectedCloseDate')?.touched">
+        Expected close date is required.
+      </small>
+    </div>
+
+  </div>
+
+  <!-- Actions -->
+  <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
+    <button pButton label="Cancel" type="button"
+      class="p-button-text p-button-secondary px-4 py-2 rounded-lg"
+      (click)="onClose()">
+    </button>
+    <button pButton label="Save" icon="pi pi-check" type="button"
+      class="p-button-primary px-4 py-2 rounded-lg shadow"
+      [disabled]="dealForm.invalid"
+      (click)="onSave()">
+    </button>
+  </div>
+</form>

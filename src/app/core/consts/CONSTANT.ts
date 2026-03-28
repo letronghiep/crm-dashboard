@@ -4,5 +4,7 @@ export const API_CONSTANT = {
   dashboardOverview: 'dashboard/overview',
   nearestEvent: 'nearest-event',
   employees: 'employees',
-  companies: 'companies'
+  companies: 'companies',
+  contacts: 'contacts',
+  deals: 'deals'
 };
