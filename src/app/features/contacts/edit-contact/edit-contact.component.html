@@ -3,12 +3,12 @@
     <!-- First Name -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">
-        First Name <span class="text-red-400">*</span>
+        {{ 'contacts.firstName' | translate }} <span class="text-red-400">*</span>
       </label>
       <input
         pInputText
         formControlName="firstName"
-        placeholder="John"
+        [placeholder]="'contacts.firstNamePlaceholder' | translate"
         class="w-full"
         [class.p-invalid]="isInvalid('firstName')"
       />
@@ -16,25 +16,25 @@
         class="p-error"
         *ngIf="f('firstName')?.errors?.['required'] && f('firstName')?.touched"
       >
-        First name is required.
+        {{ 'contacts.firstNameRequired' | translate }}
       </small>
       <small class="p-error" *ngIf="f('firstName')?.errors?.['maxlength']">
-        Maximum 255 characters.
+        {{ 'contacts.maxLength' | translate }}
       </small>
       <small class="p-error" *ngIf="f('firstName')?.errors?.['pattern']">
-        No leading or trailing spaces.
+        {{ 'contacts.noSpaces' | translate }}
       </small>
     </div>
 
     <!-- Last Name -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">
-        Last Name <span class="text-red-400">*</span>
+        {{ 'contacts.lastName' | translate }} <span class="text-red-400">*</span>
       </label>
       <input
         pInputText
         formControlName="lastName"
-        placeholder="Doe"
+        [placeholder]="'contacts.lastNamePlaceholder' | translate"
         class="w-full"
         [class.p-invalid]="isInvalid('lastName')"
       />
@@ -42,25 +42,25 @@
         class="p-error"
         *ngIf="f('lastName')?.errors?.['required'] && f('lastName')?.touched"
       >
-        Last name is required.
+        {{ 'contacts.lastNameRequired' | translate }}
       </small>
       <small class="p-error" *ngIf="f('lastName')?.errors?.['maxlength']">
-        Maximum 255 characters.
+        {{ 'contacts.maxLength' | translate }}
       </small>
       <small class="p-error" *ngIf="f('lastName')?.errors?.['pattern']">
-        No leading or trailing spaces.
+        {{ 'contacts.noSpaces' | translate }}
       </small>
     </div>
 
     <!-- Email -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">
-        Email <span class="text-red-400">*</span>
+        {{ 'contacts.email' | translate }} <span class="text-red-400">*</span>
       </label>
       <input
         pInputText
         formControlName="email"
-        placeholder="john@example.com"
+        [placeholder]="'contacts.emailPlaceholder' | translate"
         class="w-full"
         [class.p-invalid]="isInvalid('email')"
       />
@@ -68,22 +68,22 @@
         class="p-error"
         *ngIf="f('email')?.errors?.['required'] && f('email')?.touched"
       >
-        Email is required.
+        {{ 'contacts.emailRequired' | translate }}
       </small>
       <small class="p-error" *ngIf="f('email')?.errors?.['email']">
-        Invalid email format.
+        {{ 'contacts.emailInvalid' | translate }}
       </small>
     </div>
 
     <!-- Phone -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">
-        Phone <span class="text-red-400">*</span>
+        {{ 'contacts.phone' | translate }} <span class="text-red-400">*</span>
       </label>
       <input
         pInputText
         formControlName="phone"
-        placeholder="+1 202-555-0101"
+        [placeholder]="'contacts.phonePlaceholder' | translate"
         class="w-full"
         [class.p-invalid]="isInvalid('phone')"
       />
@@ -91,22 +91,22 @@
         class="p-error"
         *ngIf="f('phone')?.errors?.['required'] && f('phone')?.touched"
       >
-        Phone is required.
+        {{ 'contacts.phoneRequired' | translate }}
       </small>
       <small class="p-error" *ngIf="f('phone')?.errors?.['pattern']">
-        Invalid phone number format.
+        {{ 'contacts.phoneInvalid' | translate }}
       </small>
     </div>
 
     <!-- Position -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">
-        Position <span class="text-red-400">*</span>
+        {{ 'contacts.position' | translate }} <span class="text-red-400">*</span>
       </label>
       <input
         pInputText
         formControlName="position"
-        placeholder="CEO"
+        [placeholder]="'contacts.positionPlaceholder' | translate"
         class="w-full"
         [class.p-invalid]="isInvalid('position')"
       />
@@ -114,17 +114,17 @@
         class="p-error"
         *ngIf="f('position')?.errors?.['required'] && f('position')?.touched"
       >
-        Position is required.
+        {{ 'contacts.positionRequired' | translate }}
       </small>
     </div>
 
     <!-- LinkedIn -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">LinkedIn</label>
+      <label class="text-sm font-medium text-gray-600">{{ 'contacts.linkedin' | translate }}</label>
       <input
         pInputText
         formControlName="linkedin"
-        placeholder="https://linkedin.com/in/..."
+        [placeholder]="'contacts.linkedinPlaceholder' | translate"
         class="w-full"
       />
     </div>
@@ -132,14 +132,14 @@
     <!-- Company -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">
-        Company <span class="text-red-400">*</span>
+        {{ 'contacts.company' | translate }} <span class="text-red-400">*</span>
       </label>
       <p-dropdown
         [options]="companies"
         formControlName="companyId"
         optionLabel="name"
         optionValue="id"
-        placeholder="Select company"
+        [placeholder]="'contacts.companyPlaceholder' | translate"
         styleClass="w-full"
         [class.p-invalid]="isInvalid('companyId')"
       >
@@ -148,14 +148,14 @@
         class="p-error"
         *ngIf="f('companyId')?.errors?.['required'] && f('companyId')?.touched"
       >
-        Company is required.
+        {{ 'contacts.companyRequired' | translate }}
       </small>
     </div>
 
     <!-- Owner -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">
-        Owner <span class="text-red-400">*</span>
+        {{ 'contacts.owner' | translate }} <span class="text-red-400">*</span>
       </label>
       <p-dropdown
         [options]="employees"
@@ -164,7 +164,7 @@
         [virtualScrollItemSize]="5" 
         optionLabel="name"
         optionValue="id"
-        placeholder="Assign owner"
+        [placeholder]="'contacts.ownerPlaceholder' | translate"
         styleClass="w-full"
         [class.p-invalid]="isInvalid('ownerId')"
       >
@@ -173,21 +173,21 @@
         class="p-error"
         *ngIf="f('ownerId')?.errors?.['required'] && f('ownerId')?.touched"
       >
-        Owner is required.
+        {{ 'contacts.ownerRequired' | translate }}
       </small>
     </div>
 
     <!-- Status -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">
-        Status <span class="text-red-400">*</span>
+        {{ 'contacts.status' | translate }} <span class="text-red-400">*</span>
       </label>
       <p-dropdown
         [options]="statusOptions"
         formControlName="status"
         optionLabel="label"
         optionValue="value"
-        placeholder="Select status"
+        [placeholder]="'contacts.statusPlaceholder' | translate"
         styleClass="w-full"
         [class.p-invalid]="isInvalid('status')"
       >
@@ -196,19 +196,19 @@
         class="p-error"
         *ngIf="f('status')?.errors?.['required'] && f('status')?.touched"
       >
-        Status is required.
+        {{ 'contacts.statusRequired' | translate }}
       </small>
     </div>
 
     <!-- Tags -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Tags</label>
+      <label class="text-sm font-medium text-gray-600">{{ 'contacts.tags' | translate }}</label>
       <p-multiSelect
         [options]="tagOptions"
         formControlName="tags"
         optionLabel="name"
         optionValue="name"
-        placeholder="Select tags"
+        [placeholder]="'contacts.tagsPlaceholder' | translate"
         styleClass="w-full"
       >
       </p-multiSelect>
@@ -219,14 +219,14 @@
   <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
     <button
       pButton
-      label="Cancel"
+      [label]="'contacts.cancel' | translate"
       class="p-button-text p-button-secondary px-4 py-2 rounded-lg"
       type="button"
       (click)="onClose()"
     ></button>
     <button
       pButton
-      label="Save"
+      [label]="'contacts.save' | translate"
       icon="pi pi-check"
       [disabled]="contactForm.invalid"
       class="p-button-primary px-4 py-2 rounded-lg shadow"

@@ -12,9 +12,11 @@
             [class.text-slate-300]="(isDarkMode$ | async)!"
             [class.text-slate-500]="!(isDarkMode$ | async)!"
           >
-            Welcome back, {{ name }}!
+            {{ "common.title" | translate }}, {{ name }}!
           </h2>
-          <h1 class="text-2xl font-bold mt-1">Dashboard</h1>
+          <h1 class="text-2xl font-bold mt-1">
+            {{ "sidebar.dashboard" | translate }}
+          </h1>
         </div>
 
         <section *ngIf="adminData$ | async as adminData">
@@ -32,7 +34,7 @@
             <skeleton-loading></skeleton-loading>
           </ng-container>
           <ng-template #loaded>
-            <div>No data available</div>
+            <div>{{ "common.no_data" | translate }}</div>
           </ng-template>
         </section>
         <router-outlet></router-outlet>
@@ -64,12 +66,12 @@
           [class.bg-white]="!(isDarkMode$ | async)!"
         >
           <div class="flex items-center justify-between mb-4">
-            <h3 class="font-semibold">Nearest Events</h3>
+            <h3 class="font-semibold">{{ "event.nearest" | translate }}</h3>
             <button
               [routerLink]="['/dashboard/nearest-event']"
               class="text-xs text-blue-500 font-medium"
             >
-              View all
+              {{ "common.view_all" | translate }}
             </button>
           </div>
           <ul class="space-y-3 text-sm">

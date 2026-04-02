@@ -1,14 +1,14 @@
 <div class="page-wrapper">
   <!-- Header -->
   <div class="page-header">
-    <h2 class="page-title"><i class="pi pi-building"></i> Companies</h2>
+    <h2 class="page-title"><i class="pi pi-building"></i> {{ 'companies.title' | translate }}</h2>
     <p-button
       styleClass="flex items-center gap-2 bg-blue-500 text-white py-2 px-3 hover:bg-blue-600 rounded-lg"
       (click)="addCompany()"
     >
       <ng-template pTemplate="content">
         <i class="pi pi-plus"></i>
-        <span>Add Company</span>
+        <span>{{ 'companies.addButton' | translate }}</span>
       </ng-template>
     </p-button>
   </div>
@@ -24,7 +24,7 @@
       <input
         pInputText
         [(ngModel)]="searchText"
-        placeholder="Search..."
+        [placeholder]="'companies.searchPlaceholder' | translate"
         class="w-full outline-none border-none bg-transparent text-sm focus:outline-none"
       />
     </div>
@@ -64,14 +64,14 @@
                 (onChange)="toggleSelectAll($event.checked)"
               ></p-checkbox>
             </th>
-            <th pSortableColumn="name">Company</th>
-            <th pSortableColumn="phoneNo">Phone</th>
-            <th pSortableColumn="size">Size</th>
-            <th>Owner</th>
-            <th pSortableColumn="address">Address</th>
-            <th pSortableColumn="totalDealsValue">Total Deal</th>
-            <th>Tags</th>
-            <th style="width: 3rem">Actions</th>
+            <th pSortableColumn="name">{{ 'companies.columnCompany' | translate }}</th>
+            <th pSortableColumn="phoneNo">{{ 'companies.columnPhone' | translate }}</th>
+            <th pSortableColumn="size">{{ 'companies.columnSize' | translate }}</th>
+            <th>{{ 'companies.columnOwner' | translate }}</th>
+            <th pSortableColumn="address">{{ 'companies.columnAddress' | translate }}</th>
+            <th pSortableColumn="totalDealsValue">{{ 'companies.columnTotalDeal' | translate }}</th>
+            <th>{{ 'companies.columnTags' | translate }}</th>
+            <th style="width: 3rem">{{ 'companies.columnActions' | translate }}</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-company>
@@ -129,12 +129,12 @@
             <td (click)="$event.stopPropagation()">
               <div class="flex items-center gap-2 cursor-pointer">
                 <i
-                  pTooltip="Edit company"
+                  [pTooltip]="'companies.editTooltip' | translate"
                   class="pi pi-pencil"
                   (click)="editCompany(company)"
                 ></i>
                 <i
-                  pTooltip="Remove company"
+                  [pTooltip]="'companies.removeTooltip' | translate"
                   class="pi pi-trash"
                   (click)="removeCompany(company.id)"
                 ></i>
@@ -168,7 +168,7 @@
       </div>
 
       <p-tabView styleClass="detail-tabs">
-        <p-tabPanel header="Overview">
+        <p-tabPanel [header]="'companies.tabOverview' | translate">
           <div class="detail-body">
             <div class="detail-row">
               <i class="pi pi-tag"></i> {{ selectedCompany.industry }}
@@ -194,7 +194,7 @@
             <p-divider></p-divider>
 
             <div class="detail-section-title">
-              <span>Contacts</span>
+              <span>{{ 'companies.tabContacts' | translate }}</span>
               <span class="p-badge p-badge-info">{{
                 selectedCompany.phoneNo
               }}</span>
@@ -218,8 +218,8 @@
             </div>
           </div>
         </p-tabPanel>
-        <p-tabPanel header="Contacts"></p-tabPanel>
-        <p-tabPanel header="Activities"></p-tabPanel>
+        <p-tabPanel [header]="'companies.tabContacts' | translate"></p-tabPanel>
+        <p-tabPanel [header]="'companies.tabActivities' | translate"></p-tabPanel>
       </p-tabView>
     </div>
   </div>

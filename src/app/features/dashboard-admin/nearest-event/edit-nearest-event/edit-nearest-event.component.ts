@@ -118,7 +118,7 @@ export class EditNearestEventComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.title = 'Edit Event';
+      this.title = 'event.edit_event';
       this.dashboardAdminService
         .getNearestEventItem(id)
         .pipe(
@@ -158,7 +158,7 @@ export class EditNearestEventComponent implements OnInit, OnDestroy {
           }
         });
     } else {
-      this.title = 'Add Event';
+      this.title = 'event.add_event';
     }
   }
 

@@ -23,6 +23,7 @@ import { WorkloadProjectComponent } from './components/workload-project/workload
 import { ToCapitalizePipe } from './pipes/to-capitalize.pipe';
 import { MenuModule } from 'primeng/menu';
 import { InputTextModule } from 'primeng/inputtext';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations: [
     SidebarComponent,
@@ -52,6 +53,7 @@ import { InputTextModule } from 'primeng/inputtext';
     TabViewModule,
     DividerModule,
     MenuModule,
+    TranslateModule
   ],
   exports: [
     SidebarComponent,
@@ -75,6 +77,7 @@ import { InputTextModule } from 'primeng/inputtext';
     DropdownModule,
     CalendarModule,
     MenuModule,
+    TranslateModule
   ],
 })
 export class SharedModule {}

@@ -8,6 +8,7 @@ import { CompaniesService } from 'src/app/core/services/companies/companies.serv
 import { ContactsService } from 'src/app/core/services/contacts/contacts.service';
 import { ThemeService } from 'src/app/layouts/theme.service';
 import { EditContactComponent } from './edit-contact/edit-contact.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contacts',
@@ -34,7 +35,8 @@ export class ContactsComponent implements OnInit {
     private companiesService: CompaniesService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
-    private ref: DialogService
+    private ref: DialogService,
+    private translate: TranslateService
   ) {
     this.themeService = themeService;
     this.contacts$ = this.contactSubject.asObservable();
@@ -103,13 +105,13 @@ export class ContactsComponent implements OnInit {
   addContact() {
     this.ref.open(EditContactComponent, {
       width: '60%',
-      header: 'Add Contact'
+      header: this.translate.instant('contacts.addContact')
     })
   }
   editContact(contact: ContactWithOwner) {
     this.ref.open(EditContactComponent, {
       width: '60%',
-      header: 'Edit Contact',
+      header: this.translate.instant('contacts.editContact'),
       data: contact
     })
   }

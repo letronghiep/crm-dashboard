@@ -21,39 +21,39 @@ export class SidebarComponent {
   menuItems: MenuItem[] = [
     {
       icon: 'pi pi-fw pi-home',
-      name: 'Dashboard',
+      name: 'sidebar.dashboard',
       routerLink: ['/dashboard'],
     },
     {
       icon: 'pi pi-fw pi-users',
-      name: 'Employees',
+      name: 'sidebar.employees',
       routerLink: ['/employees'],
     },
     {
       icon: 'pi pi-building',
-      name: 'CRM',
+      name: 'sidebar.crm',
       routerLink: ['/companies'],
       children: [
         {
           icon: 'pi pi-building',
-          name: 'Companies',
+          name: 'sidebar.companies',
           routerLink: ['/companies'],
         },
         {
           icon: 'pi pi-users',
-          name: 'Contacts',
+          name: 'sidebar.contacts',
           routerLink: ['/contacts'],
         },
         {
           icon: 'pi pi-briefcase',
-          name: 'Deals',
+          name: 'sidebar.deals',
           routerLink: ['/deals'],
         },
       ],
     },
     {
       icon: 'pi pi-fw pi-clone',
-      name: 'Projects',
+      name: 'sidebar.projects',
       routerLink: ['/projects'],
     },
   ];

@@ -6,16 +6,19 @@
 >
   <ul class="sidebar-menu">
     <li *ngFor="let item of menuItems" class="sidebar-item">
-
       <!-- Item có children -->
-      <ng-container *ngIf="item.children && item.children.length > 0; else noChildren">
+      <ng-container
+        *ngIf="item.children && item.children.length > 0; else noChildren"
+      >
         <div
           class="sidebar-link sidebar-link-toggle"
           (click)="toggleMenu(item.name)"
           [class.open]="isOpen(item.name)"
         >
           <i class="{{ item.icon }} sidebar-icon"></i>
-          <span class="sidebar-label" *ngIf="!collapsed">{{ item.name }}</span>
+          <span class="sidebar-label" *ngIf="!collapsed">{{
+            item.name | translate
+          }}</span>
           <i
             *ngIf="!collapsed"
             class="pi sidebar-chevron"
@@ -33,7 +36,7 @@
               class="sidebar-link sidebar-link-child"
             >
               <i class="{{ child.icon }} sidebar-icon"></i>
-              <span class="sidebar-label">{{ child.name }}</span>
+              <span class="sidebar-label">{{ child.name | translate }}</span>
             </a>
           </li>
         </ul>
@@ -48,30 +51,29 @@
           class="sidebar-link"
         >
           <i class="{{ item.icon }} sidebar-icon"></i>
-          <span class="sidebar-label" *ngIf="!collapsed">{{ item.name }}</span>
+          <span class="sidebar-label" *ngIf="!collapsed">{{ item.name | translate }}</span>
         </a>
       </ng-template>
-
     </li>
   </ul>
 
   <div class="mt-auto">
     <div class="flex items-center gap-2 cursor-pointer">
       <i class="pi pi-sign-out"></i>
-      <a class="sidebar-link" *ngIf="!collapsed"> Logout </a>
+      <a class="sidebar-link" *ngIf="!collapsed">{{ 'common.logout' | translate }}</a>
     </div>
     <section
       *ngIf="!collapsed"
       class="mt-2 mx-1 rounded-2xl bg-blue-500 text-white p-4 flex items-center gap-3 shadow-sm"
     >
       <div class="flex-1">
-        <p class="text-sm font-semibold">Need help?</p>
-        <p class="text-xs opacity-80">Contact our support team anytime.</p>
+        <p class="text-sm font-semibold">{{ 'common.needHelp' | translate }}</p>
+        <p class="text-xs opacity-80">{{ 'common.contactSupport' | translate }}</p>
       </div>
       <button
         class="text-xs font-semibold bg-white text-blue-500 px-3 py-1 rounded-full"
       >
-        Support
+        {{ 'common.support' | translate }}
       </button>
     </section>
   </div>

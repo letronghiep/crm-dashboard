@@ -5,12 +5,12 @@
   [class.bg-white]="!isDarkMode"
 >
   <div class="flex items-center justify-between">
-    <h3 class="font-semibold text-xl">Workload</h3>
+    <h3 class="font-semibold text-xl">{{ "common.workload" | translate }}</h3>
     <button
       [routerLink]="['/employees']"
       class="text-base text-blue-500 font-medium"
     >
-      View all
+      {{ "common.view_all" | translate }}
     </button>
   </div>
 
@@ -41,7 +41,6 @@
           <div class="flex gap-3 mt-1"></div>
         </ng-template>
       </p-card>
-      
     </ng-container>
   </div>
 </section>

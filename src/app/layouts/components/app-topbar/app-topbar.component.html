@@ -21,13 +21,15 @@
       ></i>
       <input
         type="text"
-        placeholder="Search"
+        [placeholder]="'topbar.searchPlaceholder' | translate"
         class="w-full pl-10 pr-4 py-2 rounded-full border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
     </div>
   </div>
 
-  <div class="ml-auto flex items-center gap-4 flex-row-reverse p-2 rounded-md cursor-pointer">
+  <div
+    class="ml-auto flex items-center gap-4 flex-row-reverse p-2 rounded-md cursor-pointer"
+  >
     <div class="flex items-center gap-3 flex-row-reverse">
       <div class="text-right flex items-center gap-2">
         <p class="text-base font-semibold">Evan Yates</p>
@@ -50,5 +52,7 @@
         style="font-size: 24px"
       ></i>
     </button>
+    <p-menu #menu [model]="locales" [popup]="true" />
+    <p-button (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v" />
   </div>
 </div>

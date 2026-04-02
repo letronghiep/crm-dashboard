@@ -6,6 +6,7 @@ import { DealWithOwner } from 'src/app/core/models/deal.interface';
 import { DealsService } from 'src/app/core/services/deals/deals.service';
 import { ThemeService } from 'src/app/layouts/theme.service';
 import { EditDealComponent } from './edit-deal/edit-deal.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-deals',
@@ -30,6 +31,7 @@ export class DealsComponent implements OnInit {
     private dealsService: DealsService,
     private messageService: MessageService,
     private dialogService: DialogService,
+    private translate: TranslateService
   ) {
     this.themeService = themeService;
     this.deals$ = this.dealSubject.asObservable();
@@ -108,14 +110,14 @@ export class DealsComponent implements OnInit {
   }
   addDeal() {
     this.dialogService.open(EditDealComponent, {
-      header: 'Add Deal',
+      header: this.translate.instant('deals.addDeal'),
       width: '60%',
     });
   }
 
   editDeal(deal: DealWithOwner) {
     this.dialogService.open(EditDealComponent, {
-      header: 'Edit Deal',
+      header: this.translate.instant('deals.editDeal'),
       width: '60%',
       data: deal,
     });

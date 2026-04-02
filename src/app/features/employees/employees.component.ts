@@ -6,6 +6,7 @@ import { Employee } from 'src/app/core/models/employee';
 import { EmployeeService } from 'src/app/core/services/employees/employee.service';
 import { ThemeService } from 'src/app/layouts/theme.service';
 import { EditEmployeeComponent } from './edit-employee/edit-employee.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-employees',
@@ -29,6 +30,7 @@ export class EmployeesComponent implements OnInit {
     themeService: ThemeService,
     private employeeService: EmployeeService,
     private dialogService: DialogService,
+    private translate: TranslateService,
   ) {
     this.themeService = themeService;
     this.employees$ = this.employeesSubject.asObservable();
@@ -48,12 +50,12 @@ export class EmployeesComponent implements OnInit {
   buildMenu(empl?: Employee) {
     return [
       {
-        label: 'Edit',
+        label: this.translate.instant('common.edit'),
         icon: 'pi pi-pencil',
         command: () => this.onEdit(empl),
       },
       {
-        label: 'Delete',
+        label: this.translate.instant('common.delete'),
         icon: 'pi pi-trash',
         command: () => this.onDelete(empl),
       },
@@ -85,8 +87,12 @@ export class EmployeesComponent implements OnInit {
     menu.toggle(event);
   }
   onEdit(empl?: Employee) {
+    const header = empl 
+      ? this.translate.instant('employees.editEmployee')
+      : this.translate.instant('employees.addEmployee');
+    
     this.dialogService.open(EditEmployeeComponent, {
-      header: empl ? 'Edit Employee' : 'Add Employee',
+      header: header,
       width: '60%',
       data: empl ?? null,
     });

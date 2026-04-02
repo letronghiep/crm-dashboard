@@ -4,11 +4,11 @@
     <h2
       class="text-xl font-semibold flex items-center gap-2 m-0 text-slate-800"
     >
-      <i class="pi pi-users"></i> Contacts
+      <i class="pi pi-users"></i> {{ 'contacts.title' | translate }}
     </h2>
     <button
       pButton
-      label="Add Contact"
+      [label]="'contacts.addButton' | translate"
       icon="pi pi-plus"
       (click)="addContact()"
       class="flex items-center gap-2 bg-blue-500 text-white py-2 px-3 hover:bg-blue-600 rounded-lg"
@@ -25,7 +25,7 @@
       <input
         pInputText
         [(ngModel)]="searchText"
-        placeholder="Search..."
+        [placeholder]="'contacts.searchPlaceholder' | translate"
         class="w-full outline-none border-none bg-transparent text-sm focus:outline-none"
       />
     </div>
@@ -52,13 +52,13 @@
       </p-dropdown>
     </div>
     <div class="ml-auto flex gap-2 items-center">
-      <label class="text-sm">Owner</label>
+      <label class="text-sm">{{ 'contacts.columnOwner' | translate }}</label>
       <p-dropdown
         [options]="sortOptions"
         [(ngModel)]="sortOrder"
         optionLabel="label"
         optionValue="value"
-        placeholder="Sort"
+        [placeholder]="'contacts.sortPlaceholder' | translate"
         class="w-full custom-dropdown"
       >
       </p-dropdown>
@@ -84,14 +84,14 @@
             <th style="width: 3rem">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th>Name</th>
-            <th>Company</th>
-            <th>Email</th>
+            <th>{{ 'contacts.columnName' | translate }}</th>
+            <th>{{ 'contacts.columnCompany' | translate }}</th>
+            <th>{{ 'contacts.columnEmail' | translate }}</th>
             <th pSortableColumn="status">
-              Status <p-sortIcon field="status"></p-sortIcon>
+              {{ 'contacts.columnStatus' | translate }} <p-sortIcon field="status"></p-sortIcon>
             </th>
-            <th>Owner</th>
-            <th>Tags</th>
+            <th>{{ 'contacts.columnOwner' | translate }}</th>
+            <th>{{ 'contacts.columnTags' | translate }}</th>
             <th style="width: 5rem"></th>
           </tr>
         </ng-template>
@@ -140,7 +140,7 @@
             <td>
               <div class="flex items-center gap-1">
                 <button
-                  pTooltip="Edit contact"
+                  [pTooltip]="'contacts.editTooltip' | translate"
                   pButton
                   (click)="editContact(contact)"
                   icon="pi pi-pencil"
@@ -148,7 +148,7 @@
                 ></button>
                 <button
                   pButton
-                  pTooltip="Remove contact"
+                  [pTooltip]="'contacts.removeTooltip' | translate"
                   (click)="onRemove(contact.id)"
                   icon="pi pi-trash"
                   class="p-button-text p-button-sm p-button-secondary"

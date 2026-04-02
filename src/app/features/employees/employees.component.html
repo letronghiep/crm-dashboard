@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="flex items-center gap-4">
     <h2 class="text-2xl font-bold text-slate-800 m-0">
-      Employees
+      {{ 'employees.title' | translate }}
       <span class="text-slate-400 font-normal text-xl"
         >({{ allEmployees.length }})</span
       >
@@ -22,7 +22,7 @@
         "
         (click)="activeIndex = 0"
       >
-        List
+        {{ 'employees.tabList' | translate }}
       </button>
       <button
         class="px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer border-none"
@@ -33,14 +33,14 @@
         "
         (click)="activeIndex = 1"
       >
-        Activity
+        {{ 'employees.tabActivity' | translate }}
       </button>
     </div>
 
     <button
       pButton
       icon="pi pi-plus"
-      label="Add Employee"
+      [label]="'employees.addEmployee' | translate"
       (click)="onEdit()"
       class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 flex-shrink-0"
     ></button>
@@ -77,7 +77,7 @@
 
           <!-- Gender -->
           <div class="flex-1">
-            <div class="text-[10px] text-slate-400 mb-0.5">Gender</div>
+            <div class="text-[10px] text-slate-400 mb-0.5">{{ 'employees.gender' | translate }}</div>
             <div class="text-sm text-slate-700 capitalize">
               {{ emp.gender }}
             </div>
@@ -85,7 +85,7 @@
 
           <!-- Birthday -->
           <div class="flex-1">
-            <div class="text-[10px] text-slate-400 mb-0.5">Birthday</div>
+            <div class="text-[10px] text-slate-400 mb-0.5">{{ 'employees.birthday' | translate }}</div>
             <div class="text-sm text-slate-700">
               {{ emp.birthday | date: "MMM d, yyyy" }}
             </div>
@@ -93,14 +93,14 @@
 
           <!-- Age -->
           <div class="flex-1">
-            <div class="text-[10px] text-slate-400 mb-0.5">Full age</div>
+            <div class="text-[10px] text-slate-400 mb-0.5">{{ 'employees.fullAge' | translate }}</div>
             <div class="text-sm text-slate-700">{{ emp.age }}</div>
           </div>
 
           <!-- Position + Role -->
           <div class="flex-1 flex items-center gap-2">
             <div>
-              <div class="text-[10px] text-slate-400 mb-0.5">Position</div>
+              <div class="text-[10px] text-slate-400 mb-0.5">{{ 'employees.position' | translate }}</div>
               <div class="text-sm text-slate-700 flex items-center gap-2">
                 {{ emp.position }}
                 <span
@@ -213,7 +213,7 @@
                 {{ emp.totalDeals ?? 0 }}
               </div>
               <div class="text-[10px] text-slate-400 leading-tight">
-                Backlog<br />tasks
+                {{ 'employees.backlogTasks' | translate }}
               </div>
             </div>
             <div class="text-center">
@@ -221,7 +221,7 @@
                 {{ emp.exp }}
               </div>
               <div class="text-[10px] text-slate-400 leading-tight">
-                Tasks<br />In Progress
+                {{ 'employees.tasksInProgress' | translate }}
               </div>
             </div>
             <div class="text-center">
@@ -233,7 +233,7 @@
                 }}
               </div>
               <div class="text-[10px] text-slate-400 leading-tight">
-                Tasks<br />In Review
+                {{ 'employees.tasksInReview' | translate }}
               </div>
             </div>
           </div>

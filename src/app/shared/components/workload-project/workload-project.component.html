@@ -5,12 +5,12 @@
   [class.bg-white]="!isDarkMode"
 >
   <div class="flex items-center justify-between">
-    <h3 class="font-semibold text-xl">Projects</h3>
+    <h3 class="font-semibold text-xl">{{ 'sidebar.projects' | translate }}</h3>
     <button
       [routerLink]="['/projects']"
       class="text-base text-blue-500 font-medium"
     >
-      View all
+      {{ "common.view_all" | translate }}
     </button>
   </div>
 

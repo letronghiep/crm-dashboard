@@ -4,19 +4,21 @@
       [routerLink]="['/']"
       class="text-sm flex items-center gap-2 text-blue-600 cursor-pointer"
       ><i class="pi pi-arrow-left text-sm">
-        <span class="ml-2">Back to dashboard</span></i
+        <span class="ml-2">{{ "common.back_dashboard" | translate }}</span></i
       ></a
     >
     <div class="w-full grid grid-cols-2 gap-8">
       <section class="col-span-2 space-y-6 flex items-center justify-between">
-        <h1 class="text-3xl font-bold mt-3">Nearest Events</h1>
+        <h1 class="text-3xl font-bold mt-3">
+          {{ "event.nearest" | translate }}
+        </h1>
         <p-button
           styleClass="flex items-center gap-2 bg-blue-500 text-white py-2 px-3 hover:bg-blue-600 rounded-lg"
           [routerLink]="['/dashboard/nearest-event/add']"
         >
           <ng-template pTemplate="content">
             <i class="pi pi-plus"></i>
-            <span>Add Event</span>
+            <span>{{ "event.add_event" | translate }} </span>
           </ng-template>
         </p-button>
       </section>
@@ -82,7 +84,7 @@
         </ng-container>
       </ng-container>
       <ng-template #noEvent>
-        <h2>No event</h2>
+        <h2>{{ "event.no_event" | translate }}</h2>
       </ng-template>
     </div>
   </main>

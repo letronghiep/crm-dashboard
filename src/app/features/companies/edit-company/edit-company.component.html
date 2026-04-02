@@ -13,7 +13,7 @@
       </ng-template>
     </div>
     <div>
-      <p class="text-sm font-medium text-gray-700 mb-1">Company Logo</p>
+      <p class="text-sm font-medium text-gray-700 mb-1">{{ 'companies.companyLogo' | translate }}</p>
       <upload-file [attachments]="avatarAttachments"></upload-file>
     </div>
   </div>
@@ -27,14 +27,14 @@
       <div class="flex gap-2 items-center">
         <i class="pi pi-building text-gray-400"></i>
         <label class="text-sm font-medium text-gray-600"
-          >Company Name <span class="text-red-400">*</span></label
+          >{{ 'companies.companyName' | translate }} <span class="text-red-400">*</span></label
         >
       </div>
       <span class="p-input-icon-left w-full">
         <input
           pInputText
           class="w-full"
-          placeholder="ABC Corp."
+          [placeholder]="'companies.companyNamePlaceholder' | translate"
           [formControlName]="'name'"
           [class.p-invalid]="
             companyForm.get('name')?.invalid &&
@@ -48,31 +48,31 @@
           companyForm.get('name')?.touched
         "
         class="p-error"
-        >Company name is required</small
+        >{{ 'companies.companyNameRequired' | translate }}</small
       >
       <small
         *ngIf="companyForm.get('name')?.errors?.['maxlength']"
         class="p-error"
       >
-        Maximum 255 characters allowed.
+        {{ 'companies.maxLength' | translate }}
       </small>
 
       <small
         *ngIf="companyForm.get('name')?.errors?.['pattern']"
         class="p-error"
       >
-        No leading or trailing spaces allowed.
+        {{ 'companies.noSpaces' | translate }}
       </small>
     </div>
     <!-- Owner -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Owner</label>
+      <label class="text-sm font-medium text-gray-600">{{ 'companies.owner' | translate }}</label>
       <p-dropdown
         [options]="users"
         [formControlName]="'ownerId'"
         optionLabel="ownerName"
         optionValue="ownerId"
-        placeholder="Assign owner"
+        [placeholder]="'companies.ownerPlaceholder' | translate"
         styleClass="w-full"
         [class.p-invalid]="
           companyForm.get('ownerId')?.invalid &&
@@ -85,7 +85,7 @@
           companyForm.get('ownerId')?.touched
         "
         class="p-error"
-        >Owner name is required</small
+        >{{ 'companies.ownerRequired' | translate }}</small
       >
     </div>
 
@@ -93,13 +93,13 @@
     <div class="flex flex-col gap-1">
       <div class="flex gap-2 items-center">
         <i class="pi pi-tag text-gray-400"></i>
-        <label class="text-sm font-medium text-gray-600">Industry</label>
+        <label class="text-sm font-medium text-gray-600">{{ 'companies.industry' | translate }}</label>
       </div>
       <span class="p-input-icon-left w-full">
         <input
           pInputText
           class="w-full"
-          placeholder="Technology"
+          [placeholder]="'companies.industryPlaceholder' | translate"
           [formControlName]="'industry'"
           [class.p-invalid]="
             companyForm.get('industry')?.invalid &&
@@ -114,18 +114,18 @@
           companyForm.get('industry')?.touched
         "
         class="p-error"
-        >Industry name is required</small
+        >{{ 'companies.industryRequired' | translate }}</small
       >
     </div>
 
     <!-- Tags -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Tags</label>
+      <label class="text-sm font-medium text-gray-600">{{ 'companies.tags' | translate }}</label>
       <p-multiSelect
         [options]="tags"
         formControlName="selectedTags"
         optionLabel="name"
-        placeholder="Select Tags"
+        [placeholder]="'companies.tagsPlaceholder' | translate"
         styleClass="w-full"
       />
     </div>
@@ -134,14 +134,14 @@
     <div class="flex flex-col gap-1">
       <div class="flex gap-2 items-center">
         <i class="pi pi-globe text-gray-400"></i>
-        <label class="text-sm font-medium text-gray-600">Website</label>
+        <label class="text-sm font-medium text-gray-600">{{ 'companies.website' | translate }}</label>
       </div>
       <span class="p-input-icon-left w-full">
         <input
           [formControlName]="'website'"
           pInputText
           class="w-full"
-          placeholder="https://example.com"
+          [placeholder]="'companies.websitePlaceholder' | translate"
           [class.p-invalid]="
             companyForm.get('website')?.invalid &&
             (companyForm.get('website')?.touched ||
@@ -155,13 +155,13 @@
           companyForm.get('website')?.touched
         "
         class="p-error"
-        >Website name is required</small
+        >{{ 'companies.websiteRequired' | translate }}</small
       >
     </div>
 
     <!-- Company Size -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Company Size</label>
+      <label class="text-sm font-medium text-gray-600">{{ 'companies.companySize' | translate }}</label>
       <!-- <p-dropdown
         [options]="sizes"
         [editable]="true"
@@ -177,7 +177,7 @@
       <p-inputNumber
         [formControlName]="'size'"
         [min]="1"
-        placeholder="Enter company size"
+        [placeholder]="'companies.companySizePlaceholder' | translate"
         styleClass="w-full"
         [class.p-invalid]="
           companyForm.get('size')?.invalid &&
@@ -190,7 +190,7 @@
           companyForm.get('size')?.touched
         "
         class="p-error"
-        >Company size is required</small
+        >{{ 'companies.companySizeRequired' | translate }}</small
       >
     </div>
 
@@ -198,13 +198,13 @@
     <div class="flex flex-col gap-1">
       <div class="flex gap-2 items-center">
         <i class="pi pi-map-marker text-gray-400"></i>
-        <label class="text-sm font-medium text-gray-600">Address</label>
+        <label class="text-sm font-medium text-gray-600">{{ 'companies.address' | translate }}</label>
       </div>
       <span class="p-input-icon-left w-full">
         <input
           pInputText
           class="w-full"
-          placeholder="New York, USA"
+          [placeholder]="'companies.addressPlaceholder' | translate"
           [formControlName]="'address'"
           [class.p-invalid]="
             companyForm.get('address')?.invalid &&
@@ -219,7 +219,7 @@
           companyForm.get('address')?.touched
         "
         class="p-error"
-        >Address is required</small
+        >{{ 'companies.addressRequired' | translate }}</small
       >
     </div>
 
@@ -227,13 +227,13 @@
     <div class="flex flex-col gap-1">
       <div class="flex gap-2 items-center">
         <i class="pi pi-phone text-gray-400"></i>
-        <label class="text-sm font-medium text-gray-600">Phone</label>
+        <label class="text-sm font-medium text-gray-600">{{ 'companies.phone' | translate }}</label>
       </div>
       <span class="p-input-icon-left w-full">
         <input
           pInputText
           class="w-full"
-          placeholder="+1 234 567 890"
+          [placeholder]="'companies.phonePlaceholder' | translate"
           [formControlName]="'phoneNo'"
           [class.p-invalid]="
             companyForm.get('phoneNo')?.invalid &&
@@ -248,18 +248,18 @@
           companyForm.get('phoneNo')?.touched
         "
         class="p-error"
-        >Phone number is required</small
+        >{{ 'companies.phoneRequired' | translate }}</small
       >
     </div>
 
     <!-- Notes — full width -->
     <div class="flex flex-col gap-1 col-span-2">
-      <label class="text-sm font-medium text-gray-600">Notes</label>
+      <label class="text-sm font-medium text-gray-600">{{ 'companies.notes' | translate }}</label>
       <textarea
         pInputTextarea
         rows="4"
         class="w-full resize-none"
-        placeholder="Add any notes about this company..."
+        [placeholder]="'companies.notesPlaceholder' | translate"
       ></textarea>
     </div>
   </div>
@@ -268,14 +268,14 @@
   <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
     <button
       pButton
-      label="Cancel"
+      [label]="'companies.cancel' | translate"
       class="p-button-text p-button-secondary px-4 py-2 rounded-lg"
       (click)="onClose()"
     ></button>
     <button
       pButton
       class="p-button-primary px-4 py-2 rounded-lg shadow"
-      label="Create"
+      [label]="'companies.save' | translate"
       icon="pi pi-check"
       (click)="onSave()"
     ></button>

@@ -11,13 +11,13 @@
       </ng-template>
     </div>
     <div>
-      <p class="text-sm font-medium text-gray-700 mb-1">Avatar</p>
+      <p class="text-sm font-medium text-gray-700 mb-1">{{ 'employees.avatar' | translate }}</p>
       <upload-file></upload-file>
     </div>
 
     <!-- isActive toggle -->
     <div class="ml-auto flex items-center gap-2">
-      <label class="text-sm text-gray-600">Active</label>
+      <label class="text-sm text-gray-600">{{ 'common.active' | translate }}</label>
       <p-inputSwitch formControlName="isActive"></p-inputSwitch>
     </div>
   </div>
@@ -28,88 +28,88 @@
 
     <!-- Name -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Name <span class="text-red-400">*</span></label>
-      <input pInputText formControlName="name" placeholder="John Doe"
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.name' | translate }} <span class="text-red-400">*</span></label>
+      <input pInputText formControlName="name" [placeholder]="'employees.placeholders.name' | translate"
         class="w-full" [class.p-invalid]="isInvalid('name')" />
-      <small class="p-error" *ngIf="f('name')?.errors?.['required'] && f('name')?.touched">Name is required.</small>
+      <small class="p-error" *ngIf="f('name')?.errors?.['required'] && f('name')?.touched">{{ 'employees.errors.nameRequired' | translate }}</small>
       <small class="p-error" *ngIf="f('name')?.errors?.['maxlength']">Maximum 255 characters.</small>
       <small class="p-error" *ngIf="f('name')?.errors?.['pattern']">No leading or trailing spaces.</small>
     </div>
 
     <!-- Email -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Email <span class="text-red-400">*</span></label>
-      <input pInputText formControlName="email" placeholder="john@example.com"
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.email' | translate }} <span class="text-red-400">*</span></label>
+      <input pInputText formControlName="email" [placeholder]="'employees.placeholders.email' | translate"
         class="w-full" [class.p-invalid]="isInvalid('email')" />
-      <small class="p-error" *ngIf="f('email')?.errors?.['required'] && f('email')?.touched">Email is required.</small>
-      <small class="p-error" *ngIf="f('email')?.errors?.['email']">Invalid email format.</small>
+      <small class="p-error" *ngIf="f('email')?.errors?.['required'] && f('email')?.touched">{{ 'employees.errors.emailRequired' | translate }}</small>
+      <small class="p-error" *ngIf="f('email')?.errors?.['email']">{{ 'employees.errors.emailInvalid' | translate }}</small>
     </div>
 
     <!-- Phone -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Phone <span class="text-red-400">*</span></label>
-      <input pInputText formControlName="phone" placeholder="+1 202-555-0101"
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.phone' | translate }} <span class="text-red-400">*</span></label>
+      <input pInputText formControlName="phone" [placeholder]="'employees.placeholders.phone' | translate"
         class="w-full" [class.p-invalid]="isInvalid('phone')" />
-      <small class="p-error" *ngIf="f('phone')?.errors?.['required'] && f('phone')?.touched">Phone is required.</small>
-      <small class="p-error" *ngIf="f('phone')?.errors?.['pattern']">Invalid phone number.</small>
+      <small class="p-error" *ngIf="f('phone')?.errors?.['required'] && f('phone')?.touched">{{ 'employees.errors.phoneRequired' | translate }}</small>
+      <small class="p-error" *ngIf="f('phone')?.errors?.['pattern']">{{ 'employees.errors.phoneInvalid' | translate }}</small>
     </div>
 
     <!-- Age -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Age <span class="text-red-400">*</span></label>
-      <p-inputNumber formControlName="age" placeholder="25" [min]="18" [max]="65"
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.age' | translate }} <span class="text-red-400">*</span></label>
+      <p-inputNumber formControlName="age" [placeholder]="'employees.placeholders.age' | translate" [min]="18" [max]="65"
         styleClass="w-full" [class.p-invalid]="isInvalid('age')">
       </p-inputNumber>
-      <small class="p-error" *ngIf="f('age')?.errors?.['required'] && f('age')?.touched">Age is required.</small>
-      <small class="p-error" *ngIf="f('age')?.errors?.['min'] || f('age')?.errors?.['max']">Age must be between 18 and 65.</small>
+      <small class="p-error" *ngIf="f('age')?.errors?.['required'] && f('age')?.touched">{{ 'employees.errors.ageRequired' | translate }}</small>
+      <small class="p-error" *ngIf="f('age')?.errors?.['min'] || f('age')?.errors?.['max']">{{ 'employees.errors.ageRange' | translate }}</small>
     </div>
 
     <!-- Position -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Position <span class="text-red-400">*</span></label>
-      <input pInputText formControlName="position" placeholder="Frontend Developer"
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.position' | translate }} <span class="text-red-400">*</span></label>
+      <input pInputText formControlName="position" [placeholder]="'employees.placeholders.position' | translate"
         class="w-full" [class.p-invalid]="isInvalid('position')" />
-      <small class="p-error" *ngIf="f('position')?.errors?.['required'] && f('position')?.touched">Position is required.</small>
+      <small class="p-error" *ngIf="f('position')?.errors?.['required'] && f('position')?.touched">{{ 'employees.errors.positionRequired' | translate }}</small>
     </div>
 
     <!-- Role -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Role <span class="text-red-400">*</span></label>
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.role' | translate }} <span class="text-red-400">*</span></label>
       <p-dropdown [options]="roleOptions" formControlName="role"
         optionLabel="label" optionValue="value"
-        placeholder="Select role" styleClass="w-full"
+        [placeholder]="'employees.placeholders.selectRole' | translate" styleClass="w-full"
         [class.p-invalid]="isInvalid('role')">
       </p-dropdown>
-      <small class="p-error" *ngIf="f('role')?.errors?.['required'] && f('role')?.touched">Role is required.</small>
+      <small class="p-error" *ngIf="f('role')?.errors?.['required'] && f('role')?.touched">{{ 'employees.errors.roleRequired' | translate }}</small>
     </div>
 
     <!-- Department -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Department <span class="text-red-400">*</span></label>
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.department' | translate }} <span class="text-red-400">*</span></label>
       <p-dropdown [options]="departmentOptions" formControlName="department"
         optionLabel="label" optionValue="value"
-        placeholder="Select department" styleClass="w-full"
+        [placeholder]="'employees.placeholders.selectDepartment' | translate" styleClass="w-full"
         [class.p-invalid]="isInvalid('department')">
       </p-dropdown>
-      <small class="p-error" *ngIf="f('department')?.errors?.['required'] && f('department')?.touched">Department is required.</small>
+      <small class="p-error" *ngIf="f('department')?.errors?.['required'] && f('department')?.touched">{{ 'employees.errors.departmentRequired' | translate }}</small>
     </div>
 
     <!-- Manager -->
     <div class="flex flex-col gap-1">
-      <label class="text-sm font-medium text-gray-600">Manager</label>
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.manager' | translate }}</label>
       <p-dropdown [options]="managers" formControlName="managerId"
         optionLabel="name" optionValue="id"
-        placeholder="Select manager" styleClass="w-full" [showClear]="true">
+        [placeholder]="'employees.placeholders.selectManager' | translate" styleClass="w-full" [showClear]="true">
       </p-dropdown>
     </div>
 
     <!-- Experience -->
     <div class="flex flex-col gap-1 col-span-2">
-      <label class="text-sm font-medium text-gray-600">Experience (%) <span class="text-red-400">*</span></label>
-      <p-inputNumber formControlName="exp" placeholder="80" [min]="0" [max]="100" suffix="%"
+      <label class="text-sm font-medium text-gray-600">{{ 'employees.experience' | translate }} <span class="text-red-400">*</span></label>
+      <p-inputNumber formControlName="exp" [placeholder]="'employees.placeholders.experience' | translate" [min]="0" [max]="100" suffix="%"
         styleClass="w-full" [class.p-invalid]="isInvalid('exp')">
       </p-inputNumber>
-      <small class="p-error" *ngIf="f('exp')?.errors?.['required'] && f('exp')?.touched">Experience is required.</small>
+      <small class="p-error" *ngIf="f('exp')?.errors?.['required'] && f('exp')?.touched">{{ 'employees.errors.experienceRequired' | translate }}</small>
       <small class="p-error" *ngIf="f('exp')?.errors?.['min'] || f('exp')?.errors?.['max']">Must be between 0 and 100.</small>
     </div>
 
@@ -125,11 +125,11 @@
     </button>
 
     <div class="ml-auto flex gap-3">
-      <button pButton label="Cancel" type="button"
+      <button pButton [label]="'common.cancel' | translate" type="button"
         class="p-button-text p-button-secondary px-4 py-2 rounded-lg"
         (click)="onClose()">
       </button>
-      <button pButton label="Save" icon="pi pi-check" type="button"
+      <button pButton [label]="'common.save' | translate" icon="pi pi-check" type="button"
         class="p-button-primary px-4 py-2 rounded-lg shadow"
         [disabled]="employeeForm.invalid"
         (click)="onSave()">

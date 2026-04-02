@@ -21,6 +21,7 @@ import { CompaniesService } from 'src/app/core/services/companies/companies.serv
 import { EmployeeService } from 'src/app/core/services/employees/employee.service';
 import { Employee } from 'src/app/core/models/employee';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-companies',
@@ -57,6 +58,7 @@ export class CompaniesComponent implements OnInit {
     private employeesService: EmployeeService,
     private confirmationService: ConfirmationService,
     private messageService: MessageService,
+    private translate: TranslateService,
   ) {
     this.themeService = themService;
     this.companies$ = this.companiesSubject.asObservable();
@@ -99,7 +101,7 @@ export class CompaniesComponent implements OnInit {
   addCompany() {
     this.ref.open(EditCompanyComponent, {
       width: '60%',
-      header: 'Add Company',
+      header: this.translate.instant('companies.addCompany'),
       data: { employees: this.employeeSubject.getValue() },
     });
   }
@@ -178,7 +180,7 @@ export class CompaniesComponent implements OnInit {
   editCompany(company: Company) {
     this.ref.open(EditCompanyComponent, {
       width: '60%',
-      header: 'Edit company',
+      header: this.translate.instant('companies.editCompany'),
       data: { ...company, employees: this.employeeSubject.getValue() },
     });
   }
