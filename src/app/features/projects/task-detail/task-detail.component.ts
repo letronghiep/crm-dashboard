@@ -16,6 +16,7 @@ import {
 import { Employee } from 'src/app/core/models/employee';
 import { Task } from 'src/app/core/models/task';
 import { ReportTimeComponent } from './report-time/report-time.component';
+import { AddTaskComponent } from './add-task/add-task.component';
 
 @Component({
   selector: 'app-task-detail',
@@ -174,4 +175,5 @@ export class TaskDetailComponent implements OnInit, OnChanges {
         }
       });
   }
+  
 }

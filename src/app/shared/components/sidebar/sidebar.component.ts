@@ -56,6 +56,11 @@ export class SidebarComponent {
       name: 'sidebar.projects',
       routerLink: ['/projects'],
     },
+    {
+      icon: 'pi pi-fw pi-calendar',
+      name: 'sidebar.calendar',
+      routerLink: ['/calendar'],
+    },
   ];
 
   toggleMenu(name: string): void {

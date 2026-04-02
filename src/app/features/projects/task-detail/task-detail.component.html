@@ -72,20 +72,6 @@
           [formControl]="descriptionCtrl"
         >
         </textarea>
-
-        <!-- Attachment icons -->
-        <!-- <div class="flex items-center gap-2 mt-3">
-          <button
-            pButton
-            icon="pi pi-paperclip"
-            class="p-button-text p-button-sm rounded-full bg-purple-100 text-purple-500 w-9 h-9"
-          ></button>
-          <button
-            pButton
-            icon="pi pi-link"
-            class="p-button-text p-button-sm rounded-full bg-blue-100 text-blue-500 w-9 h-9"
-          ></button>
-        </div> -->
       </div>
 
       <!-- Attachments -->
@@ -94,19 +80,6 @@
           Task Attachments (0)
         </h4>
         <upload-file *ngIf="isEditing"></upload-file>
-        <!-- <div class="flex items-center gap-3 flex-wrap">
-          <div
-            class="w-28 h-20 rounded-xl border-2 border-dashed border-slate-200 flex items-center justify-center cursor-pointer hover:border-blue-300 transition-colors"
-          >
-            <i class="pi pi-plus text-slate-300 text-xl"></i>
-          </div>
-        </div>
-        <button
-          class="flex items-center gap-2 text-sm text-blue-500 hover:underline mt-3"
-        >
-          <i class="pi pi-link text-xs"></i>
-          <span>Invision Prototype</span>
-        </button> -->
       </div>
 
       <!-- Recent Activity -->
@@ -165,7 +138,9 @@
     <div
       class="w-52 flex-shrink-0 bg-white rounded-2xl shadow-sm p-4 flex flex-col gap-4 overflow-y-auto"
     >
-      <h4 class="text-sm font-semibold text-slate-700 m-0">Task Info</h4>
+      <h4 class="text-sm font-semibold text-slate-700 m-0">
+        {{ "projects.task_info" | translate }}
+      </h4>
 
       <!-- Reporter -->
       <div>

@@ -1,5 +1,6 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import {
   BehaviorSubject,
@@ -10,20 +11,23 @@ import {
   takeUntil,
   tap,
 } from 'rxjs';
-import { Employee } from 'src/app/core/models/employee';
 import { ProjectWithAssignee } from 'src/app/core/models/project';
+import { Task } from 'src/app/core/models/task';
 import { EmployeeService } from 'src/app/core/services/employees/employee.service';
 import { ProjectsService } from 'src/app/core/services/projects/projects.service';
 import { ThemeService } from 'src/app/layouts/theme.service';
 import { ProjectBaseComponent } from './project-base.component';
-import { Task } from 'src/app/core/models/task';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { AddProjectComponent } from './single-project/add-project/add-project.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { CompaniesService } from 'src/app/core/services/companies/companies.service';
+import { Employee } from 'src/app/core/models/employee';
+import { Company } from 'src/app/core/models/company.interface';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css'],
-  providers: [MessageService],
+  providers: [MessageService, DialogService],
 })
 export class ProjectsComponent
   extends ProjectBaseComponent
@@ -34,6 +38,7 @@ export class ProjectsComponent
   isShowDetail = false;
   isViewTaskDetail = false;
   filterStatus = 'todo';
+  companies: Company[] = [];
 
   private projectSubject = new BehaviorSubject<ProjectWithAssignee[]>([]);
   projects$: Observable<ProjectWithAssignee[]>;
@@ -45,6 +50,8 @@ export class ProjectsComponent
     private employeeService: EmployeeService,
     private messageService: MessageService,
     private router: Router,
+    private dialogService: DialogService,
+    private companiesService: CompaniesService,
   ) {
     super(fb, themeService);
     this.projects$ = this.projectSubject.asObservable();
@@ -53,6 +60,9 @@ export class ProjectsComponent
   ngOnInit(): void {
     this.employeeService.getEmployees().subscribe((res) => {
       res.contents.forEach((e) => this.employeeMap.set(e.id, e));
+    });
+    this.companiesService.getCompanies().subscribe((res) => {
+      this.companies = res.contents;
     });
 
     this.projects$ = this.projectService.getProjects().pipe(
@@ -131,4 +141,15 @@ export class ProjectsComponent
       },
     });
   }
+  addProject() {
+    this.dialogService.open(AddProjectComponent, {
+      header: 'Add Project',
+      width: '60%',
+      data: {
+        // employees: this.employees,
+        companies: this.companies,
+      },
+    });
+  }
+  
 }

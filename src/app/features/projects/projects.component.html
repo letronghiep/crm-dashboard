@@ -1,12 +1,15 @@
 <div class="p-6 h-full flex flex-col gap-4 box-border">
   <!-- Header -->
   <div class="flex items-center justify-between">
-    <h2 class="text-2xl font-bold text-slate-800 m-0">Projects</h2>
+    <h2 class="text-2xl font-bold text-slate-800 m-0">
+      {{ "projects.title" | translate }}
+    </h2>
     <button
       pButton
       icon="pi pi-plus"
-      label="Add Project"
+      label="{{ 'projects.add_project' | translate }}"
       class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+      (click)="addProject()"
     ></button>
   </div>
 
@@ -18,7 +21,7 @@
         <div
           class="flex items-center gap-2 text-sm font-medium text-slate-600 mb-2 px-1"
         >
-          <span>Current Projects</span>
+          <span>{{ "projects.current_project" | translate }}</span>
           <i class="pi pi-chevron-down text-xs"></i>
         </div>
         <!-- Project List -->
@@ -58,7 +61,7 @@
               class="text-xs text-blue-500 hover:underline cursor-pointer mt-0.5 block"
               [routerLink]="[project.id]"
             >
-              View details &rsaquo;
+              {{ "projects.view_detail" | translate }} &rsaquo;
             </a>
           </div>
         </ng-container>
@@ -74,7 +77,7 @@
             class="flex items-center gap-3 px-5 py-4 border-b border-gray-100 flex-shrink-0"
           >
             <h3 class="text-base font-semibold text-slate-800 m-0 flex-1">
-              {{ selectedTask ? 'Task Details' : 'Tasks' }}
+              {{ selectedTask ? "Task Details" : "Tasks" }}
             </h3>
             <div class="mx-auto flex-1 flex justify-center">
               <button
@@ -108,110 +111,45 @@
             </div>
           </div>
           <ng-container *ngIf="activeIndex === 0">
-            <!-- Task Detail -->
-            <!-- <div *ngIf="selectedTask" class="flex-1 min-h-0 overflow-hidden p-4">
-              <app-task-detail
-                [task]="selectedTask"
-                [employeeMap]="employeeMap"
-                [projectNumber]="selectedProject?.project_number"
-                [deadline]="selectedProject?.deadline"
-                (backToTaskList)="clearTaskSelected()"
-                >
-              </app-task-detail>
-            </div> -->
-
             <ng-container *ngIf="!selectedTask">
-            <ng-container *ngIf="selectedProject as p">
-              <div class="overflow-y-auto flex-1 min-h-0 px-5">
-                <!-- Header row -->
-                <div
-                  class="grid grid-cols-[1fr_80px_96px_64px_96px_120px_32px] gap-2 px-2 py-2 text-[10px] text-slate-400 border-b border-gray-100 sticky top-0 bg-white z-10"
-                >
-                  <span>Task Name</span>
-                  <span>Estimate</span>
-                  <span>Spent Time</span>
-                  <span>Assignee</span>
-                  <span>Priority</span>
-                  <span>Status</span>
-                  <span></span>
-                </div>
-
-                <!-- Active Tasks -->
-                <div
-                  class="bg-slate-50 rounded-lg px-4 py-2 text-xs font-medium text-slate-500 my-2"
-                >
-                  Active Tasks
-                </div>
-
-                <div
-                  *ngFor="let task of p.activeTasks"
-                  class="grid grid-cols-[1fr_80px_96px_64px_96px_120px_32px] gap-2 items-center py-3 border-b border-gray-50 hover:bg-slate-50 rounded-lg px-2 transition-all cursor-pointer"
-                  (click)="redirectToTask(task)"
-                >
-                  <div class="text-sm font-medium text-slate-800 truncate">
-                    {{ task.title }}
-                  </div>
-                  <div class="text-sm text-slate-700">
-                    {{ formatHours(task?.estimateTime) }}
-                  </div>
-                  <div class="text-sm text-slate-700">
-                    {{ formatHours(task.spentTime) }}
-                  </div>
-                  <p-avatar
-                    [image]="getEmployee(task?.assignee)?.avatar"
-                    shape="circle"
-                    size="normal"
-                  ></p-avatar>
+              <ng-container *ngIf="selectedProject as p">
+                <div class="overflow-y-auto flex-1 min-h-0 px-5">
+                  <!-- Header row -->
                   <div
-                    class="flex items-center gap-1 text-xs"
-                    [class]="priorityClass(task.priority)"
+                    class="grid grid-cols-[1fr_80px_96px_64px_96px_120px_32px] gap-2 px-2 py-2 text-[10px] text-slate-400 border-b border-gray-100 sticky top-0 bg-white z-10"
                   >
-                    <i
-                      class="pi text-xs"
-                      [class]="priorityIcon(task.priority)"
-                    ></i>
-                    <span class="capitalize">{{ task.priority }}</span>
+                    <span>Task Name</span>
+                    <span>Estimate</span>
+                    <span>Spent Time</span>
+                    <span>Assignee</span>
+                    <span>Priority</span>
+                    <span>Status</span>
+                    <span></span>
                   </div>
-                  <span
-                    class="text-[11px] px-2.5 py-1 rounded-full font-medium"
-                    [class]="statusClass(task.status)"
-                  >
-                    {{ statusLabel(task.status) }}
-                  </span>
-                  <div
-                    class="w-5 h-5 rounded-full border-2 flex-shrink-0"
-                    [class]="
-                      task.status === 'done'
-                        ? 'border-green-400 bg-green-50'
-                        : 'border-blue-300'
-                    "
-                  ></div>
-                </div>
 
-                <!-- Backlog Tasks -->
-                <ng-container *ngIf="p.backlogTasks?.length">
+                  <!-- Active Tasks -->
                   <div
                     class="bg-slate-50 rounded-lg px-4 py-2 text-xs font-medium text-slate-500 my-2"
                   >
-                    Backlog
+                    Active Tasks
                   </div>
 
                   <div
-                    *ngFor="let task of p.backlogTasks"
+                    *ngFor="let task of p.activeTasks"
                     class="grid grid-cols-[1fr_80px_96px_64px_96px_120px_32px] gap-2 items-center py-3 border-b border-gray-50 hover:bg-slate-50 rounded-lg px-2 transition-all cursor-pointer"
-                    (click)="onEditTask(task)"
+                    (click)="redirectToTask(task)"
                   >
                     <div class="text-sm font-medium text-slate-800 truncate">
                       {{ task.title }}
                     </div>
                     <div class="text-sm text-slate-700">
-                      {{ formatHours(task.estimateTime) }}
+                      {{ formatHours(task?.estimateTime) }}
                     </div>
                     <div class="text-sm text-slate-700">
                       {{ formatHours(task.spentTime) }}
                     </div>
                     <p-avatar
-                      [image]="getEmployee(task.assignee)?.avatar"
+                      [image]="getEmployee(task?.assignee)?.avatar"
                       shape="circle"
                       size="normal"
                     ></p-avatar>
@@ -232,14 +170,67 @@
                       {{ statusLabel(task.status) }}
                     </span>
                     <div
-                      class="w-5 h-5 rounded-full border-2 border-gray-200 flex-shrink-0"
+                      class="w-5 h-5 rounded-full border-2 flex-shrink-0"
+                      [class]="
+                        task.status === 'done'
+                          ? 'border-green-400 bg-green-50'
+                          : 'border-blue-300'
+                      "
                     ></div>
                   </div>
-                </ng-container>
-              </div>
-              <!-- end overflow wrapper --> </ng-container
-            ><!-- end project as p -->
-            </ng-container><!-- end !selectedTask -->
+
+                  <!-- Backlog Tasks -->
+                  <ng-container *ngIf="p.backlogTasks?.length">
+                    <div
+                      class="bg-slate-50 rounded-lg px-4 py-2 text-xs font-medium text-slate-500 my-2"
+                    >
+                      Backlog
+                    </div>
+
+                    <div
+                      *ngFor="let task of p.backlogTasks"
+                      class="grid grid-cols-[1fr_80px_96px_64px_96px_120px_32px] gap-2 items-center py-3 border-b border-gray-50 hover:bg-slate-50 rounded-lg px-2 transition-all cursor-pointer"
+                      (click)="onEditTask(task)"
+                    >
+                      <div class="text-sm font-medium text-slate-800 truncate">
+                        {{ task.title }}
+                      </div>
+                      <div class="text-sm text-slate-700">
+                        {{ formatHours(task.estimateTime) }}
+                      </div>
+                      <div class="text-sm text-slate-700">
+                        {{ formatHours(task.spentTime) }}
+                      </div>
+                      <p-avatar
+                        [image]="getEmployee(task.assignee)?.avatar"
+                        shape="circle"
+                        size="normal"
+                      ></p-avatar>
+                      <div
+                        class="flex items-center gap-1 text-xs"
+                        [class]="priorityClass(task.priority)"
+                      >
+                        <i
+                          class="pi text-xs"
+                          [class]="priorityIcon(task.priority)"
+                        ></i>
+                        <span class="capitalize">{{ task.priority }}</span>
+                      </div>
+                      <span
+                        class="text-[11px] px-2.5 py-1 rounded-full font-medium"
+                        [class]="statusClass(task.status)"
+                      >
+                        {{ statusLabel(task.status) }}
+                      </span>
+                      <div
+                        class="w-5 h-5 rounded-full border-2 border-gray-200 flex-shrink-0"
+                      ></div>
+                    </div>
+                  </ng-container>
+                </div>
+                <!-- end overflow wrapper --> </ng-container
+              ><!-- end project as p --> </ng-container
+            ><!-- end !selectedTask -->
           </ng-container>
           <!-- Project Board -->
           <ng-container *ngIf="activeIndex === 1">

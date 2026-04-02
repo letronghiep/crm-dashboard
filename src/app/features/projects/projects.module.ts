@@ -10,6 +10,8 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { SingleProjectComponent } from './single-project/single-project.component';
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { ReportTimeComponent } from './task-detail/report-time/report-time.component';
+import { AddProjectComponent } from './single-project/add-project/add-project.component';
+import { AddTaskComponent } from './task-detail/add-task/add-task.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { ReportTimeComponent } from './task-detail/report-time/report-time.compo
     TaskDetailComponent,
     SingleProjectComponent,
     ReportTimeComponent,
+    AddProjectComponent,
+    AddTaskComponent,
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,305 @@
+<form [formGroup]="projectForm" class="p-6 space-y-5">
+  <!-- Logo row -->
+  <div class="flex items-center gap-4">
+    <div
+      class="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 text-2xl flex-shrink-0"
+    >
+      <img
+        *ngIf="projectForm.get('avatar')?.value !== ''; else noImage"
+        [src]="'http://localhost:3000' + projectForm.get('avatar')?.value"
+      />
+      <ng-template #noImage>
+        <i class="pi pi-folder"></i>
+      </ng-template>
+    </div>
+    <div>
+      <p class="text-sm font-medium text-gray-700 mb-1">
+        {{ "projects.projectLogo" | translate }}
+      </p>
+      <upload-file [attachments]="avatarAttachments"></upload-file>
+    </div>
+  </div>
+
+  <p-divider styleClass="my-1"></p-divider>
+
+  <!-- Form grid -->
+  <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+    <!-- Project Name -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-folder text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ "projects.projectName" | translate }}
+          <span class="text-red-400">*</span></label
+        >
+      </div>
+      <span class="p-input-icon-left w-full">
+        <input
+          pInputText
+          class="w-full"
+          [placeholder]="'projects.projectNamePlaceholder' | translate"
+          formControlName="name"
+          [class.p-invalid]="
+            projectForm.get('name')?.invalid &&
+            (projectForm.get('name')?.touched || projectForm.get('name')?.dirty)
+          "
+        />
+      </span>
+      <small
+        *ngIf="
+          projectForm.get('name')?.errors?.['required'] &&
+          projectForm.get('name')?.touched
+        "
+        class="p-error"
+        >{{ "projects.projectNameRequired" | translate }}</small
+      >
+      <small
+        *ngIf="projectForm.get('name')?.errors?.['maxlength']"
+        class="p-error"
+      >
+        {{ "projects.maxLength" | translate }}
+      </small>
+      <small
+        *ngIf="projectForm.get('name')?.errors?.['pattern']"
+        class="p-error"
+      >
+        {{ "projects.noSpaces" | translate }}
+      </small>
+    </div>
+
+    <!-- Company -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-building text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600">{{
+          "projects.company" | translate
+        }}</label>
+      </div>
+      <p-dropdown
+        [options]="companies"
+        formControlName="companyId"
+        optionLabel="name"
+        optionValue="id"
+        [placeholder]="'projects.companyPlaceholder' | translate"
+        styleClass="w-full"
+      ></p-dropdown>
+    </div>
+
+    <!-- Manager -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600"
+        >{{ "projects.projectManager" | translate }}
+        <span class="text-red-400">*</span></label
+      >
+      <p-dropdown
+        [options]="employees"
+        formControlName="managerId"
+        optionLabel="name"
+        optionValue="id"
+        [placeholder]="'projects.managerPlaceholder' | translate"
+        styleClass="w-full"
+        [class.p-invalid]="
+          projectForm.get('managerId')?.invalid &&
+          projectForm.get('managerId')?.touched
+        "
+      ></p-dropdown>
+      <small
+        *ngIf="
+          projectForm.get('managerId')?.errors?.['required'] &&
+          projectForm.get('managerId')?.touched
+        "
+        class="p-error"
+        >{{ "projects.managerRequired" | translate }}</small
+      >
+    </div>
+
+    <!-- Users in Project -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">{{
+        "projects.usersInProject" | translate
+      }}</label>
+      <p-multiSelect
+        [options]="employees"
+        formControlName="userInProject"
+        optionLabel="name"
+        optionValue="id"
+        [placeholder]="'projects.usersInProjectPlaceholder' | translate"
+        styleClass="w-full"
+      />
+    </div>
+
+    <!-- Status -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-info-circle text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ "projects.status" | translate }}
+          <span class="text-red-400">*</span></label
+        >
+      </div>
+      <p-dropdown
+        [options]="statusOptions"
+        formControlName="status"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'projects.statusPlaceholder' | translate"
+        styleClass="w-full"
+        [class.p-invalid]="
+          projectForm.get('status')?.invalid &&
+          projectForm.get('status')?.touched
+        "
+      ></p-dropdown>
+      <small
+        *ngIf="
+          projectForm.get('status')?.errors?.['required'] &&
+          projectForm.get('status')?.touched
+        "
+        class="p-error"
+        >{{ "projects.statusRequired" | translate }}</small
+      >
+    </div>
+
+    <!-- Priority -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-flag text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ "projects.priority" | translate }}
+          <span class="text-red-400">*</span></label
+        >
+      </div>
+      <p-dropdown
+        [options]="priorityOptions"
+        formControlName="priority"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'projects.priorityPlaceholder' | translate"
+        styleClass="w-full"
+        [class.p-invalid]="
+          projectForm.get('priority')?.invalid &&
+          projectForm.get('priority')?.touched
+        "
+      ></p-dropdown>
+      <small
+        *ngIf="
+          projectForm.get('priority')?.errors?.['required'] &&
+          projectForm.get('priority')?.touched
+        "
+        class="p-error"
+        >{{ "projects.priorityRequired" | translate }}</small
+      >
+    </div>
+
+    <!-- Start Date -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-calendar text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ "projects.startDate" | translate }}
+          <span class="text-red-400">*</span></label
+        >
+      </div>
+      <p-calendar
+        formControlName="startDate"
+        dateFormat="dd/mm/yy"
+        [placeholder]="'projects.startDatePlaceholder' | translate"
+        styleClass="w-full"
+        appendTo="body"
+        [class.p-invalid]="
+          projectForm.get('startDate')?.invalid &&
+          projectForm.get('startDate')?.touched
+        "
+      ></p-calendar>
+      <small
+        *ngIf="
+          projectForm.get('startDate')?.errors?.['required'] &&
+          projectForm.get('startDate')?.touched
+        "
+        class="p-error"
+        >{{ "projects.startDateRequired" | translate }}</small
+      >
+    </div>
+
+    <!-- End Date -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-calendar text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600">{{
+          "projects.endDate" | translate
+        }}</label>
+      </div>
+      <p-calendar
+        formControlName="endDate"
+        dateFormat="dd/mm/yy"
+        appendTo="body"
+        [placeholder]="'projects.endDatePlaceholder' | translate"
+        styleClass="w-full"
+      ></p-calendar>
+    </div>
+
+    <!-- Budget -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-dollar text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600">{{
+          "projects.budget" | translate
+        }}</label>
+      </div>
+      <p-inputNumber
+        formControlName="budget"
+        mode="currency"
+        currency="USD"
+        locale="en-US"
+        [placeholder]="'projects.budgetPlaceholder' | translate"
+        styleClass="w-full"
+      ></p-inputNumber>
+    </div>
+
+    <!-- Tags -->
+    <div class="flex flex-col gap-1">
+      <label class="text-sm font-medium text-gray-600">{{
+        "projects.tags" | translate
+      }}</label>
+      <p-multiSelect
+        [options]="tags"
+        formControlName="tags"
+        optionLabel="name"
+        optionValue="code"
+        [placeholder]="'projects.tagsPlaceholder' | translate"
+        styleClass="w-full"
+      />
+    </div>
+
+    <!-- Description — full width -->
+    <div class="flex flex-col gap-1 col-span-2">
+      <label class="text-sm font-medium text-gray-600">{{
+        "projects.description" | translate
+      }}</label>
+      <textarea
+        pInputTextarea
+        formControlName="description"
+        rows="4"
+        class="w-full resize-none"
+        [placeholder]="'projects.descriptionPlaceholder' | translate"
+      ></textarea>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
+    <button
+      pButton
+      [label]="'projects.cancel' | translate"
+      class="p-button-text p-button-secondary px-4 py-2 rounded-lg"
+      (click)="onClose()"
+    ></button>
+    <button
+      pButton
+      class="p-button-primary px-4 py-2 rounded-lg shadow"
+      [label]="'projects.createProject' | translate"
+      icon="pi pi-check"
+      [disabled]="projectForm.invalid"
+      (click)="onSave()"
+    ></button>
+  </div>
+</form>

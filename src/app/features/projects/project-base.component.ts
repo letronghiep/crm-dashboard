@@ -21,6 +21,7 @@ export abstract class ProjectBaseComponent implements OnDestroy {
   userInProject: Employee[] = [];
   isEditing = false;
   activeIndex = 0;
+  projectEditing?: ProjectWithAssignee;
   selectedTask: any = null;
   hoveredTask: any = null;
   draggingTask: any = null;
@@ -125,15 +126,24 @@ export abstract class ProjectBaseComponent implements OnDestroy {
   removeAssigneeSlot(index: number): void {
     this.assigneeSlots.splice(index, 1);
     this.assigneesArray.removeAt(index);
-    this.rebuildOptions();
+    if (this.projectEditing) {
+      this.rebuildOptions(this.projectEditing);
+    } else {
+      this.rebuildOptions();
+    }
   }
 
   updateAssignee(index: number, value: number | null): void {
     this.assigneeSlots[index] = value;
-    this.rebuildOptions();
+    if (this.projectEditing) {
+      this.rebuildOptions(this.projectEditing);
+    } else {
+      this.rebuildOptions();
+    }
   }
 
   acceptEditing(project: ProjectWithAssignee): void {
+    this.projectEditing = project;
     this.isEditing = true;
     this.projectForm.patchValue({
       ...project,

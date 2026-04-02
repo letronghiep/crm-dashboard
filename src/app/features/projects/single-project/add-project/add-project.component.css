@@ -1,0 +1,155 @@
+/* ── Input text ── */
+:host ::ng-deep .p-inputtext {
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #fff;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  width: 100%;
+}
+
+:host ::ng-deep .p-inputtext:hover {
+  border-color: #93c5fd;
+}
+
+:host ::ng-deep .p-inputtext:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  outline: none;
+}
+
+:host ::ng-deep .p-inputtext::placeholder {
+  color: #9ca3af;
+}
+
+/* ── Textarea ── */
+:host ::ng-deep textarea.p-inputtextarea {
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #1e293b;
+  background: #fff;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+:host ::ng-deep textarea.p-inputtextarea:hover {
+  border-color: #93c5fd;
+}
+
+:host ::ng-deep textarea.p-inputtextarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  outline: none;
+}
+
+/* ── Dropdown ── */
+:host ::ng-deep .p-dropdown {
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+:host ::ng-deep .p-dropdown:hover {
+  border-color: #93c5fd;
+}
+
+:host ::ng-deep .p-dropdown.p-focus,
+:host ::ng-deep .p-dropdown:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+  font-size: 14px;
+  color: #1e293b;
+  padding: 8px 12px;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-label.p-placeholder {
+  color: #9ca3af;
+}
+
+/* ── MultiSelect ── */
+:host ::ng-deep .p-multiselect {
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+:host ::ng-deep .p-multiselect:hover {
+  border-color: #93c5fd;
+}
+
+:host ::ng-deep .p-multiselect.p-focus,
+:host ::ng-deep .p-multiselect:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+:host ::ng-deep .p-multiselect .p-multiselect-label {
+  font-size: 14px;
+  padding: 8px 12px;
+}
+
+:host ::ng-deep .p-multiselect .p-multiselect-label.p-placeholder {
+  color: #9ca3af;
+}
+
+/* Bỏ border dọc ngăn giữa label và chevron icon */
+:host ::ng-deep .p-dropdown .p-dropdown-label {
+  border-right: none !important;
+}
+
+:host ::ng-deep .p-dropdown .p-dropdown-trigger,
+:host ::ng-deep .p-multiselect .p-multiselect-trigger {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+:host ::ng-deep .p-multiselect .p-multiselect-label {
+  border-right: none !important;
+}
+
+/* PrimeNG 16 Lara theme tách dropdown thành 2 phần có border riêng */
+:host ::ng-deep .p-dropdown .p-inputtext {
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+:host ::ng-deep .p-multiselect .p-inputtext {
+  border: none !important;
+  box-shadow: none !important;
+}
+input.p-invalid {
+  border: 1px solid red;
+}
+.dialog-report-time .p-dialog-header {
+  justify-content: center;
+}
+
+.dialog-report-time .p-dialog-title {
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 20px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e8f0;
+}

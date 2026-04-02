@@ -6,11 +6,14 @@ import { ProjectWithAssignee } from 'src/app/core/models/project';
 import { ProjectsService } from 'src/app/core/services/projects/projects.service';
 import { ThemeService } from 'src/app/layouts/theme.service';
 import { ProjectBaseComponent } from '../project-base.component';
+import { AddTaskComponent } from '../task-detail/add-task/add-task.component';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-single-project',
   templateUrl: './single-project.component.html',
   styleUrls: ['./single-project.component.css'],
+  providers: [DialogService],
 })
 export class SingleProjectComponent
   extends ProjectBaseComponent
@@ -26,6 +29,7 @@ export class SingleProjectComponent
     themeService: ThemeService,
     private projectService: ProjectsService,
     private activatedRoute: ActivatedRoute,
+    private ref: DialogService,
   ) {
     super(fb, themeService);
     this.project$ = this.projectSubject.asObservable();
@@ -84,5 +88,16 @@ export class SingleProjectComponent
     targetList.push({ ...this.draggingTask, status: targetStatus as any });
     this.draggingTask = null;
     this.isDragging = false;
+  }
+  addTask() {
+    this.ref.open(AddTaskComponent, {
+      header: 'Add Task',
+      width: '60%',
+      data: {
+        // employees: this.employees,
+        // projects: this.projects,
+        // projectId: this.currentProjectId, // optional, pre-select project
+      },
+    });
   }
 }

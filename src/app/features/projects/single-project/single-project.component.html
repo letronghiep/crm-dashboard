@@ -8,8 +8,9 @@
     <button
       pButton
       icon="pi pi-plus"
-      label="Add Task"
+      label="{{ 'projects.add_task' | translate }}"
       class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+      (click)="addTask()"
     ></button>
   </div>
   <ng-container>
@@ -18,7 +19,8 @@
       [routerLink]="['/projects']"
       routerLinkActive="router-link-active"
     >
-      <i class="pi pi-arrow-left text-xs"></i> Back to Projects
+      <i class="pi pi-arrow-left text-xs"></i>
+      {{ "projects.go_back" | translate }}
     </button>
     <div class="flex min-w-0 min-h-0 gap-4">
       <div

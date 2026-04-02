@@ -1,0 +1,341 @@
+<form [formGroup]="taskForm" class="p-6 space-y-5">
+  <!-- Header with icon -->
+  <div class="flex items-center gap-4">
+    <div
+      class="w-16 h-16 rounded-xl bg-green-50 flex items-center justify-center text-green-500 text-2xl flex-shrink-0"
+    >
+      <i class="pi pi-check-square"></i>
+    </div>
+    <div>
+      <p class="text-sm font-medium text-gray-700 mb-1">{{ 'tasks.taskIcon' | translate }}</p>
+      <p class="text-xs text-gray-500">{{ 'tasks.taskIconDescription' | translate }}</p>
+    </div>
+  </div>
+
+  <p-divider styleClass="my-1"></p-divider>
+
+  <!-- Form grid -->
+  <div class="grid grid-cols-2 gap-x-6 gap-y-4">
+    <!-- Task Type -->
+    <div class="flex flex-col gap-1 col-span-2">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-tag text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ 'tasks.taskType' | translate }} <span class="text-red-400">*</span></label
+        >
+      </div>
+      <p-dropdown
+        [options]="taskTypeOptions"
+        formControlName="taskType"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'tasks.taskTypePlaceholder' | translate"
+        styleClass="w-full"
+        [class.p-invalid]="
+          taskForm.get('taskType')?.invalid &&
+          taskForm.get('taskType')?.touched
+        "
+      ></p-dropdown>
+      <small
+        *ngIf="
+          taskForm.get('taskType')?.errors?.['required'] &&
+          taskForm.get('taskType')?.touched
+        "
+        class="p-error"
+        >{{ 'tasks.taskTypeRequired' | translate }}</small
+      >
+    </div>
+
+    <!-- Task Title -->
+    <div class="flex flex-col gap-1 col-span-2">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-check-square text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ 'tasks.taskTitle' | translate }} <span class="text-red-400">*</span></label
+        >
+      </div>
+      <span class="p-input-icon-left w-full">
+        <input
+          pInputText
+          class="w-full"
+          [placeholder]="'tasks.taskTitlePlaceholder' | translate"
+          formControlName="title"
+          [class.p-invalid]="
+            taskForm.get('title')?.invalid &&
+            (taskForm.get('title')?.touched || taskForm.get('title')?.dirty)
+          "
+        />
+      </span>
+      <small
+        *ngIf="
+          taskForm.get('title')?.errors?.['required'] &&
+          taskForm.get('title')?.touched
+        "
+        class="p-error"
+        >{{ 'tasks.taskTitleRequired' | translate }}</small
+      >
+      <small
+        *ngIf="taskForm.get('title')?.errors?.['maxlength']"
+        class="p-error"
+      >
+        {{ 'tasks.maxLength' | translate }}
+      </small>
+      <small
+        *ngIf="taskForm.get('title')?.errors?.['pattern']"
+        class="p-error"
+      >
+        {{ 'tasks.noSpaces' | translate }}
+      </small>
+    </div>
+
+    <!-- Project -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-folder text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ 'tasks.project' | translate }} <span class="text-red-400">*</span></label
+        >
+      </div>
+      <p-dropdown
+        [options]="projects"
+        formControlName="projectId"
+        optionLabel="name"
+        optionValue="id"
+        [placeholder]="'tasks.projectPlaceholder' | translate"
+        styleClass="w-full"
+        [class.p-invalid]="
+          taskForm.get('projectId')?.invalid &&
+          taskForm.get('projectId')?.touched
+        "
+      ></p-dropdown>
+      <small
+        *ngIf="
+          taskForm.get('projectId')?.errors?.['required'] &&
+          taskForm.get('projectId')?.touched
+        "
+        class="p-error"
+        >{{ 'tasks.projectRequired' | translate }}</small
+      >
+    </div>
+
+    <!-- Parent Task -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-sitemap text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600">{{ 'tasks.parentTask' | translate }}</label>
+      </div>
+      <p-dropdown
+        [options]="tasks"
+        formControlName="parentTask"
+        optionLabel="title"
+        optionValue="id"
+        [placeholder]="'tasks.parentTaskPlaceholder' | translate"
+        styleClass="w-full"
+        [showClear]="true"
+      ></p-dropdown>
+    </div>
+
+    <!-- Assignee -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-user text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ 'tasks.assignee' | translate }} <span class="text-red-400">*</span></label
+        >
+      </div>
+      <p-dropdown
+        [options]="employees"
+        formControlName="assignee"
+        optionLabel="name"
+        optionValue="id"
+        [placeholder]="'tasks.assigneePlaceholder' | translate"
+        styleClass="w-full"
+        [class.p-invalid]="
+          taskForm.get('assignee')?.invalid &&
+          taskForm.get('assignee')?.touched
+        "
+      ></p-dropdown>
+      <small
+        *ngIf="
+          taskForm.get('assignee')?.errors?.['required'] &&
+          taskForm.get('assignee')?.touched
+        "
+        class="p-error"
+        >{{ 'tasks.assigneeRequired' | translate }}</small
+      >
+    </div>
+
+    <!-- Priority -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-flag text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ 'tasks.priority' | translate }} <span class="text-red-400">*</span></label
+        >
+      </div>
+      <p-dropdown
+        [options]="priorityOptions"
+        formControlName="priority"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'tasks.priorityPlaceholder' | translate"
+        styleClass="w-full"
+        [class.p-invalid]="
+          taskForm.get('priority')?.invalid &&
+          taskForm.get('priority')?.touched
+        "
+      ></p-dropdown>
+      <small
+        *ngIf="
+          taskForm.get('priority')?.errors?.['required'] &&
+          taskForm.get('priority')?.touched
+        "
+        class="p-error"
+        >{{ 'tasks.priorityRequired' | translate }}</small
+      >
+    </div>
+
+    <!-- Status -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-info-circle text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600"
+          >{{ 'tasks.status' | translate }} <span class="text-red-400">*</span></label
+        >
+      </div>
+      <p-dropdown
+        [options]="statusOptions"
+        formControlName="status"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'tasks.statusPlaceholder' | translate"
+        styleClass="w-full"
+        [class.p-invalid]="
+          taskForm.get('status')?.invalid &&
+          taskForm.get('status')?.touched
+        "
+      ></p-dropdown>
+      <small
+        *ngIf="
+          taskForm.get('status')?.errors?.['required'] &&
+          taskForm.get('status')?.touched
+        "
+        class="p-error"
+        >{{ 'tasks.statusRequired' | translate }}</small
+      >
+    </div>
+
+    <!-- Start Date -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-calendar text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600">{{ 'tasks.startDate' | translate }}</label>
+      </div>
+      <p-calendar
+        formControlName="startDate"
+        [placeholder]="'tasks.startDatePlaceholder' | translate"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        styleClass="w-full"
+        appendTo="body"
+      ></p-calendar>
+    </div>
+
+    <!-- End Date -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-calendar-times text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600">{{ 'tasks.endDate' | translate }}</label>
+      </div>
+      <p-calendar
+        formControlName="endDate"
+        [placeholder]="'tasks.endDatePlaceholder' | translate"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        styleClass="w-full"
+        appendTo="body"
+      ></p-calendar>
+    </div>
+
+    <!-- Estimate Time -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-clock text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600">{{ 'tasks.estimateTime' | translate }}</label>
+      </div>
+      <p-inputNumber
+        formControlName="estimateTime"
+        [min]="0"
+        [step]="0.5"
+        [placeholder]="'tasks.estimateTimePlaceholder' | translate"
+        suffix=" h"
+        styleClass="w-full"
+      ></p-inputNumber>
+    </div>
+
+    <!-- Spent Time -->
+    <div class="flex flex-col gap-1">
+      <div class="flex gap-2 items-center">
+        <i class="pi pi-history text-gray-400"></i>
+        <label class="text-sm font-medium text-gray-600">{{ 'tasks.spentTime' | translate }}</label>
+      </div>
+      <p-inputNumber
+        formControlName="spentTime"
+        [min]="0"
+        [step]="0.5"
+        [placeholder]="'tasks.spentTimePlaceholder' | translate"
+        suffix=" h"
+        styleClass="w-full"
+      ></p-inputNumber>
+    </div>
+
+    <!-- Tags -->
+    <div class="flex flex-col gap-1 col-span-2">
+      <label class="text-sm font-medium text-gray-600">{{ 'tasks.tags' | translate }}</label>
+      <p-multiSelect
+        [options]="tags"
+        formControlName="tags"
+        optionLabel="name"
+        optionValue="code"
+        [placeholder]="'tasks.tagsPlaceholder' | translate"
+        styleClass="w-full"
+      />
+    </div>
+
+    <!-- Description — full width -->
+    <div class="flex flex-col gap-1 col-span-2">
+      <label class="text-sm font-medium text-gray-600">{{ 'tasks.description' | translate }}</label>
+      <textarea
+        pInputTextarea
+        formControlName="description"
+        rows="4"
+        class="w-full resize-none"
+        [placeholder]="'tasks.descriptionPlaceholder' | translate"
+      ></textarea>
+    </div>
+
+    <!-- Attachments -->
+    <div class="flex flex-col gap-1 col-span-2">
+      <label class="text-sm font-medium text-gray-600">{{ 'tasks.attachments' | translate }}</label>
+      <upload-file [attachments]="attachments"></upload-file>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="flex justify-end gap-3 pt-2 border-t border-gray-100">
+    <button
+      pButton
+      [label]="'tasks.cancel' | translate"
+      class="p-button-text p-button-secondary px-4 py-2 rounded-lg"
+      (click)="onClose()"
+    ></button>
+    <button
+      pButton
+      class="p-button-primary px-4 py-2 rounded-lg shadow"
+      [label]="'tasks.createTask' | translate"
+      icon="pi pi-check"
+      [disabled]="taskForm.invalid"
+      (click)="onSave()"
+    ></button>
+  </div>
+</form>

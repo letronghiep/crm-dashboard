@@ -9,6 +9,7 @@ import { ContactsComponent } from './features/contacts/contacts.component';
 // import { DealsComponent } from './features/deals/deals.component';
 import { LayoutComponent } from './layouts/layout.component';
 import { DealsComponent } from './features/deals/deals.component';
+import { CalendarComponent } from './features/calendar/calendar.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
       {
         path: 'deals',
         component: DealsComponent,
+      },
+      {
+        path: 'calendar',
+        component: CalendarComponent,
       },
     ],
   },

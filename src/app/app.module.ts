@@ -16,6 +16,7 @@ import { ProjectsModule } from './features/projects/projects.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CustomLoader } from './core/services/custom-loader.service';
+import { CalendarsModule } from './features/calendar/calendar.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +31,7 @@ import { CustomLoader } from './core/services/custom-loader.service';
     DealsModule,
     EmployeesModule,
     ProjectsModule,
+    CalendarsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({
