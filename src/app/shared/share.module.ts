@@ -23,6 +23,9 @@ import { WorkloadProjectComponent } from './components/workload-project/workload
 import { ToCapitalizePipe } from './pipes/to-capitalize.pipe';
 import { MenuModule } from 'primeng/menu';
 import { InputTextModule } from 'primeng/inputtext';
+import { AvatarModule } from 'primeng/avatar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTimeComponent } from './components/input-time/input-time.component';
 import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations: [
@@ -32,10 +35,12 @@ import { TranslateModule } from '@ngx-translate/core';
     SkeletonLoadingComponent,
     ToCapitalizePipe,
     UploadFileComponent,
+    InputTimeComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
+    AvatarModule,
     ButtonModule,
     CardModule,
     CalendarModule,
@@ -49,11 +54,12 @@ import { TranslateModule } from '@ngx-translate/core';
     InputNumberModule,
     InputSwitchModule,
     InputTextModule,
+    InputTextareaModule,
     ConfirmDialogModule,
     TabViewModule,
     DividerModule,
     MenuModule,
-    TranslateModule
+    TranslateModule,
   ],
   exports: [
     SidebarComponent,
@@ -72,12 +78,15 @@ import { TranslateModule } from '@ngx-translate/core';
     InputNumberModule,
     InputSwitchModule,
     InputTextModule,
+    InputTextareaModule,
     ReactiveFormsModule,
     FormsModule,
     DropdownModule,
     CalendarModule,
     MenuModule,
-    TranslateModule
+    AvatarModule,
+    InputTimeComponent,
+    TranslateModule,
   ],
 })
 export class SharedModule {}

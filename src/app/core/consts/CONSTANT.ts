@@ -6,5 +6,7 @@ export const API_CONSTANT = {
   employees: 'employees',
   companies: 'companies',
   contacts: 'contacts',
-  deals: 'deals'
+  deals: 'deals',
+  projects: 'projects',
+  projectDetail: 'projects/:id',
 };

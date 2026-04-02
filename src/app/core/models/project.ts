@@ -1,3 +1,4 @@
+import { Employee } from './employee';
 import { Task } from './task';
 
 export interface Project {
@@ -14,12 +15,22 @@ export interface Project {
   attachments: IAttachment[];
   activeTasks: Task[];
   backlogTasks: Task[];
-  users?: string[];
+  users?: number[];
+}
+
+export interface ProjectWithAssignee extends Omit<
+  Project,
+  'assignees' | 'users'
+> {
+  assignees: number[];
+  userInProject?: Employee[];
 }
 export interface IAttachment {
   id: string;
-  fileName: string;
-  fileUrl: string;
+  name: string;
+  serverPath: string;
+  type: string;
+  size: number;
   uploadedBy: number;
   createdAt: Date;
 }

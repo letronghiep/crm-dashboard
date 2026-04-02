@@ -1,0 +1,21 @@
+<p-dropdown
+  #dd
+  [options]="timeOptions"
+  [(ngModel)]="selectedTime"
+  [placeholder]="placeholder"
+  [disabled]="disabled"
+  [editable]="true"
+  optionLabel="label"
+  optionValue="value"
+  appendTo="body"
+  [showClear]="true"
+  (onChange)="onDropdownChange($event)"
+  (onClear)="onClear()"
+>
+  <ng-template pTemplate="selectedItem">
+    <span *ngIf="selectedTime">{{ selectedTime }}</span>
+  </ng-template>
+  <ng-template let-option pTemplate="item">
+    <div>{{ option.label }}</div>
+  </ng-template>
+</p-dropdown>

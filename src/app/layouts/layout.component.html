@@ -1,21 +1,21 @@
 <div class="app-layout">
   <app-app-topbar></app-app-topbar>
 
-  <div
-    class="app-main flex gap-2 p-6"
-    [class.bg-slate-100]="!(isDarkMode$ | async)!"
-  >
-    <div class="flex flex-col gap-4">
+  <div class="app-main gap-2 p-6"
+    [class.bg-slate-100]="!(isDarkMode$ | async)!">
+
+    <!-- Sidebar: fixed height, no scroll -->
+    <div class="app-sidebar-wrapper">
       <app-sidebar
         [collapsed]="(isSidebarCollapsed$ | async)!"
-        [isDarkMode]="(isDarkMode$ | async)!"
-      ></app-sidebar>
-
-      
+        [isDarkMode]="(isDarkMode$ | async)!">
+      </app-sidebar>
     </div>
 
-    <div class="app-content w-full">
+    <!-- Content: scrolls independently -->
+    <div class="app-content">
       <router-outlet></router-outlet>
     </div>
+
   </div>
 </div>

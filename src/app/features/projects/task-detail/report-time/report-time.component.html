@@ -1,0 +1,162 @@
+<form [formGroup]="form" class="p-fluid">
+  <!-- Task -->
+  <div class="mb-3 text-center text-lg font-semibold">
+    <p class="m-0">{{ task?.title }}</p>
+  </div>
+  <!-- Task type -->
+  <div class="mb-3">
+    <label class="block mb-2">Loại: <span class="text-red-500">*</span></label>
+    <p-dropdown
+      [options]="taskTypes"
+      formControlName="taskType"
+      optionLabel="name"
+      optionValue="value"
+      placeholder="Chọn loại công việc"
+      class="w-full"
+      [ngClass]="{
+        'ng-invalid ng-dirty':
+          taskTypeControl?.invalid && taskTypeControl?.touched,
+      }"
+    >
+    </p-dropdown>
+    <small
+      class="text-red-500"
+      *ngIf="taskTypeControl?.invalid && taskTypeControl?.touched"
+    >
+      <span *ngIf="taskTypeControl?.errors?.['required']"
+        >Loại là bắt buộc</span
+      >
+    </small>
+  </div>
+  <!-- Date -->
+  <div class="mb-3">
+    <label class="block mb-2">Ngày: <span class="text-red-500">*</span></label>
+    <p-calendar
+      formControlName="date"
+      dateFormat="dd/mm/yy"
+      appendTo="body"
+      [ngClass]="{
+        'ng-invalid ng-dirty': dateControl?.invalid && dateControl?.touched,
+      }"
+      class="w-full"
+    >
+    </p-calendar>
+    <small
+      class="text-red-500"
+      *ngIf="dateControl?.invalid && dateControl?.touched"
+    >
+      <span *ngIf="dateControl?.errors?.['required']">Ngày là bắt buộc</span>
+    </small>
+  </div>
+  <!-- Time -->
+  <div class="mb-3">
+    <label class="block mb-2"
+      >Thời gian: <span class="text-red-500">*</span></label
+    >
+    <div class="flex items-center gap-2">
+      <input-time-select
+        formControlName="startTime"
+        placeholder="Nhập HHmm hoặc chọn thời gian"
+      >
+      </input-time-select>
+      <input-time-select
+        formControlName="endTime"
+        placeholder="Nhập HHmm hoặc chọn thời gian"
+      >
+      </input-time-select>
+    </div>
+    <small
+      class="text-red-500"
+      *ngIf="startTimeControl?.invalid && startTimeControl?.touched"
+    >
+      <span *ngIf="startTimeControl?.errors?.['required']"
+        >Thời gian là bắt buộc</span
+      >
+    </small>
+  </div>
+  <div class="mb-3">
+    <label class="block mb-2">Tổng: </label>
+    <input pInputText [value]="totalTimeFormatted" />
+    <!-- <span> {{ totalTimeFormatted }} </span> -->
+    <small
+      class="text-red-500"
+      *ngIf="descriptionControl?.invalid && descriptionControl?.touched"
+    >
+      <span *ngIf="descriptionControl?.errors?.['required']"
+        >Mô tả là bắt buộc</span
+      >
+      <span *ngIf="descriptionControl?.errors?.['minlength']"
+        >Mô tả phải có ít nhất 3 ký tự</span
+      >
+      <span *ngIf="descriptionControl?.errors?.['maxlength']"
+        >Mô tả không được quá 500 ký tự</span
+      >
+    </small>
+  </div>
+
+  <!-- User -->
+  <div class="mb-3">
+    <label class="block mb-2"
+      >Người thực hiện <span class="text-red-500">*</span></label
+    >
+    <p-dropdown
+      [options]="users"
+      formControlName="userId"
+      optionLabel="name"
+      optionValue="id"
+      placeholder="Chọn người thực hiện"
+      appendTo="body"
+      [ngClass]="{
+        'ng-invalid ng-dirty': userIdControl?.invalid && userIdControl?.touched,
+      }"
+    >
+    </p-dropdown>
+    <small
+      class="text-red-500"
+      *ngIf="userIdControl?.invalid && userIdControl?.touched"
+    >
+      <span *ngIf="userIdControl?.errors?.['required']"
+        >Người thực hiện là bắt buộc</span
+      >
+    </small>
+  </div>
+  <!-- Work type -->
+  <div class="mb-3">
+    <label class="block mb-2"
+      >Loại công việc <span class="text-red-500">*</span></label
+    >
+    <p-dropdown
+      [options]="workTypes"
+      formControlName="workType"
+      optionLabel="label"
+      optionValue="value"
+      appendTo="body"
+      placeholder="Chọn loại công việc"
+      [ngClass]="{
+        'ng-invalid ng-dirty': userIdControl?.invalid && userIdControl?.touched,
+      }"
+    >
+    </p-dropdown>
+    <small
+      class="text-red-500"
+      *ngIf="userIdControl?.invalid && userIdControl?.touched"
+    >
+      <span *ngIf="userIdControl?.errors?.['required']"
+        >Người thực hiện là bắt buộc</span
+      >
+    </small>
+  </div>
+  <!-- Actions -->
+  <div class="flex justify-content-end gap-2">
+    <button
+      pButton
+      type="button"
+      label="Hủy"
+      class="p-button-text"
+      (click)="ref.close()"
+    ></button>
+
+    <button pButton type="button" label="Lưu" (click)="submit()"></button>
+  </div>
+</form>
+<!-- [disabled]="form.invalid || !isTimeValid" -->

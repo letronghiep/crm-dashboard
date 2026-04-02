@@ -1,11 +1,14 @@
 <form [formGroup]="employeeForm" class="p-6 space-y-5">
-
   <!-- Avatar row -->
   <div class="flex items-center gap-4">
-    <div class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center overflow-hidden flex-shrink-0">
-      <img *ngIf="f('avatar')?.value; else noAvatar"
+    <div
+      class="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center overflow-hidden flex-shrink-0"
+    >
+      <img
+        *ngIf="f('avatar')?.value; else noAvatar"
         [src]="'http://localhost:3000' + f('avatar')?.value"
-        class="w-full h-full object-cover" />
+        class="w-full h-full object-cover"
+      />
       <ng-template #noAvatar>
         <i class="pi pi-user text-blue-400 text-2xl"></i>
       </ng-template>
@@ -25,7 +28,6 @@
   <p-divider styleClass="my-1"></p-divider>
 
   <div class="grid grid-cols-2 gap-x-6 gap-y-4">
-
     <!-- Name -->
     <div class="flex flex-col gap-1">
       <label class="text-sm font-medium text-gray-600">{{ 'employees.name' | translate }} <span class="text-red-400">*</span></label>
@@ -112,17 +114,20 @@
       <small class="p-error" *ngIf="f('exp')?.errors?.['required'] && f('exp')?.touched">{{ 'employees.errors.experienceRequired' | translate }}</small>
       <small class="p-error" *ngIf="f('exp')?.errors?.['min'] || f('exp')?.errors?.['max']">Must be between 0 and 100.</small>
     </div>
-
   </div>
 
   <!-- Actions -->
   <div class="flex items-center gap-3 pt-2 border-t border-gray-100">
     <!-- Reset Password — only in edit mode -->
-    <button *ngIf="isEditMode" pButton label="Reset Password" icon="pi pi-lock"
+    <button
+      *ngIf="isEditMode"
+      pButton
+      label="Reset Password"
+      icon="pi pi-lock"
       type="button"
       class="p-button-outlined p-button-warning px-4 py-2 rounded-lg"
-      (click)="onResetPassword()">
-    </button>
+      (click)="onResetPassword()"
+    ></button>
 
     <div class="ml-auto flex gap-3">
       <button pButton [label]="'common.cancel' | translate" type="button"
@@ -132,9 +137,8 @@
       <button pButton [label]="'common.save' | translate" icon="pi pi-check" type="button"
         class="p-button-primary px-4 py-2 rounded-lg shadow"
         [disabled]="employeeForm.invalid"
-        (click)="onSave()">
-      </button>
+        (click)="onSave()"
+      ></button>
     </div>
   </div>
-
 </form>

@@ -1,1 +1,540 @@
-<p>projects works!</p>
+<div class="p-6 h-full flex flex-col gap-4 box-border">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <h2 class="text-2xl font-bold text-slate-800 m-0">Projects</h2>
+    <button
+      pButton
+      icon="pi pi-plus"
+      label="Add Project"
+      class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+    ></button>
+  </div>
+
+  <!-- Body: sidebar + tasks -->
+  <ng-container>
+    <div class="flex gap-4 flex-1 min-h-0 overflow-hidden">
+      <!-- Project List Sidebar -->
+      <div class="w-64 flex-shrink-0 flex flex-col overflow-y-auto">
+        <div
+          class="flex items-center gap-2 text-sm font-medium text-slate-600 mb-2 px-1"
+        >
+          <span>Current Projects</span>
+          <i class="pi pi-chevron-down text-xs"></i>
+        </div>
+        <!-- Project List -->
+        <ng-container *ngIf="projects$ | async as projects">
+          <div
+            *ngFor="let project of projects"
+            class="px-3 py-3 rounded-xl cursor-pointer transition-all"
+            [class]="
+              selectedProject?.id === project.id
+                ? 'shadow-sm border-l-2 border-blue-500'
+                : ''
+            "
+            [ngClass]="{
+              'bg-white':
+                !themeService.isDarkMode() &&
+                selectedProject?.id === project.id,
+              'hover:bg-white hover:shadow-sm': !themeService.isDarkMode(),
+            }"
+            (click)="selectProject(project)"
+          >
+            <div
+              class="text-[10px] mb-0.5"
+              [ngClass]="{ 'text-slate-400': !themeService.isDarkMode() }"
+            >
+              {{ project.project_number }}
+            </div>
+            <div
+              class="text-sm font-semibold"
+              [class.text-blue-600]="
+                selectedProject?.id === project.id && !themeService.isDarkMode()
+              "
+            >
+              {{ project.name }}
+            </div>
+            <a
+              *ngIf="project?.id === project.id"
+              class="text-xs text-blue-500 hover:underline cursor-pointer mt-0.5 block"
+              [routerLink]="[project.id]"
+            >
+              View details &rsaquo;
+            </a>
+          </div>
+        </ng-container>
+      </div>
+      <div class="flex-1 min-w-0 flex min-h-0">
+        <!-- Tasks Panel -->
+        <div
+          class="flex-1 rounded-2xl shadow-sm overflow-hidden flex flex-col min-h-0"
+          [ngClass]="{ 'bg-white': !themeService.isDarkMode() }"
+        >
+          <!-- Tasks Header -->
+          <div
+            class="flex items-center gap-3 px-5 py-4 border-b border-gray-100 flex-shrink-0"
+          >
+            <h3 class="text-base font-semibold text-slate-800 m-0 flex-1">
+              {{ selectedTask ? 'Task Details' : 'Tasks' }}
+            </h3>
+            <div class="mx-auto flex-1 flex justify-center">
+              <button
+                pButton
+                icon="pi pi-bars"
+                class="p-button-text p-button-sm p-button-secondary"
+                [ngClass]="activeIndex === 0 ? 'text-blue-500' : ''"
+                (click)="activeIndex = 0"
+              ></button>
+              <button
+                pButton
+                icon="pi pi-slack"
+                class="p-button-text p-button-sm p-button-secondary"
+                (click)="activeIndex = 1"
+                [ngClass]="activeIndex === 1 ? 'text-blue-500' : ''"
+              ></button>
+              <button
+                pButton
+                icon="pi pi-sliders-h"
+                class="p-button-text p-button-sm p-button-secondary"
+                (click)="activeIndex = 2"
+                [ngClass]="activeIndex === 2 ? 'text-blue-500' : ''"
+              ></button>
+            </div>
+            <div class="flex-1 ml-auto flex justify-end">
+              <button
+                pButton
+                icon="pi pi-filter"
+                class="p-button-text p-button-sm p-button-secondary"
+              ></button>
+            </div>
+          </div>
+          <ng-container *ngIf="activeIndex === 0">
+            <!-- Task Detail -->
+            <!-- <div *ngIf="selectedTask" class="flex-1 min-h-0 overflow-hidden p-4">
+              <app-task-detail
+                [task]="selectedTask"
+                [employeeMap]="employeeMap"
+                [projectNumber]="selectedProject?.project_number"
+                [deadline]="selectedProject?.deadline"
+                (backToTaskList)="clearTaskSelected()"
+                >
+              </app-task-detail>
+            </div> -->
+
+            <ng-container *ngIf="!selectedTask">
+            <ng-container *ngIf="selectedProject as p">
+              <div class="overflow-y-auto flex-1 min-h-0 px-5">
+                <!-- Header row -->
+                <div
+                  class="grid grid-cols-[1fr_80px_96px_64px_96px_120px_32px] gap-2 px-2 py-2 text-[10px] text-slate-400 border-b border-gray-100 sticky top-0 bg-white z-10"
+                >
+                  <span>Task Name</span>
+                  <span>Estimate</span>
+                  <span>Spent Time</span>
+                  <span>Assignee</span>
+                  <span>Priority</span>
+                  <span>Status</span>
+                  <span></span>
+                </div>
+
+                <!-- Active Tasks -->
+                <div
+                  class="bg-slate-50 rounded-lg px-4 py-2 text-xs font-medium text-slate-500 my-2"
+                >
+                  Active Tasks
+                </div>
+
+                <div
+                  *ngFor="let task of p.activeTasks"
+                  class="grid grid-cols-[1fr_80px_96px_64px_96px_120px_32px] gap-2 items-center py-3 border-b border-gray-50 hover:bg-slate-50 rounded-lg px-2 transition-all cursor-pointer"
+                  (click)="redirectToTask(task)"
+                >
+                  <div class="text-sm font-medium text-slate-800 truncate">
+                    {{ task.title }}
+                  </div>
+                  <div class="text-sm text-slate-700">
+                    {{ formatHours(task?.estimateTime) }}
+                  </div>
+                  <div class="text-sm text-slate-700">
+                    {{ formatHours(task.spentTime) }}
+                  </div>
+                  <p-avatar
+                    [image]="getEmployee(task?.assignee)?.avatar"
+                    shape="circle"
+                    size="normal"
+                  ></p-avatar>
+                  <div
+                    class="flex items-center gap-1 text-xs"
+                    [class]="priorityClass(task.priority)"
+                  >
+                    <i
+                      class="pi text-xs"
+                      [class]="priorityIcon(task.priority)"
+                    ></i>
+                    <span class="capitalize">{{ task.priority }}</span>
+                  </div>
+                  <span
+                    class="text-[11px] px-2.5 py-1 rounded-full font-medium"
+                    [class]="statusClass(task.status)"
+                  >
+                    {{ statusLabel(task.status) }}
+                  </span>
+                  <div
+                    class="w-5 h-5 rounded-full border-2 flex-shrink-0"
+                    [class]="
+                      task.status === 'done'
+                        ? 'border-green-400 bg-green-50'
+                        : 'border-blue-300'
+                    "
+                  ></div>
+                </div>
+
+                <!-- Backlog Tasks -->
+                <ng-container *ngIf="p.backlogTasks?.length">
+                  <div
+                    class="bg-slate-50 rounded-lg px-4 py-2 text-xs font-medium text-slate-500 my-2"
+                  >
+                    Backlog
+                  </div>
+
+                  <div
+                    *ngFor="let task of p.backlogTasks"
+                    class="grid grid-cols-[1fr_80px_96px_64px_96px_120px_32px] gap-2 items-center py-3 border-b border-gray-50 hover:bg-slate-50 rounded-lg px-2 transition-all cursor-pointer"
+                    (click)="onEditTask(task)"
+                  >
+                    <div class="text-sm font-medium text-slate-800 truncate">
+                      {{ task.title }}
+                    </div>
+                    <div class="text-sm text-slate-700">
+                      {{ formatHours(task.estimateTime) }}
+                    </div>
+                    <div class="text-sm text-slate-700">
+                      {{ formatHours(task.spentTime) }}
+                    </div>
+                    <p-avatar
+                      [image]="getEmployee(task.assignee)?.avatar"
+                      shape="circle"
+                      size="normal"
+                    ></p-avatar>
+                    <div
+                      class="flex items-center gap-1 text-xs"
+                      [class]="priorityClass(task.priority)"
+                    >
+                      <i
+                        class="pi text-xs"
+                        [class]="priorityIcon(task.priority)"
+                      ></i>
+                      <span class="capitalize">{{ task.priority }}</span>
+                    </div>
+                    <span
+                      class="text-[11px] px-2.5 py-1 rounded-full font-medium"
+                      [class]="statusClass(task.status)"
+                    >
+                      {{ statusLabel(task.status) }}
+                    </span>
+                    <div
+                      class="w-5 h-5 rounded-full border-2 border-gray-200 flex-shrink-0"
+                    ></div>
+                  </div>
+                </ng-container>
+              </div>
+              <!-- end overflow wrapper --> </ng-container
+            ><!-- end project as p -->
+            </ng-container><!-- end !selectedTask -->
+          </ng-container>
+          <!-- Project Board -->
+          <ng-container *ngIf="activeIndex === 1">
+            <div
+              class="flex flex-col gap-4 px-5 py-4 overflow-y-auto flex-1 min-h-0"
+            >
+              <!-- Status column headers -->
+              <div class="grid grid-cols-4 gap-3">
+                <div
+                  *ngFor="let col of boardColumns"
+                  class="text-center text-sm font-medium py-2.5 rounded-xl border"
+                  [class]="col.headerClass"
+                >
+                  {{ col.label }}
+                </div>
+              </div>
+
+              <!-- Active Tasks section -->
+              <div>
+                <div
+                  class="bg-slate-50 rounded-lg px-4 py-2 text-xs font-semibold text-slate-500 mb-3 text-center"
+                >
+                  Active Tasks
+                </div>
+                <div class="grid grid-cols-4 gap-3 items-start">
+                  <ng-container *ngFor="let col of boardColumns">
+                    <div
+                      class="flex flex-col gap-2 min-h-[80px] rounded-xl transition-all"
+                      pDroppable
+                      (onDrop)="onDrop(col.status, false)"
+                      [class.bg-blue-50]="isDragging"
+                      [class.border]="isDragging"
+                      [class.border-dashed]="isDragging"
+                      [class.border-blue-200]="isDragging"
+                    >
+                      <div
+                        *ngFor="let task of getTasksByStatus(col.status, false)"
+                        class="bg-white rounded-xl p-3 shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-grab active:cursor-grabbing"
+                        pDraggable
+                        (onDragStart)="onDragStart(task, false)"
+                        (onDragEnd)="onDragEnd()"
+                      >
+                        <div class="text-[10px] text-slate-400 mb-1">
+                          {{ selectedProject?.project_number }}
+                        </div>
+                        <div
+                          class="text-sm font-medium text-slate-800 mb-3 leading-snug"
+                        >
+                          {{ task.title }}
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <span class="text-xs text-slate-500 font-medium">{{
+                            formatHours(task.estimateTime)
+                          }}</span>
+                          <i
+                            class="pi text-xs ml-1"
+                            [class]="priorityIcon(task.priority)"
+                            [ngClass]="priorityClass(task.priority)"
+                          ></i>
+                          <p-avatar
+                            [image]="getEmployee(task.assignee)?.avatar"
+                            shape="circle"
+                            size="normal"
+                            styleClass="ml-auto w-7 h-7"
+                          ></p-avatar>
+                        </div>
+                      </div>
+
+                      <!-- Dashed placeholder — only when dragging -->
+                      <div
+                        *ngIf="
+                          isDragging &&
+                          getTasksByStatus(col.status, false).length === 0
+                        "
+                        class="rounded-xl border-2 border-dashed border-blue-200 h-20"
+                      ></div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+
+              <!-- Backlog section -->
+              <div *ngIf="selectedProject?.backlogTasks?.length">
+                <div
+                  class="bg-slate-50 rounded-lg px-4 py-2 text-xs font-semibold text-slate-500 mb-3 text-center"
+                >
+                  Backlog
+                </div>
+                <div class="grid grid-cols-4 gap-3 items-start">
+                  <ng-container *ngFor="let col of boardColumns">
+                    <div
+                      class="flex flex-col gap-2 min-h-[80px] rounded-xl transition-all"
+                      pDroppable
+                      (onDrop)="onDrop(col.status, true)"
+                      [class.bg-blue-50]="isDragging"
+                      [class.border]="isDragging"
+                      [class.border-dashed]="isDragging"
+                      [class.border-blue-200]="isDragging"
+                    >
+                      <div
+                        *ngFor="let task of getTasksByStatus(col.status, true)"
+                        class="bg-white rounded-xl p-3 shadow-sm border border-gray-100 hover:shadow-md transition-all cursor-grab active:cursor-grabbing"
+                        pDraggable
+                        (onDragStart)="onDragStart(task, true)"
+                        (onDragEnd)="onDragEnd()"
+                      >
+                        <div class="text-[10px] text-slate-400 mb-1">
+                          {{ selectedProject?.project_number }}
+                        </div>
+                        <div
+                          class="text-sm font-medium text-slate-800 mb-3 leading-snug"
+                        >
+                          {{ task.title }}
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <span class="text-xs text-slate-500 font-medium">{{
+                            formatHours(task.estimateTime)
+                          }}</span>
+                          <i
+                            class="pi text-xs ml-1"
+                            [class]="priorityIcon(task.priority)"
+                            [ngClass]="priorityClass(task.priority)"
+                          ></i>
+                          <p-avatar
+                            [image]="getEmployee(task.assignee)?.avatar"
+                            shape="circle"
+                            size="normal"
+                            styleClass="ml-auto w-7 h-7"
+                          ></p-avatar>
+                        </div>
+                      </div>
+
+                      <div
+                        *ngIf="
+                          isDragging &&
+                          getTasksByStatus(col.status, true).length === 0
+                        "
+                        class="rounded-xl border-2 border-dashed border-blue-200 h-20"
+                      ></div>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- Timeline View -->
+          <ng-container *ngIf="activeIndex === 2">
+            <div class="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <!-- Month nav -->
+              <div
+                class="flex items-center justify-between px-5 py-3 border-b border-gray-100 flex-shrink-0"
+              >
+                <div class="flex items-center gap-2">
+                  <p-dropdown
+                    [options]="[{ label: 'All Tasks', value: 'all' }]"
+                    styleClass="text-sm"
+                  >
+                  </p-dropdown>
+                  <span class="text-xs text-slate-400"
+                    >{{ allTimelineTasks.length }} issues</span
+                  >
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-sm font-semibold text-slate-700">{{
+                    timelineMonthLabel
+                  }}</span>
+                  <button
+                    pButton
+                    icon="pi pi-arrow-left"
+                    class="p-button-text p-button-sm p-button-secondary"
+                    (click)="prevMonth()"
+                  ></button>
+                  <button
+                    pButton
+                    icon="pi pi-arrow-right"
+                    class="p-button-text p-button-sm p-button-secondary"
+                    (click)="nextMonth()"
+                  ></button>
+                </div>
+              </div>
+
+              <!-- Gantt grid -->
+              <div class="flex flex-1 min-h-0 overflow-hidden">
+                <!-- Task name column — fixed, no scroll -->
+                <div
+                  class="flex-shrink-0 w-52 border-r border-gray-100 flex flex-col"
+                >
+                  <!-- Header spacer -->
+                  <div
+                    class="h-10 border-b border-gray-100 bg-slate-50 flex-shrink-0"
+                  ></div>
+                  <!-- Task rows — scroll vertically in sync -->
+                  <div class="overflow-y-auto flex-1">
+                    <div
+                      *ngFor="let task of allTimelineTasks"
+                      class="h-12 flex items-center px-4 border-b border-gray-50 text-sm text-slate-700 truncate hover:bg-slate-50 cursor-pointer"
+                      (mouseenter)="
+                        hoveredTask = task; assigneePanel.show($event)
+                      "
+                      (mouseleave)="assigneePanel.hide()"
+                    >
+                      {{ task.title }}
+                    </div>
+                  </div>
+
+                  <!-- Assignee overlay panel -->
+                  <p-overlayPanel
+                    #assigneePanel
+                    [dismissable]="false"
+                    styleClass="assignee-panel"
+                  >
+                    <ng-template pTemplate>
+                      <div class="p-3 min-w-[180px]" *ngIf="hoveredTask">
+                        <p class="text-xs font-semibold text-slate-500 mb-2">
+                          Assignee
+                        </p>
+                        <div class="flex items-center gap-2">
+                          <p-avatar
+                            [image]="getEmployee(hoveredTask.assignee)?.avatar"
+                            shape="circle"
+                            size="normal"
+                          >
+                          </p-avatar>
+                          <span class="text-sm font-medium text-slate-800">
+                            {{
+                              getEmployee(hoveredTask.assignee)?.name ??
+                                "Unassigned"
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-overlayPanel>
+                </div>
+
+                <!-- Calendar column — scroll both axes -->
+                <div class="flex-1 overflow-auto flex flex-col min-w-0">
+                  <!-- Day headers — sticky top -->
+                  <div
+                    class="flex h-10 border-b border-gray-100 bg-slate-50 flex-shrink-0 sticky top-0 z-10"
+                    [style.min-width.px]="timelineDays.length * CELL_W"
+                  >
+                    <div
+                      *ngFor="let day of timelineDays"
+                      class="flex-shrink-0 flex items-center justify-center text-xs border-r border-gray-100"
+                      [class]="
+                        day === todayDate
+                          ? 'text-red-500 font-bold bg-red-50'
+                          : 'text-slate-400'
+                      "
+                      [style.width.px]="CELL_W"
+                    >
+                      {{ day }}
+                    </div>
+                  </div>
+
+                  <!-- Task bar rows -->
+                  <div
+                    [style.min-width.px]="timelineDays.length * CELL_W"
+                    class="relative"
+                  >
+                    <div
+                      *ngFor="let task of allTimelineTasks"
+                      class="relative h-12 border-b border-gray-50 flex"
+                    >
+                      <div
+                        *ngFor="let day of timelineDays"
+                        class="flex-shrink-0 h-full border-r border-gray-100 flex items-center justify-center p-0.5"
+                        [style.width.px]="CELL_W"
+                      >
+                        <!-- Active cell block -->
+                        <div
+                          *ngIf="isCellActive(task, day)"
+                          class="w-full h-8 rounded-md bg-blue-200 hover:bg-blue-300 transition-colors cursor-pointer"
+                          [pTooltip]="task.title"
+                          tooltipPosition="top"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Empty state -->
+        <div
+          *ngIf="!selectedProject"
+          class="flex-1 flex items-center justify-center text-slate-400 bg-white rounded-2xl shadow-sm"
+        >
+          <span>Select a project to view tasks</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

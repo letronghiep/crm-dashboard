@@ -12,6 +12,7 @@ import { DealsModule } from './features/deals/deals.module';
 import { LayoutsModule } from './layouts/layouts.module';
 import { SharedModule } from './shared/share.module';
 import { EmployeesModule } from './features/employees/employees.module';
+import { ProjectsModule } from './features/projects/projects.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CustomLoader } from './core/services/custom-loader.service';
@@ -28,6 +29,7 @@ import { CustomLoader } from './core/services/custom-loader.service';
     ContactsModule,
     DealsModule,
     EmployeesModule,
+    ProjectsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot({

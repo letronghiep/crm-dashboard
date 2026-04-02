@@ -1,11 +1,28 @@
 .app-layout {
-  min-height: 100vh;
-  /* max-width: 1440px; */
-  /* margin: 0 auto; */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .app-main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
 }
 
+/* Sidebar wrapper — fixed height, no scroll */
+.app-sidebar-wrapper {
+  flex-shrink: 0;
+  height: 100%;
+  overflow: hidden;
+  align-self: stretch;
+}
+
+/* Content area — scrolls independently */
 .app-content {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
