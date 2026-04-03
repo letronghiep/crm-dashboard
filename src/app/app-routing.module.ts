@@ -10,17 +10,43 @@ import { ContactsComponent } from './features/contacts/contacts.component';
 import { LayoutComponent } from './layouts/layout.component';
 import { DealsComponent } from './features/deals/deals.component';
 import { CalendarComponent } from './features/calendar/calendar.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { AuthenticationComponent } from './layouts/components/authentication/authentication.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { authGuardGuard } from './core/guards/auth-guard.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    component: LayoutComponent,
+    path: 'auth',
+    component: AuthenticationComponent,
     children: [
       {
         path: '',
         pathMatch: 'full',
         redirectTo: 'dashboard',
       },
+
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+    ],
+  },
+  {
+    path: '',
+    component: LayoutComponent,
+    canActivate: [authGuardGuard],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
+      },
+
       {
         path: 'dashboard',
         component: DashboardAdminComponent,

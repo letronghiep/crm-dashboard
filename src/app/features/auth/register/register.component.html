@@ -1,0 +1,269 @@
+<div class="h-screen flex items-center justify-center p-8 bg-white">
+  <div class="w-full max-w-md">
+    <!-- Form Card -->
+    <div class="bg-white p-10">
+      <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">
+        {{ "register.signUpTitle" | translate }}
+      </h2>
+      <p class="text-gray-500 mb-8 text-sm text-center">
+        {{ "register.signUpSubtitle" | translate }}
+      </p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <!-- Username Field -->
+        <div class="mb-5">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            {{ "register.usernameLabel" | translate }}
+          </label>
+          <input
+            type="text"
+            pInputText
+            class="w-full"
+            [placeholder]="'register.usernamePlaceholder' | translate"
+            formControlName="username"
+            [class.p-invalid]="
+              registerForm.get('username')?.invalid &&
+              registerForm.get('username')?.touched
+            "
+          />
+          <small
+            *ngIf="
+              registerForm.get('username')?.errors?.['required'] &&
+              registerForm.get('username')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.usernameRequired" | translate }}
+          </small>
+          <small
+            *ngIf="
+              registerForm.get('username')?.errors?.['minlength'] &&
+              registerForm.get('username')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.usernameMinLength" | translate }}
+          </small>
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-5">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            {{ "register.emailLabel" | translate }}
+          </label>
+          <input
+            type="email"
+            pInputText
+            class="w-full"
+            [placeholder]="'register.emailPlaceholder' | translate"
+            formControlName="email"
+            [class.p-invalid]="
+              registerForm.get('email')?.invalid &&
+              registerForm.get('email')?.touched
+            "
+          />
+          <small
+            *ngIf="
+              registerForm.get('email')?.errors?.['required'] &&
+              registerForm.get('email')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.emailRequired" | translate }}
+          </small>
+          <small
+            *ngIf="
+              registerForm.get('email')?.errors?.['email'] &&
+              registerForm.get('email')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.emailInvalid" | translate }}
+          </small>
+        </div>
+
+        <!-- Phone Field -->
+        <div class="mb-5">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            {{ "register.phoneLabel" | translate }}
+          </label>
+          <input
+            type="tel"
+            pInputText
+            class="w-full"
+            [placeholder]="'register.phonePlaceholder' | translate"
+            formControlName="phone"
+            [class.p-invalid]="
+              registerForm.get('phone')?.invalid &&
+              registerForm.get('phone')?.touched
+            "
+          />
+          <small
+            *ngIf="
+              registerForm.get('phone')?.errors?.['required'] &&
+              registerForm.get('phone')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.phoneRequired" | translate }}
+          </small>
+          <small
+            *ngIf="
+              registerForm.get('phone')?.errors?.['pattern'] &&
+              registerForm.get('phone')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.phoneInvalid" | translate }}
+          </small>
+        </div>
+
+        <!-- Password Field -->
+        <div class="mb-4">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            {{ "register.passwordLabel" | translate }}
+          </label>
+          <div class="p-input-icon-right w-full">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              pInputText
+              class="w-full"
+              [placeholder]="'register.passwordPlaceholder' | translate"
+              formControlName="password"
+              [class.p-invalid]="
+                registerForm.get('password')?.invalid &&
+                registerForm.get('password')?.touched
+              "
+            />
+            <i
+              [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
+              class="cursor-pointer text-gray-400 hover:text-gray-600"
+              (click)="togglePasswordVisibility()"
+            ></i>
+          </div>
+          <small
+            *ngIf="
+              registerForm.get('password')?.errors?.['required'] &&
+              registerForm.get('password')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.passwordRequired" | translate }}
+          </small>
+          <small
+            *ngIf="
+              registerForm.get('password')?.errors?.['minlength'] &&
+              registerForm.get('password')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.passwordMinLength" | translate }}
+          </small>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div class="mb-6">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">
+            {{ "register.confirmPasswordLabel" | translate }}
+          </label>
+          <div class="p-input-icon-right w-full">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              pInputText
+              class="w-full"
+              [placeholder]="'register.confirmPasswordPlaceholder' | translate"
+              formControlName="confirmPassword"
+              [class.p-invalid]="
+                registerForm.get('confirmPassword')?.invalid &&
+                registerForm.get('confirmPassword')?.touched
+              "
+            />
+            <i
+              [class]="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
+              class="cursor-pointer text-gray-400 hover:text-gray-600"
+              (click)="toggleConfirmPasswordVisibility()"
+            ></i>
+          </div>
+          <small
+            *ngIf="
+              registerForm.get('confirmPassword')?.errors?.['required'] &&
+              registerForm.get('confirmPassword')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.confirmPasswordRequired" | translate }}
+          </small>
+          <small
+            *ngIf="
+              registerForm.get('confirmPassword')?.errors?.[
+                'passwordMismatch'
+              ] && registerForm.get('confirmPassword')?.touched
+            "
+            class="p-error block mt-1"
+          >
+            {{ "register.passwordMismatch" | translate }}
+          </small>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="flex items-center gap-2 mb-8">
+          <input
+            type="checkbox"
+            pCheckbox
+            formControlName="agreeTerms"
+            id="agreeTerms"
+          />
+          <label for="agreeTerms" class="text-sm text-gray-600 cursor-pointer">
+            {{ "register.agreeTerms" | translate }}
+            <a class="text-blue-500 hover:text-blue-600 font-semibold">
+              {{ "register.termsLink" | translate }}
+            </a>
+          </label>
+        </div>
+        <small
+          *ngIf="
+            registerForm.get('agreeTerms')?.errors?.['required'] &&
+            registerForm.get('agreeTerms')?.touched
+          "
+          class="p-error block -mt-6 mb-6"
+        >
+          {{ "register.agreeTermsRequired" | translate }}
+        </small>
+
+        <!-- Sign Up Button -->
+        <button
+          pButton
+          type="submit"
+          [label]="'register.signUpButton' | translate"
+          icon="pi pi-user-plus"
+          iconPos="right"
+          class="w-full p-button-primary mb-6"
+          [loading]="loading"
+          [disabled]="registerForm.invalid"
+        ></button>
+
+        <!-- Sign In Link -->
+        <div class="text-center">
+          <span class="text-sm text-gray-600"
+            >{{ "register.haveAccount" | translate }}
+          </span>
+          <a
+            class="text-sm text-blue-500 hover:text-blue-600 cursor-pointer font-semibold"
+            [routerLink]="['/auth/login']"
+            routerLinkActive="router-link-active"
+          >
+            {{ "register.signInLink" | translate }}
+          </a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-8 text-xs text-gray-400">
+      <p>
+        © 2024 {{ "login.appName" | translate }}.
+        {{ "login.allRightsReserved" | translate }}
+      </p>
+    </div>
+  </div>
+</div>

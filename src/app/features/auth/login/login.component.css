@@ -1,0 +1,40 @@
+/* Custom styles for login page */
+:host ::ng-deep .p-button {
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+:host ::ng-deep .p-inputtext {
+  height: 48px;
+  font-size: 0.95rem;
+}
+
+:host ::ng-deep .p-input-icon-right > i {
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Gradient background animation */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-gradient-to-br {
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}
+.eye-icon {
+  position: absolute;
+  top: 50%;
+  
+}

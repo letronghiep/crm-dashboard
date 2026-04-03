@@ -17,9 +17,12 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { CustomLoader } from './core/services/custom-loader.service';
 import { CalendarsModule } from './features/calendar/calendar.module';
+import { LoginComponent } from './features/auth/login/login.component';
+import { RegisterComponent } from './features/auth/register/register.component';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LoginComponent, RegisterComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -39,6 +42,13 @@ import { CalendarsModule } from './features/calendar/calendar.module';
         provide: TranslateLoader,
         useFactory: (http: HttpClient) => new CustomLoader(http),
         deps: [HttpClient],
+      },
+    }),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('accessToken'),
+        allowedDomains: [],
+        disallowedRoutes: [],
       },
     }),
   ],

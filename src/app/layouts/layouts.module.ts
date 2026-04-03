@@ -9,11 +9,13 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/share.module';
 import { WorkloadEmployeeComponent } from '../shared/components/workload-employee/workload-employee.component';
 import { ButtonModule } from 'primeng/button';
+import { AuthenticationComponent } from './components/authentication/authentication.component';
 // import { AppConfigurator } from './components/app-topbar/app.configurator';
 @NgModule({
   declarations: [
     AppTopbarComponent,
     LayoutComponent,
+    AuthenticationComponent,
   ],
   imports: [
     CommonModule,

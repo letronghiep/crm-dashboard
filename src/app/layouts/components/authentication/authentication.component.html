@@ -1,0 +1,15 @@
+<div class="flex h-screen w-screen overflow-hidden">
+  <div class="bg-[#3F8CFF] flex flex-col py-14 flex-shrink-0">
+    <div class="flex items-center gap-4 ml-16 mb-6">
+      <img src="assets/images/company-logo.png" alt="" />
+      <h2 class="text-lg text-white">Workroom</h2>
+    </div>
+    <h2 class="whitespace-pre-line text-white text-2xl mx-auto">
+      {{ "common.title_login" | translate }}
+    </h2>
+    <img src="assets/images/login-logo.png" alt="" />
+  </div>
+  <div class="flex-1 h-full overflow-hidden">
+    <router-outlet></router-outlet>
+  </div>
+</div>
